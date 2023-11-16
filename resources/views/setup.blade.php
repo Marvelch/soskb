@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+   @include('tamplate.head')
+   <body class="fixed-bottom-padding">
+      <!-- Account Setup -->
+      <div class="osahan-account-setup">
+         <div class="account-setup">
+            <video loop="" autoplay="" muted="" id="vid" class="w-100">
+               <source src="img/grocery.mp4" type="video/mp4">
+               <source src="img/grocery.mp4" type="video/ogg">
+               Your browser does not support the video tag.
+            </video>
+         </div>
+         <a class="p-4 text-white font-weight-bold d-flex align-items-center h4 text-decoration-none" href="home.html">
+         <img class="as-osahan-logo" src="img/logo.png">
+         </a>
+      </div>
+      <!-- fixed bottom -->
+      <div class="fixed-bottom fixed-bottom-auto px-4 pt-4 text-center d-grid gap-2">
+         <!-- <a href="{{route('login')}}" class="btn btn-light btn-block rounded btn-lg btn-google">
+         <i class="icofont-google-plus text-danger me-2"></i> Login
+         </a> -->
+         <a href="{{route('login')}}" class="btn btn-success rounded btn-block btn-lg">
+         Login
+         </a>
+         <a href="signin.html" class="text-white btn btn-sm btn-block text-decoration-none mb-2">
+            <!-- kosong -->
+         </a>
+      </div>
+      @include('tamplate.footer')
+   </body>
+</html>
