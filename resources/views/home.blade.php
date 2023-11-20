@@ -58,7 +58,7 @@
                   </div>
                   <div class="col p-1">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
-                        <a href="listing.html">
+                        <a href="{{route('transaction_sales_orders')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/wallet-security-8860121-7300054.png" class="img-fluid px-2">
                            <p class="m-0 pt-2 text-muted text-center">Transaction</p>
                         </a>

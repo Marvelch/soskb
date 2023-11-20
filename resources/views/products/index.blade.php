@@ -16,7 +16,7 @@
             <a href="status_complete.html" class="text-decoration-none text-dark">
                 <div class="p-3 rounded shadow-sm bg-white">
                     <div class="d-flex align-items-center mb-3">
-                        @if(@$item->status == 't')
+                        @if(@$item->status == 't' OR @$item->status == 1)
                         <p class="bg-success text-white py-1 px-2 mb-0 rounded small">Active</p>
                         @else
                         <p class="bg-danger text-white py-1 px-2 mb-0 rounded small">Not active</p>

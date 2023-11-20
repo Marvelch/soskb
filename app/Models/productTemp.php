@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class customerTemp extends Model
+class productTemp extends Model
 {
     use HasFactory;
 
@@ -13,15 +13,16 @@ class customerTemp extends Model
 
     public $incrementing = false;
 
-    protected $table = 'customer_temps';
+    protected $table = 'product_temps';
 
     protected $fillable = [
-        'customer_id',
+        'product_id',
+        'qty',
         'user_id'
     ];
 
-    public function customers()
+    public function products()
     {
-        return $this->belongsTo(customer::class,'customer_id','id');
+        return $this->belongsTo(product::class,'product_id','id');
     }
 }

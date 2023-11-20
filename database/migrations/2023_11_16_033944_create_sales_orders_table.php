@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('id_transaction')->unique();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->string('information')->nullable();
+            $table->date('so_date');
             $table->boolean('status')->default(1);
             $table->unsignedBigInteger('changed_by')->nullable();
             $table->foreign('changed_by')->references('id')->on('users');

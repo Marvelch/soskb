@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\customer;
-use App\Models\customerTemp;
+use App\Models\productTemp;
 use Illuminate\Http\Request;
-use DB;
-use Auth;
 
-class CustomerController extends Controller
+class ProductTempController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $customers = customer::all();
-
-        return view('customers.index',compact('customers'));
+        //
     }
 
     /**
@@ -39,7 +34,7 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(customer $customer)
+    public function show(productTemp $productTemp)
     {
         //
     }
@@ -47,7 +42,7 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(customer $customer)
+    public function edit(productTemp $productTemp)
     {
         //
     }
@@ -55,7 +50,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, customer $customer)
+    public function update(Request $request, productTemp $productTemp)
     {
         //
     }
@@ -63,7 +58,7 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(customer $customer)
+    public function destroy(productTemp $productTemp)
     {
         //
     }
