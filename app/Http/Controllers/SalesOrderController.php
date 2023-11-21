@@ -10,6 +10,7 @@ use App\Models\salesOrder;
 use App\Models\salesOrderDetail;
 use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
+Use Alert;
 use DB;
 use Auth;
 
@@ -91,13 +92,15 @@ class SalesOrderController extends Controller
 
             DB::commit();
 
-            return back();
+            toast('Transaction Has Been Successful','success');
+
+            return redirect()->route('transaction_sales_orders');
         } catch (\Throwable $th) {
             //throw $th;
 
             DB::rollback();
 
-            return $th;
+            toast($th->getMessage(),'error');
         }
     }
 

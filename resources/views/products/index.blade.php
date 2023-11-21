@@ -13,7 +13,7 @@
         </div>
         @foreach($products as $item)
         <div class="pb-3 osahan-order-detail">
-            <a href="status_complete.html" class="text-decoration-none text-dark">
+            <a class="text-decoration-none text-dark">
                 <div class="p-3 rounded shadow-sm bg-white">
                     <div class="d-flex align-items-center mb-3">
                         @if(@$item->status == 't' OR @$item->status == 1)

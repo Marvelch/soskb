@@ -38,8 +38,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex bd-highlight">
-                                <div class="flex-grow-1 bd-highlight">Quantity : {{@$item->qty}}</div>
-                                <div class="bd-highlight" id="delete(@$item->id})"><i class="icofont-trash"></i></div>
+                                <div class="flex-grow-1 bd-highlight">Quantity : {{@$item->id}}</div>
+                                <div class="bd-highlight" id="delete({{$item->product_id}})"><i class="icofont-trash"></i></div>
                             </div>
                             <p class="card-text">Name: {{@$item->products->product_name}}</p>
                         </div>
@@ -59,40 +59,19 @@
 
     var product_list = [];
 
-    // @foreach($products as $item)
-    //     product_list= [{
-    //         key: {!! json_encode($item->product_id) !!},
-    //         qty: {!! json_encode($item->qty) !!}
-    //     }];
-    // @endforeach
+    (function() {
+        @foreach($products as $item)
+            var products = {
+                id: '{!! json_encode($item->product_id) !!}',
+                qty: '{!! json_encode($item->qty) !!}',
+                name: {!! json_encode($item->products->product_name) !!}
+            };
 
-    console.log(product_list);
+            product_list.push(products);
+        @endforeach
+    })();
 
-    $('.btn-add').on('click', function () {
-        let hasEmptyField = false;
-
-        $('.product, .qty').each(function () {
-            if ($.trim($(this).val()) === '') {
-                hasEmptyField = true;
-                return false; // Exit the loop early if any field is empty
-            }
-        });
-
-        if (hasEmptyField) {
-            alert('Penginputan kolom tidak boleh kosong !');
-        } else {
-            const product_id = $('.product').val();
-            const product_qty = $('.qty').val()
-            const product_name = $('.product').text();
-
-            product_list.push({
-                id: product_id,
-                qty: product_qty,
-                name: product_name
-            });
-        }
-
-        // Function to generate Bootstrap cards based on product_list
+    // Function to generate Bootstrap cards based on product_list
         function generateCards(product_list) {
             let cardContainer = $('#cardContainer');
 
@@ -128,6 +107,30 @@
             }
         }
 
+    $('.btn-add').on('click', function () {
+        let hasEmptyField = false;
+
+        $('.product, .qty').each(function () {
+            if ($.trim($(this).val()) === '') {
+                hasEmptyField = true;
+                return false; // Exit the loop early if any field is empty
+            }
+        });
+
+        if (hasEmptyField) {
+            alert('Penginputan kolom tidak boleh kosong !');
+        } else {
+            const product_id = $('.product').val();
+            const product_qty = $('.qty').val()
+            const product_name = $('.product').text();
+
+            product_list.push({
+                id: product_id,
+                qty: product_qty,
+                name: product_name
+            });
+        }
+
         generateCards(product_list);
         appendSubmitButton(product_list);
 
@@ -136,22 +139,25 @@
         $('.product').text('');
         $('.qty').val('');
 
-        $(document).on('click', '[id^="delete("]', function () {
-            // Get the ID from the clicked element's ID attribute
-            let id = $(this).attr('id').match(/\(([^)]+)\)/)[1];
+        console.log(product_list);
+    });
 
-            // Find the index of the item with the matching ID in the product_list
-            let index = product_list.findIndex(item => item.id === id);
+    $(document).on('click', '[id^="delete("]', function () {
 
-            // Remove the item from the product_list array
-            if (index !== -1) {
-                product_list.splice(index, 1);
-            }
+        // Get the ID from the clicked element's ID attribute
+        let id = $(this).attr('id').match(/\(([^)]+)\)/)[1];
 
-            // Regenerate cards and check whether to show the submit button
-            generateCards(product_list);
-            appendSubmitButton(product_list);
-        });
+        // Find the index of the item with the matching ID in the product_list
+        let index = product_list.findIndex(item => item.id === id);
+
+        // Remove the item from the product_list array
+        if (index !== -1) {
+            product_list.splice(index, 1);
+        }
+
+        // Regenerate cards and check whether to show the submit button
+        generateCards(product_list);
+        appendSubmitButton(product_list);
     });
 
     $(document).on('click', '.btn-submit', function () {
@@ -210,6 +216,5 @@
             cache: true
         }
     });
-
 </script>
 @endsection

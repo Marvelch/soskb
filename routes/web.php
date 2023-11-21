@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesOrderController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,4 +51,10 @@ Route::prefix('sales-order')->middleware('auth')->group(function () {
 
 Route::prefix('customers')->middleware('auth')->group(function () {
     Route::get('/',[CustomerController::class,'index'])->name('index_customers');
+});
+
+Route::prefix('transaction')->middleware('auth')->group(function () {
+    Route::get('/on_progress',[TransactionController::class,'on_progress'])->name('on_progress_transaction');
+    Route::get('/complete',[TransactionController::class,'complete'])->name('complete_transaction');
+    Route::get('/canceled',[TransactionController::class,'canceled'])->name('canceled_transaction');
 });
