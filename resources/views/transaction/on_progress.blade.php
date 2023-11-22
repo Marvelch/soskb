@@ -19,7 +19,7 @@
     <div class="order-body p-3">
         <div class="pb-3">
             @foreach($onProgress as $item)
-            <a href="{{route('show_transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}" class="text-decoration-none text-dark">
+            <a href="{{route('show_transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}" class="text-decoration-none text-dark m-1">
                 <div class="p-3 rounded shadow-sm bg-white">
                     <div class="d-flex align-items-center mb-3">
                         <p class="bg-warning text-white py-1 px-2 rounded small m-0">On Process</p>

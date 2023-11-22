@@ -7,7 +7,6 @@
             <a class="fw-bold text-success text-decoration-none" href="{{route('home')}}">
                 <i class="icofont-rounded-left back-page"></i></a>
             <h6 class="fw-bold m-0 ms-3">Sales Order</h6>
-            <a class="toggle ms-auto" href="#"><i class="icofont-navigation-menu "></i></a>
         </div>
     </div>
 </div>
