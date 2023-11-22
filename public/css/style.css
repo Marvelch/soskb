@@ -758,3 +758,21 @@ label {
 .dark .nav-tabs {
     border-bottom: 1px solid #292929;
 }
+/* Remove default select box styles */
+.custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none; /* Remove default border */
+    padding: 5px; /* Add padding for better appearance */
+}
+
+/* Style options */
+.custom-select option {
+    /* Add styles to options here */
+    /* For example: */
+    background-color: #f5f5f5;
+    color: #333;
+    padding-left: 10px;
+    margin-top: -4.5px;
+}

@@ -25,4 +25,19 @@
     <link href="{{asset('./vendor/sidebar/demo.css')}}" rel="stylesheet">
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body.background-setup {
+        /* Ensure the background covers the entire viewport */
+        background-size: cover;
+
+        /* Center the background image */
+        background-position: center;
+
+        /* Set the background to fixed to ensure it stays in place while scrolling */
+        background-attachment: fixed;
+
+        /* Apply the background image using the Blade templating asset function */
+        background-image: url('{{ asset('img/products.svg') }}');
+        }
+    </style>
 </head>

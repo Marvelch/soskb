@@ -14,23 +14,23 @@
       <div class="osahan-home-page">
          <div class="border-bottom p-3">
             <div class="title d-flex align-items-center">
-               <a href="home.html" class="text-decoration-none text-dark d-flex align-items-center">
+               <a href="{{url('/home')}}" class="text-decoration-none text-dark d-flex align-items-center">
                   <img class="osahan-logo me-2" src="img/logo.png">
                </a>
                <p class="ms-auto m-0">
-                  <a href="notification.html" class="text-decoration-none bg-white p-1 rounded shadow-sm d-flex align-items-center">
+                  <a disabled class="text-decoration-none bg-white p-1 rounded shadow-sm d-flex align-items-center">
                   <i class="text-dark icofont-notification"></i>
-                  <span class="badge badge-danger p-1 ms-1 small">2</span>
+                  <span class="badge badge-danger p-1 ms-1 small">0</span>
                   </a>
                </p>
-               <a class="toggle ms-3" href="#"><i class="icofont-navigation-menu "></i></a>
+               <!-- <a class="toggle ms-3" href="#"><i class="icofont-navigation-menu "></i></a> -->
             </div>
-            <a href="search.html" class="text-decoration-none">
+            <a class="text-decoration-none">
                <div class="input-group mt-3 rounded shadow-sm overflow-hidden bg-white">
                   <div class="input-group-prepend">
                      <button class="border-0 btn btn-outline-secondary text-success bg-white"><i class="icofont-search"></i></button>
                   </div>
-                  <input type="text" class="shadow-none border-0 form-control ps-0" placeholder="Search for Products.." aria-label="" aria-describedby="basic-addon1">
+                  <input type="text" class="shadow-none border-0 form-control ps-0" id="searchInput" aria-label="" aria-describedby="basic-addon1">
                </div>
             </a>
          </div>
@@ -40,7 +40,7 @@
             <div class="p-3 osahan-categories">
                <h6 class="mb-2">Layanan Tersedia</h6>
                <div class="row m-0">
-                  <div class="col ps-0 pe-1 py-1">
+                  <div class="col ps-0 pe-1 py-1" id="sales">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
                         <a href="{{route('index_sales_orders')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/cash-on-delivery-9237918-7525528.png" class="img-fluid px-2">
@@ -48,7 +48,7 @@
                         </a>
                      </div>
                   </div>
-                  <div class="col p-1">
+                  <div class="col p-1" id="products">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
                         <a href="{{route('index_products')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/analyze-product-4889671-4076848.png" class="img-fluid px-2">
@@ -56,7 +56,7 @@
                         </a>
                      </div>
                   </div>
-                  <div class="col p-1">
+                  <div class="col p-1" id="transaction">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
                         <a href="{{route('on_progress_transaction')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/wallet-security-8860121-7300054.png" class="img-fluid px-2">
@@ -64,7 +64,7 @@
                         </a>
                      </div>
                   </div>
-                  <div class="col ps-0 pe-1 py-1">
+                  <div class="col ps-0 pe-1 py-1" id="customers">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
                         <a href="{{route('index_customers')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/customer-satisfaction-8094133-6478780.png" class="img-fluid px-2">
@@ -373,7 +373,7 @@
       </div>
       <!-- Footer -->
       @include('layouts.menu')
-      <nav id="main-nav">
+      <!-- <nav id="main-nav">
          <ul class="second-nav">
             <li><a href="index.html"><i class="icofont-smart-phone me-2"></i> Splash</a></li>
             <li>
@@ -495,7 +495,17 @@
                </a>
             </li>
          </ul>
-      </nav>
+      </nav> -->
       @include('tamplate.footer')
    </body>
+   <script>
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('.osahan-categories .row .col').filter(function() {
+                $(this).toggle($(this).find('p').text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+   </script>
 </html>

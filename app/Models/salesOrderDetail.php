@@ -17,4 +17,14 @@ class salesOrderDetail extends Model
         'qty',
         'unit_id'
     ];
+
+    public function products()
+    {
+        return $this->belongsto(product::class,'product_id','id');
+    }
+
+    public function units()
+    {
+        return $this->belongsto(unit::class,'unit_id','id');
+    }
 }

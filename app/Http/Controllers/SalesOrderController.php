@@ -11,6 +11,7 @@ use App\Models\salesOrderDetail;
 use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
 Use Alert;
+use App\Models\unit;
 use DB;
 use Auth;
 
@@ -43,7 +44,9 @@ class SalesOrderController extends Controller
     {
         $products = productTemp::where('user_id',Auth::user()->id)->get();
 
-        return view('sales.product',compact('products'));
+        $units = unit::all();
+
+        return view('sales.product',compact('products','units'));
     }
 
     /**
@@ -82,7 +85,7 @@ class SalesOrderController extends Controller
                     'id_transaction' => $unique,
                     'product_id' => $item->product_id,
                     'qty' => $item->qty,
-                    'unit_id' => 1
+                    'unit_id' => $item->unit_id
                 ]);
             }
 
@@ -150,7 +153,8 @@ class SalesOrderController extends Controller
                 productTemp::create([
                     'product_id' => $item['id'],
                     'qty' => $item['qty'],
-                    'user_id' => Auth::user()->id
+                    'user_id' => Auth::user()->id,
+                    'unit_id' => $item['unit_id']
                 ]);
             }
 
@@ -226,7 +230,7 @@ class SalesOrderController extends Controller
      */
     public function transaction(Request $request)
     {
-        $transactions = salesOrder::all();
+        $transactions = salesOrder::where('created_by',Auth::user()->id)->get();
 
         return view('sales.transaction',compact('transactions'));
     }

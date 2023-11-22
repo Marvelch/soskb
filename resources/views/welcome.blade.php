@@ -8,7 +8,7 @@
         class="bg-success d-flex align-items-center justify-content-center vh-100"
       >
         <a href="{{route('setup')}}"
-          ><img class="index-osahan-logo" src="{{asset('./img/logo.svg')}}" alt="" />
+          ><img class="index-osahan-logo" src="{{asset('./img/logo.png')}}" alt="" />
         </a>
       </div>
     </div>

@@ -25,27 +25,43 @@
                     <p class="text-sm text-danger">*{{ $message }}</p]>
                         @enderror
                 </div>
-                <div class="form-group mt-2 mb-4">
-                    <label for="" class="text-sm">Jumlah (Qty)</label>
-                    <input type="text" class="form-control qty form-control-sm" name="qty">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group mt-2 mb-4">
+                            <label for="" class="text-sm">Jumlah (Qty)</label>
+                            <input type="text" class="form-control qty form-control-sm" name="qty">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="" class="text-sm">Unit</label>
+                        <select name="units" id="units" class="w-100 units form-control form-control-sm" style="margin-top: 9px;">
+                            @foreach($units as $item)
+                                <option value="{{$item->id}}">{{$item->unit}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group mb-3 mt-2">
                     <button type="button" class="btn btn-add btn-primary w-100">Pilih</button>
                 </div>
                 <div id="cardContainer">
-                @foreach($products as $item)
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex bd-highlight">
-                                <div class="flex-grow-1 bd-highlight">Quantity : {{@$item->id}}</div>
-                                <div class="bd-highlight" id="delete({{$item->product_id}})"><i class="icofont-trash"></i></div>
+                    @foreach($products as $item)
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex bd-highlight">
+                                    <div class="bd-highlight">
+                                        <span class="text-sm">Qty : {{@$item->qty}} | {{@$item->units->unit}}</span>
+                                    </div>
+                                    <div class="ms-auto bd-highlight" id="delete(${item.id})">
+                                        <i class="icofont-trash"></i>
+                                    </div>
+                                </div>
+                                <p class="card-text mt-1">Name: {{@$item->products->product_name}}</p>
                             </div>
-                            <p class="card-text">Name: {{@$item->products->product_name}}</p>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                    @endforeach
                 </div>
                 <div class="form-group mb-3 mt-2 submit-btn">
                     <button type="button" class="btn btn-submit btn-primary w-100">Kirim</button>
@@ -59,12 +75,14 @@
 
     var product_list = [];
 
-    (function() {
+    (function () {
         @foreach($products as $item)
             var products = {
                 id: '{!! json_encode($item->product_id) !!}',
                 qty: '{!! json_encode($item->qty) !!}',
-                name: {!! json_encode($item->products->product_name) !!}
+                name: {!!json_encode($item->products->product_name) !!},
+                unit_id: '{!! json_encode($item->unit_id) !!}',
+                unit: {!! json_encode($item->units->unit) !!},
             };
 
             product_list.push(products);
@@ -72,45 +90,49 @@
     })();
 
     // Function to generate Bootstrap cards based on product_list
-        function generateCards(product_list) {
-            let cardContainer = $('#cardContainer');
+    function generateCards(product_list) {
+        let cardContainer = $('#cardContainer');
 
-            // Clear the existing content
-            cardContainer.empty();
+        // Clear the existing content
+        cardContainer.empty();
 
-            // Iterate through the product_list and create cards for each item
-            $.each(product_list, function (index, item) {
-                let card = `
+        // Iterate through the product_list and create cards for each item
+        $.each(product_list, function (index, item) {
+            let card = `
                     <div class="col-md-6 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex bd-highlight">
-                                    <div class="flex-grow-1 bd-highlight">Quantity : ${item.qty}</div>
-                                    <div class="bd-highlight" id="delete(${item.id})"><i class="icofont-trash"></i></div>
+                                    <div class="bd-highlight">
+                                        <span class="text-sm">Qty : ${item.qty} | ${item.unit}</span>
+                                    </div>
+                                    <div class="ms-auto bd-highlight" id="delete(${item.id})">
+                                        <i class="icofont-trash"></i>
+                                    </div>
                                 </div>
-                                <p class="card-text">Name: ${item.name}</p>
+                                <p class="card-text mt-1">Name: ${item.name}</p>
                             </div>
                         </div>
                     </div>
                 `;
-                // Append each card to the cardContainer
-                cardContainer.append(card);
-            });
-        }
+            // Append each card to the cardContainer
+            cardContainer.append(card);
+        });
+    }
 
-        function appendSubmitButton(productList) {
-            if (productList.length > 0) {
-                // If product_list has values, append the submit button
-                $('.submit-btn').show();
-            } else {
-                $('.submit-btn').hide();
-            }
+    function appendSubmitButton(productList) {
+        if (productList.length > 0) {
+            // If product_list has values, append the submit button
+            $('.submit-btn').show();
+        } else {
+            $('.submit-btn').hide();
         }
+    }
 
     $('.btn-add').on('click', function () {
         let hasEmptyField = false;
 
-        $('.product, .qty').each(function () {
+        $('.product, .qty, .units').each(function () {
             if ($.trim($(this).val()) === '') {
                 hasEmptyField = true;
                 return false; // Exit the loop early if any field is empty
@@ -123,11 +145,15 @@
             const product_id = $('.product').val();
             const product_qty = $('.qty').val()
             const product_name = $('.product').text();
+            const unit_id = $('#units').val();
+            const unit = $('#units').find('option:selected').text();
 
             product_list.push({
                 id: product_id,
                 qty: product_qty,
-                name: product_name
+                name: product_name,
+                unit_id: unit_id,
+                unit: unit
             });
         }
 
@@ -138,6 +164,7 @@
         $('.product').val('');
         $('.product').text('');
         $('.qty').val('');
+        $('.units').val('');
 
         console.log(product_list);
     });
@@ -216,5 +243,6 @@
             cache: true
         }
     });
+
 </script>
 @endsection

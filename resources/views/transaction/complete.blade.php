@@ -3,8 +3,7 @@
 @section('content')
 <div class="osahan-order">
     <div class="order-menu">
-        <h5 class="fw-bold p-3 d-flex align-items-center">Transactions<a class="toggle ms-auto" href="#"><i
-                    class="icofont-navigation-menu "></i></a></h5>
+        <h5 class="fw-bold p-3 d-flex align-items-center">Transactions</h5>
         <div class="row m-0 text-center">
             <div class="col pb-2 border-bottom">
                 <a href="{{route('on_progress_transaction')}}" class="text-muted text-decoration-none">On Progress</a>
@@ -20,7 +19,7 @@
     <div class="order-body p-3">
         <div class="pb-3">
             @foreach($completes as $item)
-            <a href="status_onprocess.html" class="text-decoration-none text-dark">
+            <a href="{{route('show_transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}" class="text-decoration-none text-dark">
                 <div class="p-3 rounded shadow-sm bg-white">
                     <div class="d-flex align-items-center mb-3">
                         <p class="bg-primary text-white py-1 px-2 rounded small m-0">Completed</p>

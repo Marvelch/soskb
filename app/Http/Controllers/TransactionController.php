@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\salesOrder;
+use App\Models\salesOrderDetail;
 use App\Models\transaction;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 
 class TransactionController extends Controller
 {
@@ -35,9 +38,14 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(transaction $transaction)
+    public function show($id)
     {
-        //
+        $id = Crypt::decryptString($id);
+
+        $transactions = salesOrder::where('id_transaction',$id)->first();
+        $transactionDetails = salesOrderDetail::where('id_transaction',$id)->get();
+
+        return view('transaction.show',compact('transactions','transactionDetails'));
     }
 
     /**

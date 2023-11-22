@@ -18,11 +18,17 @@ class productTemp extends Model
     protected $fillable = [
         'product_id',
         'qty',
-        'user_id'
+        'user_id',
+        'unit_id'
     ];
 
     public function products()
     {
         return $this->belongsTo(product::class,'product_id','id');
+    }
+
+    public function units()
+    {
+        return $this->belongsTo(unit::class,'unit_id','id');
     }
 }

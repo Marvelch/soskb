@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/logout',function() {
+    Auth::logout(); // Logout the currently authenticated user
+    return redirect('/');
+})->name('logout');
 
 Route::get('setup',function() {
     return view('setup');
@@ -57,4 +63,10 @@ Route::prefix('transaction')->middleware('auth')->group(function () {
     Route::get('/on_progress',[TransactionController::class,'on_progress'])->name('on_progress_transaction');
     Route::get('/complete',[TransactionController::class,'complete'])->name('complete_transaction');
     Route::get('/canceled',[TransactionController::class,'canceled'])->name('canceled_transaction');
+
+    Route::get('/show/{id}',[TransactionController::class,'show'])->name('show_transaction');
+});
+
+Route::prefix('profile')->middleware('auth')->group(function () {
+    Route::get('/',[ProfileController::class,'index'])->name('index_profile');
 });

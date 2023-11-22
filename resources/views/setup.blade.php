@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
    @include('tamplate.head')
-   <body class="fixed-bottom-padding">
+   <body class="background-setup fixed-bottom-padding">
       <!-- Account Setup -->
       <div class="osahan-account-setup">
-         <div class="account-setup">
-            <video loop="" autoplay="" muted="" id="vid" class="w-100">
-               <source src="img/grocery.mp4" type="video/mp4">
-               <source src="img/grocery.mp4" type="video/ogg">
-               Your browser does not support the video tag.
-            </video>
-         </div>
          <a class="p-4 text-white font-weight-bold d-flex align-items-center h4 text-decoration-none" href="home.html">
          <img class="as-osahan-logo" src="img/logo.png">
          </a>
