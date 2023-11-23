@@ -206,7 +206,7 @@ class SalesOrderController extends Controller
      */
     public function searchCustomers(Request $request)
     {
-        $data = customer::where('name', 'LIKE', '%'. $request->get('q'). '%')->get();
+        $data = customer::where('name', 'ILIKE', '%'. $request->get('q'). '%')->get();
 
         return response()->json($data);
     }
@@ -216,11 +216,7 @@ class SalesOrderController extends Controller
      */
     public function searchProducts(Request $request)
     {
-        $data = product::where('product_name', 'LIKE', '%'. $request->get('q'). '%')
-                        ->orWhere('product_name', 'LIKE', '%'. strtolower($request->get('q')). '%')
-                        ->orWhere('product_name', 'LIKE', '%'. strtoupper($request->get('q')). '%')
-                        ->orWhere('product_name', 'LIKE', '%'. ucfirst($request->get('q')). '%')
-                        ->get();
+        $data = product::where('product_name', 'ILIKE', '%'. $request->get('q'). '%')->get();
 
         return response()->json($data);
     }

@@ -6,11 +6,11 @@
     <!-- sign in -->
     <div class="osahan-signin">
         <div class="border-bottom p-3 d-flex align-items-center">
-            <a class="fw-bold text-success text-decoration-none" href="{{route('setup')}}"><i
+            <a class="fw-bold text-success text-decoration-none" href="{{route('setup_general')}}"><i
                     class="icofont-rounded-left back-page"></i></a>
         </div>
         <div class="p-3">
-            <img src="{{asset('./img/logo-transparent.png')}}" class="w-100 mb-3 mt-4" alt="" srcset="">
+            <img src="{{asset('./img/logo-transparent.png')}}" class="w-100 mb-3 mt-2" alt="" srcset="">
              <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group mb-3 mt-3">

@@ -21,6 +21,16 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+
+    protected function authenticated($request, $user)
+    {
+        if ($user->account_type === 'USR') {
+            return redirect()->route('home'); // Redirect admin to admin dashboard
+        } elseif ($user->account_type === 'ADM') {
+            return redirect()->route('user.dashboard'); // Redirect normal users to user dashboard
+        }
+    }
+
     /**
      * Where to redirect users after login.
      *

@@ -76,16 +76,16 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group mb-3">
-                            <label for="exampleInputName1">Dibuat Oleh </label>
-                            <input type="text" class="form-control" id="exampleInputName1"
-                                value="{{Auth::user()->name}}" readonly>
+                            <label for="exampleInputName1">Tanggal Kirim </label>
+                            <input name="so_date" type="date" class="form-control"
+                                value="{{date('Y-m-d',strtotime(now()))}}">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group mb-3">
                             <label for="exampleInputName1">Tanggal SO</label>
                             <input name="so_date" type="date" class="form-control"
-                                value="{{date('Y-m-d',strtotime(now()))}}">
+                                value="{{date('Y-m-d',strtotime(now()))}}" readonly>
                         </div>
                     </div>
                 </div>
