@@ -19,7 +19,8 @@ class salesOrder extends Model
         'information',
         'customers',
         'status',
-        'changed_by'
+        'changed_by',
+        'note'
     ];
 
     public function customers()

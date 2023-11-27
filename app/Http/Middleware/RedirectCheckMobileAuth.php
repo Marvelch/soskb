@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;;
 use Jenssegers\Agent\Agent;
 
-class RedirectCheckAuthLogin
+class RedirectCheckMobileAuth
 {
     /**
      * Handle an incoming request.
@@ -24,15 +24,14 @@ class RedirectCheckAuthLogin
          *
          * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        $agent = new Agent();
 
         // Pengecekan apakah permintaan berasal dari perangkat mobile
         if ($agent->isMobile()) {
-            if(Auth::User()->account_type == 'ADM') {
+            if(Auth::User()->account_type != 'USR') {
                 return redirect()->route('error_mobile');
             }
         }elseif ($agent->browser()) {
-            if(Auth::User()->account_type == 'USR') {
+            if(Auth::User()->account_type != 'ADM') {
                 return redirect()->route('error_mobile');
             }
         }

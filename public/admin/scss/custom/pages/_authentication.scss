@@ -15,9 +15,7 @@
 }
 
 html[data-theme="dark"] {
-
     .auth-brand {
-
         .logo-dark {
             display: none;
         }
@@ -56,7 +54,7 @@ body.auth-fluid-pages[data-sidenav-size="condensed"] {
     min-height: 100vh;
     flex-direction: row;
     align-items: stretch;
-    background: url("../images/bg-auth.jpg") center;
+    background: url("../images/bg-auth.svg") center;
     background-size: cover;
 
     .auth-fluid-form-box {
@@ -80,8 +78,6 @@ body.auth-fluid-pages[data-sidenav-size="condensed"] {
     }
 }
 
-
-
 .auth-user-testimonial {
     position: absolute;
     margin: 0 auto;
@@ -96,7 +92,6 @@ body.auth-fluid-pages[data-sidenav-size="condensed"] {
         max-width: 700px;
     }
 }
-
 
 @include media-breakpoint-down(lg) {
     .auth-fluid {

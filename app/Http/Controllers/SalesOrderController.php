@@ -11,6 +11,8 @@ use App\Models\salesOrderDetail;
 use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
 Use Alert;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\unit;
 use DB;
 use Auth;
@@ -229,5 +231,57 @@ class SalesOrderController extends Controller
         $transactions = salesOrder::where('created_by',Auth::user()->id)->get();
 
         return view('sales.transaction',compact('transactions'));
+    }
+
+    /*--------------------------------------- ADMIN AREA ---------------------------------------*/
+
+    /**
+     * Displays sales order request data
+     */
+    public function transaction_admin(Request $request)
+    {
+        $transactions = salesOrder::paginate(1);
+
+        return view('admin.sales_orders.show',compact('transactions'));
+    }
+
+    /**
+     * Displays sales order request data
+     */
+    public function transaction_detail(Request $request, $id)
+    {
+        $transactions = salesOrder::where('id_transaction',Crypt::decryptString($id))->first();
+        $transactionDetails = salesOrderDetail::where('id_transaction',Crypt::decryptString($id))->get();
+
+        return view('admin.sales_orders.detail',compact('transactions','transactionDetails'));
+    }
+
+    /**
+     * Save update data from sales orders
+     */
+    public function storeAdmin(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+
+            salesOrder::find($id)->update([
+                'note' => $request->note,
+                'status' => $request->status,
+                'changed_by' => Auth::user()->id
+            ]);
+
+            DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return redirect()->route('admin.transaction');
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            DB::rollback();
+
+            toast($th->getMessage(),'error');
+        }
     }
 }

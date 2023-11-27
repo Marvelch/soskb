@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->string('information')->nullable();
             $table->date('so_date');
+            $table->string('note')->nullable();
             $table->integer('status')->default(1);
             $table->unsignedBigInteger('changed_by')->nullable();
             $table->foreign('changed_by')->references('id')->on('users');

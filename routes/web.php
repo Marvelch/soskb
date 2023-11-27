@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\HomeController;
@@ -24,12 +25,12 @@ use Jenssegers\Agent\Agent;
 Route::get('/', function () {
     $agent = new Agent();
 
-    if ($agent->isdevice()) {
+    if ($agent->isMobile()) {
         return view('welcome');
     } else {
-        return view('admin.welcome');
+        return view('admin.login');
     }
-});
+})->name('/');
 
 Auth::routes();
 
@@ -38,22 +39,22 @@ Route::get('/logout',function() {
     return redirect('/');
 })->name('logout');
 
-Route::prefix('general-access')->group(function () {
+Route::prefix('access')->group(function () {
     Route::get('/setup',[GeneralController::class,'setup'])->name('setup_general');
     Route::get('/error',[GeneralController::class,'error'])->name('error_general');
-    Route::get('/error_device',[GeneralController::class,'error_device'])->name('error_device');
+    Route::get('/error_mobile',[GeneralController::class,'error_mobile'])->name('error_mobile');
     Route::get('/error_browser',[GeneralController::class,'error_browser'])->name('error_browser');
 });
 
-Route::prefix('home')->middleware('auth','device')->group(function () {
+Route::prefix('home')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[HomeController::class,'index'])->name('home');
 });
 
-Route::prefix('products')->middleware('auth','device')->group(function () {
+Route::prefix('products')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[ProductController::class,'index'])->name('index_products');
 });
 
-Route::prefix('sales-order')->middleware('auth','device')->group(function () {
+Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[SalesOrderController::class,'index'])->name('index_sales_orders');
     Route::get('/customer',[SalesOrderController::class,'customer'])->name('index_sales_orders_customer');
     Route::get('/product',[SalesOrderController::class,'product'])->name('index_sales_orders_product');
@@ -69,11 +70,11 @@ Route::prefix('sales-order')->middleware('auth','device')->group(function () {
     Route::post('/products-temp',[SalesOrderController::class,'storeProductTemp'])->name('store_product_sales_orders');
 });
 
-Route::prefix('customers')->middleware('auth','device')->group(function () {
+Route::prefix('customers')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[CustomerController::class,'index'])->name('index_customers');
 });
 
-Route::prefix('transaction')->middleware('auth','device')->group(function () {
+Route::prefix('transaction')->middleware('auth','authCheck')->group(function () {
     Route::get('/on_progress',[TransactionController::class,'on_progress'])->name('on_progress_transaction');
     Route::get('/complete',[TransactionController::class,'complete'])->name('complete_transaction');
     Route::get('/canceled',[TransactionController::class,'canceled'])->name('canceled_transaction');
@@ -81,6 +82,21 @@ Route::prefix('transaction')->middleware('auth','device')->group(function () {
     Route::get('/show/{id}',[TransactionController::class,'show'])->name('show_transaction');
 });
 
-Route::prefix('profile')->middleware('auth','device')->group(function () {
+Route::prefix('profile')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[ProfileController::class,'index'])->name('index_profile');
+});
+
+/*----------------------------------------- Private Access Group -----------------------------------------*/
+Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
+    Route::prefix('access')->group(function () {
+        // Route::get('/login',[LoginController::class,'login'])->name('private_login');
+        Route::get('/home',[HomeController::class,'admin_home'])->name('admin.home');
+    });
+
+    Route::prefix('sales-orders')->group(function () {
+        // Route::get('/login',[LoginController::class,'login'])->name('private_login');
+        Route::get('/transactions',[SalesOrderController::class,'transaction_admin'])->name('admin.transaction');
+        Route::get('/detail/{id}',[SalesOrderController::class,'transaction_detail'])->name('admin.detail.transaction');
+        Route::put('/update/{id}',[SalesOrderController::class,'storeAdmin'])->name('admin.update.transaction');
+    });
 });
