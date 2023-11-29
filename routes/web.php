@@ -100,4 +100,12 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::put('/update/{id}',[SalesOrderController::class,'storeAdmin'])->name('admin.update.transaction');
         Route::get('/searching',[SalesOrderController::class,'searchingTransaction'])->name('admin.searching.transaction');
     });
+
+    Route::prefix('products')->group(function () {
+        Route::get('/',[ProductController::class,'index_admin'])->name('admin.products.index');
+        Route::get('/set-sales/{id}',[ProductController::class,'sales_products'])->name('admin.products.set.sales');
+
+        ## Searching ##
+        Route::get('/searching',[ProductController::class,'searchingProducts'])->name('admin.products.searching');
+    });
 });

@@ -80,6 +80,7 @@ class SalesOrderController extends Controller
                 'so_date' => $request->so_date,
                 'information' => $request->information,
                 'status' => 1,
+                'send_date' => $request->send_date,
             ]);
 
             foreach($products as $item) {

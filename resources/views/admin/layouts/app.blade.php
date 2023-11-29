@@ -29,9 +29,6 @@
     </div>
     <!-- END wrapper -->
 
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     @stack('jsscripts')
 
     <!-- Vendor js -->
@@ -53,6 +50,9 @@
 
     <!-- App js -->
     <script src="{{asset('admin/js/app.min.js')}}"></script>
+
+    <link href="{{asset('admin/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    <script src="{{asset('admin/js/select2.min.js')}}"></script>
 
 </body>
 

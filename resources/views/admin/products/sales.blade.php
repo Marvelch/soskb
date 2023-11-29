@@ -10,16 +10,16 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Transaksi</a></li>
-                        <li class="breadcrumb-item active">Detail</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Products</a></li>
+                        <li class="breadcrumb-item active">Set Sales</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Detail Transaksi</h4>
+                <h4 class="page-title">Set Sales</h4>
             </div>
         </div>
     </div>
 
-    <form action="{{route('admin.update.transaction',['id'=>$transactions->id])}}" method="post">
+    <form action="" method="post">
         @method('PUT')
         @csrf
         <div class="row">
@@ -32,14 +32,14 @@
                         <div class="clearfix"></div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <!-- assignee -->
-                                <p class="mt-2 mb-1 text-muted text-capitalize">request from</p>
+                                <p class="mt-2 mb-1 text-muted text-capitalize">Unique Code</p>
                                 <div class="d-flex align-items-start">
-                                    <i class="ri-user-follow-line fs-18 text-success me-1"></i>
+                                    <i class="ri-qr-code-line fs-18 text-success me-1"></i>
                                     <div class="w-100">
                                         <h5 class="mt-1 text-capitalize">
-                                            {{@strtolower($transactions->users->name)}}
+                                            {{@$products->code}}
                                         </h5>
                                     </div>
                                 </div>
@@ -47,42 +47,32 @@
                             </div>
                             <!-- end col -->
 
+                            <div class="col-md-5">
+                                <!-- start due date -->
+                                <p class="mt-2 mb-1 text-muted">Product Name</p>
+                                <div class="d-flex align-items-start">
+                                    <i class="ri-box-2-line fs-18 text-success me-1"></i>
+                                    <div class="w-100">
+                                        <h5 class="mt-1">
+                                            {{@$products->product_name}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <!-- end due date -->
+                            </div>
+
                             <div class="col-md-4">
                                 <!-- start due date -->
-                                <p class="mt-2 mb-1 text-muted">Customer</p>
+                                <p class="mt-2 mb-1 text-muted">Status</p>
                                 <div class="d-flex align-items-start">
-                                    <i class="ri-briefcase-line fs-18 text-success me-1"></i>
+                                    <i class="ri-settings-3-line fs-18 text-success me-1"></i>
                                     <div class="w-100">
-                                        <h5 class="mt-1">
-                                            {{@$transactions->customers->name}}
-                                        </h5>
-                                    </div>
-                                </div>
-                                <!-- end due date -->
-                            </div>
-
-                            <div class="col-md-2">
-                                <!-- start due date -->
-                                <p class="mt-2 mb-1 text-muted">SO Date</p>
-                                <div class="d-flex align-items-start">
-                                    <i class="ri-calendar-todo-line fs-18 text-success me-1"></i>
-                                    <div class="w-100">
-                                        <h5 class="mt-1">
-                                            {{date('d-m-Y',strtotime(@$transactions->so_date))}}
-                                        </h5>
-                                    </div>
-                                </div>
-                                <!-- end due date -->
-                            </div>
-
-                             <div class="col-md-2">
-                                <!-- start due date -->
-                                <p class="mt-2 mb-1 text-muted">Send Date</p>
-                                <div class="d-flex align-items-start">
-                                    <i class="ri-calendar-todo-line fs-18 text-success me-1"></i>
-                                    <div class="w-100">
-                                        <h5 class="mt-1">
-                                            {{date('d-m-Y',strtotime(@$transactions->send_date))}}
+                                        <h5 class="mt-1 text-uppercase">
+                                            @if(@$products->status)
+                                                Active
+                                            @else
+                                                Non Active
+                                            @endif
                                         </h5>
                                     </div>
                                 </div>
@@ -92,12 +82,6 @@
                         </div>
                         <!-- end row -->
 
-                        <h5 class="mt-3">Description:</h5>
-
-                        <p class="text-muted mb-4">
-                            {{@$transactions->information}}
-                        </p>
-
                         <!-- end sub tasks/checklists -->
                     </div>
                     <!-- end card-body-->
@@ -106,55 +90,16 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex align-items-start">
+                        <p class="text-muted small">Mohon diperhatikan bahwa produk {{@$products->product_name}} hanya akan muncul pada sales yang terinput pada kolom berikut :</p>
+                        <div class="d-flex align-items-start mt-3">
                             <div class="w-100">
-                                <div class="card mb-1 shadow-none border" style="height: 40px;">
-                                    <div class="p-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto text-center" style="width: 130px; margin-top: -15px;">
-                                                <div class="avatar-sm w-100 fw-bold" style="height: 20px;">
-                                                    KODE
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0 text-center fw-bold" style="margin-top: -15px;">
-                                                <a href="javascript:void(0);"
-                                                    class="text-muted text-sm fw-bold">NAMA BARANG</a>
-                                            </div>
-                                            <div class="col-auto text-center fw-bold" style="margin-top: -13px;">
-                                                <!-- Button -->
-                                                <a href="javascript:void(0);" class="btn btn-link fs-16 text-muted fw-bold" >
-                                                    QTY
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="" class="small">Pilih Sales</label>
+                                    <select class="js-example-basic-multiple form-control form-control-sm" name="states[]" multiple="multiple">
+                                        <option value="AL">Alabama</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
                                 </div>
-                                @foreach($transactionDetails as $item)
-                                <div class="card mb-1 shadow-none border" style="height: 40px;">
-                                    <div class="p-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto" style="width: 130px; margin-top: -17px;">
-                                                <div class="avatar-sm w-100" style="height: 20px;">
-                                                    <span class="avatar-title bg-primary-subtle text-primary rounded">
-                                                        {{@$item->products->code}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col ps-0" style="margin-top: -17px;">
-                                                <a href="javascript:void(0);"
-                                                    class="text-muted text-sm fw-bold">{{@$item->products->product_name}}</a>
-                                            </div>
-                                            <div class="col-auto" style="margin-top: -15px;">
-                                                <!-- Button -->
-                                                <a href="javascript:void(0);" class="btn btn-link fs-16 text-muted" >
-                                                    <i class="ri-shopping-bag-line fs-18 text-success me-1"></i>
-                                                    {{@$item->qty}} {{@$item->units->unit}}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
                             </div>
                         </div>
 
@@ -169,26 +114,10 @@
                         <div class="d-flex align-items-start">
                             <div class="w-100">
                                 <div class="form-group">
-                                    <select name="status" id="" class="form-control form-contro-sm">
-                                        <option value="2" {{ $transactions->status == 2 ? 'selected' : '' }}>Completed</option>
-                                        <option value="3" {{ $transactions->status == 3 ? 'selected' : '' }}>Cancelled</option>
-                                    </select>
+
                                 </div>
                                 <div class="border rounded mt-2">
-                                    <form action="#" class="comment-area-box">
-                                        <textarea name="note" rows="3" class="form-control border-0 resize-none" {{ $transactions->status == 2 || $transactions->status == 3 ? 'disabled' : '' }}>{{@$transactions->note}}</textarea>
-                                        <div class="p-2 bg-light d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <a href="#" class="btn btn-sm px-1 btn-light"><i
-                                                        class='ri-upload-line'></i></a>
-                                                <a href="#" class="btn btn-sm px-1 btn-light"><i
-                                                        class='ri-at-line'></i></a>
-                                            </div>
-                                            <button type="submit" class="btn btn-sm btn-success" {{ $transactions->status == 2 || $transactions->status == 3 ? 'disabled' : '' }}>
-                                                <i class="ri-send-plane-2 me-1"></i>Submit
-                                            </button>
-                                        </div>
-                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -228,7 +157,7 @@
                         </div>
                         <!-- end dropdown-->
 
-                        <h5 class="card-title fs-16 mb-3">Attachments</h5>
+                        <h5 class="card-title fs-16 mb-3">Relation</h5>
 
                         <form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone"
                             data-previews-container="#file-previews"
@@ -278,4 +207,9 @@
     <!-- end row -->
 
 </div> <!-- container -->
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>
 @endsection

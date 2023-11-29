@@ -77,7 +77,7 @@
                     <div class="col">
                         <div class="form-group mb-3">
                             <label for="exampleInputName1">Tanggal Kirim </label>
-                            <input name="so_date" type="date" class="form-control"
+                            <input name="send_date" type="date" class="form-control"
                                 value="{{date('Y-m-d',strtotime(now()))}}">
                         </div>
                     </div>

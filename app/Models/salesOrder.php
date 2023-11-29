@@ -19,6 +19,7 @@ class salesOrder extends Model
         'information',
         'customers',
         'status',
+        'send_date',
         'changed_by',
         'note'
     ];

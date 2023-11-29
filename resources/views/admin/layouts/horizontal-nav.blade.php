@@ -11,10 +11,10 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-apps-line"></i>SO <div class="arrow-down"></div>
+                            <i class="ri-apps-line"></i>Sales Orders <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                            <a href="{{route('admin.transaction')}}" class="dropdown-item">Transaksi</a>
+                            <a href="{{route('admin.transaction')}}" class="dropdown-item">Transaction</a>
                             <!-- <a href="apps-chat.php" class="dropdown-item">Chat</a>
                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-email" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,12 +38,12 @@
                             <a href="apps-file-manager.php" class="dropdown-item">File Manager</a> -->
                         </div>
                     </li>
-                    <!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-pages-line"></i>Pages <div class="arrow-down"></div>
+                            <i class="ri-instance-line"></i>Products <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                            <div class="dropdown">
+                            <!-- <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-auth" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Authenitication <div class="arrow-down"></div>
                                 </a>
@@ -71,24 +71,24 @@
                                     <a href="error-404-alt.php" class="dropdown-item">Error 404-alt</a>
                                     <a href="error-500.php" class="dropdown-item">Error 500</a>
                                 </div>
-                            </div>
-                            <a href="pages-starter.php" class="dropdown-item">Starter Page</a>
-                            <a href="pages-preloader.php" class="dropdown-item">With Preloader</a>
+                            </div> -->
+                            <a href="{{route('admin.products.index')}}" class="dropdown-item">List Products</a>
+                            <!-- <a href="pages-preloader.php" class="dropdown-item">With Preloader</a>
                             <a href="pages-profile.php" class="dropdown-item">Profile</a>
                             <a href="pages-invoice.php" class="dropdown-item">Invoice</a>
                             <a href="pages-faq.php" class="dropdown-item">FAQ</a>
                             <a href="pages-pricing.php" class="dropdown-item">Pricing</a>
                             <a href="pages-maintenance.php" class="dropdown-item">Maintenance</a>
-                            <a href="pages-timeline.php" class="dropdown-item">Timeline</a>
+                            <a href="pages-timeline.php" class="dropdown-item">Timeline</a> -->
                         </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-stack-line"></i>Components <div class="arrow-down"></div>
+                            <i class="ri-user-follow-line"></i>Sales <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="widgets.php" class="dropdown-item">Widgets</a>
-                            <div class="dropdown">
+                            <a href="widgets.php" class="dropdown-item">List Sales</a>
+                            <!-- <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Base UI 1 <div class="arrow-down"></div>
                                 </a>
@@ -188,10 +188,10 @@
                                     <a href="maps-google.php" class="dropdown-item">Google Maps</a>
                                     <a href="maps-vector.php" class="dropdown-item">Vector Maps</a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-layout-line"></i>Layouts <div class="arrow-down"></div>
                         </a>
