@@ -29,6 +29,11 @@
     </div>
     <!-- END wrapper -->
 
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    @stack('jsscripts')
+
     <!-- Vendor js -->
     <script src="{{asset('admin/js/vendor.min.js')}}"></script>
 

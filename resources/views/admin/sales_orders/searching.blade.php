@@ -39,10 +39,9 @@
                 <div class="collapse show mt-1" id="transactionList">
                     <div class="row">
                         <div class="col-md-9">
-                            <div id="transactions"></div>
                             @foreach($transactions as $item)
                             <a
-                                href="{{route('admin.detail.transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}" id="transactions">
+                                href="{{route('admin.detail.transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}">
                                 <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
@@ -120,10 +119,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <select name="" id="status_so" class="form-control form-control-sm">
-                                            <option value="1">On progress</option>
-                                            <option value="2">Completed</option>
-                                            <option value="3">Cancelled</option>
+                                        <select name="" id="status" class="form-control form-control-sm">
+                                            <option value="">On progress</option>
+                                            <option value="">Completed</option>
+                                            <option value="">Cancelled</option>
                                         </select>
                                     </div>
                                     <div class="form-group mt-2">
@@ -145,97 +144,19 @@
 
 </div> <!-- container -->
 @push('jsscripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.btn-filter').on('click', function(e) {
-                e.preventDefault(); // Prevent default form submission behavior
+                // e.preventDefault(); // Prevent default form submission behavior
 
-                const customersValue = $('#customers').val();
+                // const customersValue = $('#customers').val();
+                // console.log(customersValue);
 
-                const startValue = $('#start').val();
-                const endValue = $('#end').val();
-                const statusValue = $('#status_so').val();
-
-                // Make an AJAX request to process the filter
-                $.ajax({
-                    url: '/admin/sales-orders/searching/', // Replace with your route URL
-                    method: 'GET',
-                    data: {
-                        status: statusValue,
-                        customer: customersValue,
-                        start: startValue,
-                        end: endValue,
-                        // Include other parameters here if needed
-                    },
-                    success: function(response) {
-
-                        // Update card content with fetched data
-                        const salesOrderData = response.salesOrderData;
-
-                        // Clear existing card content before appending new data
-                        $('[id^=transactions]').empty();
-
-                        // Iterate through each sales order item and create card elements
-                        salesOrderData.forEach(function(item) {
-                            let statusBadge;
-
-                            if (item.status == 1) {
-                                statusBadge = `<span class="badge bg-warning-subtle text-danger p-1">On Progress</span>`;
-                            } else if (item.status == 2) {
-                                statusBadge = `<span class="badge bg-primary-subtle text-dark p-1">Completed</span>`;
-                            } else {
-                                statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Canceled</span>`;
-                            }
-
-                            const encryptedIdTransaction = '{{ Crypt::encryptString($item->id_transaction) }}';
-
-                            const cardContent = `
-                                <a href="/admin/sales-orders/detail/${encryptedIdTransaction}">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row justify-content-sm-between">
-                                                <div class="col-sm-6 mb-sm-0">
-                                                    <div class="form-check">
-                                                        <p class="fw-bold h5 text-muted text-uppercase">
-                                                            ${item.customer_name}
-                                                        </p>
-                                                        <p class="form-check-label text-sm text-muted">#${item.id_transaction}</p>
-                                                        <!-- Add other item details here -->
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="d-flex justify-content-between">
-                                                    <div class="form-check-label text-muted small text-capitalize">
-                                                        ${statusBadge}
-                                                    </div>
-                                                    <div>
-                                                        <ul class="list-inline fs-13 text-end">
-                                                            <li class="list-inline-item text-muted">
-                                                                <i class='ri-calendar-todo-line text-dark fs-16 me-1'></i>
-                                                                ${item.so_date}
-                                                            </li>
-                                                            <li class="list-inline-item ms-1 text-capitalize text-muted">
-                                                                <i class='ri-list-check-3 text-dark fs-16 me-1'></i>
-                                                                ${item.created_by}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            `;
-
-                            // Append the card content to the card container
-                            $('#transactions').append(cardContent);
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        // Handle error if necessary
-                    }
-                });
+                // const startValue = $('#start').val();
+                // const endValue = $('#end').val();
+                // const statusValue = $('#status').val();
+                alert("asd");
             });
         });
     </script>

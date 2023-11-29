@@ -98,5 +98,6 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/transactions',[SalesOrderController::class,'transaction_admin'])->name('admin.transaction');
         Route::get('/detail/{id}',[SalesOrderController::class,'transaction_detail'])->name('admin.detail.transaction');
         Route::put('/update/{id}',[SalesOrderController::class,'storeAdmin'])->name('admin.update.transaction');
+        Route::get('/searching',[SalesOrderController::class,'searchingTransaction'])->name('admin.searching.transaction');
     });
 });

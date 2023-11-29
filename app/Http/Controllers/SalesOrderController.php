@@ -240,7 +240,7 @@ class SalesOrderController extends Controller
      */
     public function transaction_admin(Request $request)
     {
-        $transactions = salesOrder::paginate(1);
+        $transactions = salesOrder::paginate(10);
 
         return view('admin.sales_orders.show',compact('transactions'));
     }
@@ -283,5 +283,29 @@ class SalesOrderController extends Controller
 
             toast($th->getMessage(),'error');
         }
+    }
+
+    /**
+     * search from sales order transaction data
+     */
+    public function searchingTransaction(Request $request)
+    {
+        $salesOrderData = salesOrder::join('customers', 'sales_orders.customer_id', '=', 'customers.id')
+                                    ->join('users','sales_orders.created_by','=','users.id')
+                                    ->where(function ($query) use ($request) {
+                                        $query->where('customers.name', 'ILIKE', '%' . $request->get('customer') . '%')
+                                            ->orWhereBetween('sales_orders.so_date', [$request->start, $request->end]);
+                                    })
+                                    ->where('sales_orders.status',$request->status)
+                                    ->select(
+                                        'customers.name as customer_name',
+                                        'so_date',
+                                        'id_transaction',
+                                        'users.name as created_by',
+                                        'sales_orders.status as status'
+                                    )
+                                    ->get();
+
+        return response()->json(['salesOrderData' => $salesOrderData]);
     }
 }
