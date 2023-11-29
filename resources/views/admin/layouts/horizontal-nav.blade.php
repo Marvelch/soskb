@@ -38,7 +38,7 @@
                             <a href="apps-file-manager.php" class="dropdown-item">File Manager</a> -->
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-pages-line"></i>Pages <div class="arrow-down"></div>
                         </a>
@@ -204,7 +204,7 @@
                             <a href="layouts-compact.php" class="dropdown-item" target="_blank">Compact Menu</a>
                             <a href="layouts-icon-view.php" class="dropdown-item" target="_blank">Icon View</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </nav>
