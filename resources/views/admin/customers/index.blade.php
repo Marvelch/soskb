@@ -20,7 +20,7 @@
                     </div> -->
                 </div>
                 <h4 class="page-title">
-                    List Products
+                    List Customers
                 </h4>
             </div>
             <!-- end page title -->
@@ -40,8 +40,8 @@
                     <div class="row">
                         <div class="col-md-9">
                             <div id="transactions"></div>
-                            @foreach($products as $item)
-                            <a href="{{route('admin.products.set.sales',['id'=>Crypt::encryptString($item->id)])}}"
+                            @foreach($customers as $item)
+                            <a href="{{route('admin.customers.set.sales',['id'=>Crypt::encryptString($item->id)])}}"
                                 id="transactions">
                                 <div class="card">
                                     <div class="card-body">
@@ -50,9 +50,9 @@
                                             <div class="col-sm-6 mb-sm-0">
                                                 <div class="form-check">
                                                     <p class="fw-bold h5 text-muted text-uppercase">
-                                                        {{@$item->product_name}}
+                                                        {{@$item->name}}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm small"><i class="ri-qr-code-line text-success"></i> #{{@$item->customer_number}} <i class="ri-map-pin-range-line text-success"></i>{{@$item->address}}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
@@ -99,11 +99,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <input type="text" id="products" class="form-control form-control-sm"
+                                        <input type="text" id="customer" class="form-control form-control-sm"
                                             placeholder="Searching...">
                                     </div>
                                     <div class="form-group mt-2">
-                                        <select name="" id="status_products" class="form-control form-control-sm">
+                                        <select name="" id="status_customer" class="form-control form-control-sm">
                                             <option value="1">Active</option>
                                             <option value="0">Non Active</option>
                                         </select>
@@ -120,7 +120,7 @@
 
         </div> <!-- end col -->
 
-        {{ $products->links() }}
+        {{ $customers->links() }}
 
     </div>
     <!-- end row-->
@@ -132,8 +132,8 @@
         $('.btn-filter').on('click', function (e) {
             e.preventDefault(); // Prevent default form submission behavior
 
-            const productssValue = $('#products').val();
-            const statusValue = $('#status_products').val();
+            const customerValue = $('#customer').val();
+            const statusValue = $('#status_customer').val();
 
             // Make an AJAX request to process the filter
             $.ajax({
@@ -141,7 +141,7 @@
                 method: 'GET',
                 data: {
                     status: statusValue,
-                    product: productssValue,
+                    product: customerValue,
                     // Include other parameters here if needed
                 },
                 success: function (response) {

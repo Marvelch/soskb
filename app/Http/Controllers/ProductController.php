@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\product;
 use App\Models\sales;
 use App\Models\salesProduct;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
@@ -18,7 +19,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = product::all();
+        $products = product::join('sales_products','sales_products.product_id','=','products.id')
+                            ->where('sales_id',Auth::user()->id)
+                            ->get();
 
         return view('products.index',compact('products'));
     }
@@ -75,7 +78,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function index_admin(Request $request)
+    public function index_product(Request $request)
     {
         $products = product::paginate(30);
 
@@ -87,9 +90,11 @@ class ProductController extends Controller
      */
     public function searchingProducts(Request $request)
     {
-        $productData = product::where('product_name', 'ILIKE', '%' . $request->product . '%')
-                                    ->where('status',$request->status)
-                                    ->get();
+        $productData = product::join('sales_products','sales_products.product_id','=','products.id')
+                                ->where('products.product_name', 'ILIKE', '%' . $request->product . '%')
+                                ->where('products.status',$request->status)
+                                ->where('sales_id',Auth::user()->id)
+                                ->get();
 
         return response()->json(['productData' => $productData]);
     }
@@ -101,7 +106,7 @@ class ProductController extends Controller
     {
         $products = product::find(Crypt::decryptString($id));
 
-        $sales = sales::all();
+        $sales = User::where('account_type','USR')->get();
 
         $salesProducts = salesProduct::where('product_id',Crypt::decryptString($id))->get();
 

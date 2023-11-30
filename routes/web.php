@@ -102,11 +102,20 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
     });
 
     Route::prefix('products')->group(function () {
-        Route::get('/',[ProductController::class,'index_admin'])->name('admin.products.index');
+        Route::get('/',[ProductController::class,'index_product'])->name('admin.products.index');
         Route::get('/set-sales/{id}',[ProductController::class,'sales_products'])->name('admin.products.set.sales');
         Route::post('/store-sales-products/{id}',[ProductController::class,'storeSalesProducts'])->name('admin.store.sales.products');
 
         ## Searching ##
         Route::get('/searching',[ProductController::class,'searchingProducts'])->name('admin.products.searching');
+    });
+
+    Route::prefix('customers')->group(function () {
+        Route::get('/',[CustomerController::class,'index_customer'])->name('admin.customers.index');
+        Route::get('/set-sales/{id}',[CustomerController::class,'sales_customer'])->name('admin.customers.set.sales');
+        Route::post('/store-sales-customers/{id}',[CustomerController::class,'store_sales_customer'])->name('admin.store.sales.customer');
+
+        ## Searching ##
+        Route::get('/searching',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
     });
 });

@@ -149,8 +149,8 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold fs-14">Datacorp <small class="fw-normal text-muted float-end ms-1">1 min ago</small></h5>
-                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on Admin</small>
+                                        <h5 class="noti-item-title fw-semibold fs-14">NEW SO <small class="fw-normal text-muted float-end ms-1">1 min ago</small></h5>
+                                        <small class="noti-item-subtitle text-muted">Information New Sales Order</small>
                                     </div>
                                 </div>
                             </div>
@@ -320,18 +320,14 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
 
-                    <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
-                    </div>
 
-
-                    <a href="pages-profile.php" class="dropdown-item">
+                    <a href="" disabled class="dropdown-item">
                         <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
                         <span>My Account</span>
                     </a>
 
 
-                    <a href="pages-profile.php" class="dropdown-item">
+                    <!-- <a href="pages-profile.php" class="dropdown-item">
                         <i class="ri-settings-4-line fs-18 align-middle me-1"></i>
                         <span>Settings</span>
                     </a>
@@ -346,10 +342,10 @@
                     <a href="auth-lock-screen.php" class="dropdown-item">
                         <i class="ri-lock-password-line fs-18 align-middle me-1"></i>
                         <span>Lock Screen</span>
-                    </a>
+                    </a> -->
 
 
-                    <a href="auth-logout-2.php" class="dropdown-item">
+                    <a href="{{ route('logout') }}" class="dropdown-item">
                         <i class="ri-logout-box-line fs-18 align-middle me-1"></i>
                         <span>Logout</span>
                     </a>

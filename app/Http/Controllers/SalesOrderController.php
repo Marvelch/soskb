@@ -108,10 +108,9 @@ class SalesOrderController extends Controller
 
             DB::rollback();
 
-            return $th;
-            // toast($th->getMessage(),'error');
+            toast($th->getMessage(),'error');
 
-            // return back();
+            return back();
         }
     }
 
@@ -214,7 +213,12 @@ class SalesOrderController extends Controller
      */
     public function searchCustomers(Request $request)
     {
-        $data = customer::where('name', 'ILIKE', '%'. $request->get('q'). '%')->get();
+        $data = customer::join('sales_customers','sales_customers.customer_id','=','customers.id')
+                            ->where('customers.name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('sales_id',Auth::user()->id)
+                            ->select('customers.id as id',
+                                     'customers.name as name')
+                            ->get();
 
         return response()->json($data);
     }
@@ -224,7 +228,12 @@ class SalesOrderController extends Controller
      */
     public function searchProducts(Request $request)
     {
-        $data = product::where('product_name', 'ILIKE', '%'. $request->get('q'). '%')->get();
+        $data = product::join('sales_products','sales_products.product_id','=','products.id')
+                            ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('sales_id',Auth::user()->id)
+                            ->select('products.id as id',
+                                     'products.product_name as product_name')
+                            ->get();
 
         return response()->json($data);
     }
@@ -246,7 +255,7 @@ class SalesOrderController extends Controller
      */
     public function transaction_admin(Request $request)
     {
-        $transactions = salesOrder::paginate(10);
+        $transactions = salesOrder::orderBy('created_at','desc')->paginate(10);
 
         return view('admin.sales_orders.show',compact('transactions'));
     }

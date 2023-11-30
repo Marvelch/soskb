@@ -3,8 +3,7 @@
 @section('content')
 <div class="osahan-order">
     <div class="order-menu">
-        <h5 class="fw-bold p-3 d-flex align-items-center">Customer List <a class="toggle ms-auto" href="#"><i
-                    class="icofont-navigation-menu"></i></a></h5>
+        <h5 class="fw-bold p-3 d-flex align-items-center">Customer List</h5>
     </div>
     <div class="order-body px-3 pt-3">
         <div class="mb-3">

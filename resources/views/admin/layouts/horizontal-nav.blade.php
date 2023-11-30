@@ -191,6 +191,14 @@
                             </div> -->
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ri-store-3-line"></i>Customers <div class="arrow-down"></div>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="topnav-components">
+                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">List Customers</a>
+                        </div>
+                    </li>
                     <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-layout-line"></i>Layouts <div class="arrow-down"></div>

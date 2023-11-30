@@ -134,7 +134,7 @@
         $('.product, .qty, .units').each(function () {
             if ($.trim($(this).val()) === '') {
                 hasEmptyField = true;
-                return false; // Exit the loop early if any field is empty
+                return false;
             }
         });
 
