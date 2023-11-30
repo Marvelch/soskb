@@ -104,6 +104,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
     Route::prefix('products')->group(function () {
         Route::get('/',[ProductController::class,'index_admin'])->name('admin.products.index');
         Route::get('/set-sales/{id}',[ProductController::class,'sales_products'])->name('admin.products.set.sales');
+        Route::post('/store-sales-products/{id}',[ProductController::class,'storeSalesProducts'])->name('admin.store.sales.products');
 
         ## Searching ##
         Route::get('/searching',[ProductController::class,'searchingProducts'])->name('admin.products.searching');

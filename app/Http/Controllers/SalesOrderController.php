@@ -11,6 +11,7 @@ use App\Models\salesOrderDetail;
 use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
 Use Alert;
+use App\Models\salesProduct;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\unit;
@@ -66,6 +67,7 @@ class SalesOrderController extends Controller
     {
 
         DB::beginTransaction();
+
         try {
             $unique = generateUniqueKey(6);
 
@@ -106,7 +108,10 @@ class SalesOrderController extends Controller
 
             DB::rollback();
 
-            toast($th->getMessage(),'error');
+            return $th;
+            // toast($th->getMessage(),'error');
+
+            // return back();
         }
     }
 

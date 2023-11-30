@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\sales;
 use Illuminate\Http\Request;
+use DB;
+use Auth;
 
 class SalesController extends Controller
 {

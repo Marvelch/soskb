@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
+use App\Models\sales;
+use App\Models\salesProduct;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
+use DB;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -96,6 +101,47 @@ class ProductController extends Controller
     {
         $products = product::find(Crypt::decryptString($id));
 
-        return view('admin.products.sales',compact('products'));
+        $sales = sales::all();
+
+        $salesProducts = salesProduct::where('product_id',Crypt::decryptString($id))->get();
+
+        return view('admin.products.sales',compact('products','sales','salesProducts'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeSalesProducts(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->sales_id as $key => $value) {
+                $result = salesProduct::where('product_id',Crypt::decryptString($id))
+                                        ->where('sales_id',$value)
+                                        ->first();
+
+                if(!$result) {
+                    salesProduct::create([
+                        'product_id' => Crypt::decryptString($id),
+                        'sales_id' => $value
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return back();
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            DB::rollback();
+
+            toast($th->getMessage(),'error');
+
+            return back();
+        }
     }
 }
