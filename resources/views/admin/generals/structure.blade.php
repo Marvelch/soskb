@@ -51,6 +51,17 @@
                         <div class="fallback">
                             <!-- <input name="file" type="file" /> -->
                         </div>
+                            @foreach($positions as $item)
+                            <div class="card" draggable="true">
+                                <div class="card-body text-capitalize">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="bd-highlight"><i class="ri-arrow-up-down-fill"></i> </div>
+                                        <div class="bd-highlight" style="margin-left: 10px;"> {{$item->title}}</div>
+                                        <div class="ms-auto bd-highlight"><i class="ri-close-circle-fill"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         <div id="content"></div>
                         <div class="form-group d-flex justify-content-end">
                             <button class="btn btn-primary btn-sm" id="submit">Simpan</button>
@@ -90,8 +101,7 @@
                 positions: listPositions // Send the product_list data to the server
             },
             success: function (response) {
-                // window.location.href = '/admin/generals/structure';
-                console.log(response);
+                window.location.href = '/admin/generals/structure';
             },
             error: function (xhr, status, error) {
                 // Handle errors if the AJAX request fails

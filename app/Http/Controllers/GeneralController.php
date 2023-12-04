@@ -108,7 +108,9 @@ class GeneralController extends Controller
     {
         $listSales = User::where('account_type','USR')->get();
 
-        return view('admin.generals.structure',compact('listSales'));
+        $positions = position::all();
+
+        return view('admin.generals.structure',compact('listSales','positions'));
     }
 
     /**
