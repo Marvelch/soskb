@@ -119,12 +119,14 @@ class GeneralController extends Controller
         DB::beginTransaction();
 
         try {
-            $positions = position::orderBy('created_at','desc')->first();
+            $lastPosition = position::orderBy('unique','desc')->first();
 
-            foreach($request->positions as $item) {
+            $lastLevel = $lastPosition ? $lastPosition->level : 0;
+
+            foreach($request->positions as $key => $item) {
                 position::create([
                     'unique' => uniqueGroup(),
-                    'level' => @$positions->level == null ? 1 : $positions->level + 1,
+                    'level' => $lastLevel + $key + 1,
                     'title' => $item
                 ]);
             }
