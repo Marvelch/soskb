@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\TransactionController;
+use App\Models\general;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 
@@ -117,5 +118,13 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
 
         ## Searching ##
         Route::get('/searching',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
+    });
+
+    Route::prefix('generals')->group(function () {
+        Route::get('/structure',[GeneralController::class,'structure'])->name('admin_structure_general');
+        Route::post('/store-structure',[GeneralController::class,'store_structure'])->name('admin_store_structure_general');
+
+        ## Jobs ##
+        Route::get('/group',[GeneralController::class,'group'])->name('admin_group_general');
     });
 });
