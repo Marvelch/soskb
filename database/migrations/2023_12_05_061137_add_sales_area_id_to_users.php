@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('position_unique')->nullable();
-            $table->foreign('position_unique')->references('unique')->on('positions');
+            $table->unsignedBigInteger('region_id')->nullable();
+            $table->foreign('region_id')->references('id')->on('regions');
+            $table->unsignedBigInteger('customer_type_id')->nullable();
+            $table->foreign('customer_type_id')->references('id')->on('customer_types');
         });
     }
 
@@ -23,7 +25,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('position_unique');
+            $table->dropColumn('region_id');
+            $table->dropColumn('customer_type_id');
         });
     }
 };

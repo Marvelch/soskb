@@ -3,11 +3,13 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use App\Models\general;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
@@ -36,15 +38,22 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/logout',function() {
-    Auth::logout(); // Logout the currently authenticated user
-    return redirect('/');
+    Auth::logout();
+
+    $agent = new Agent();
+
+    if ($agent->isMobile()) {
+        return redirect('/');
+    } else {
+        return view('admin.login');
+    }
 })->name('logout');
 
 Route::prefix('access')->group(function () {
     Route::get('/setup',[GeneralController::class,'setup'])->name('setup_general');
     Route::get('/error',[GeneralController::class,'error'])->name('error_general');
-    Route::get('/error_mobile',[GeneralController::class,'error_mobile'])->name('error_mobile');
-    Route::get('/error_browser',[GeneralController::class,'error_browser'])->name('error_browser');
+    Route::get('/error/mobile/',[GeneralController::class,'error_mobile'])->name('error_mobile');
+    Route::get('/error/browser',[GeneralController::class,'error_browser'])->name('error_browser');
 });
 
 Route::prefix('home')->middleware('auth','authCheck')->group(function () {
@@ -123,8 +132,23 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
     Route::prefix('generals')->group(function () {
         Route::get('/structure',[GeneralController::class,'structure'])->name('admin_structure_general');
         Route::post('/store-structure',[GeneralController::class,'store_structure'])->name('admin_store_structure_general');
+    });
 
-        ## Jobs ##
-        Route::get('/group',[GeneralController::class,'group'])->name('admin_group_general');
+    Route::prefix('groups')->group(function () {
+        Route::get('/group',[GroupController::class,'group'])->name('admin_group_general');
+        Route::get('/group-searching-employee/{id}',[GroupController::class,'SearchingEmployee'])->name('admin_group_searching_employee_general');
+        Route::post('/store',[GroupController::class,'store'])->name('admin.store.group');
+
+        ## Searching ##
+        Route::get('/searching',[GroupController::class,'SearchingChairman'])->name('admin.users.chairman.searching');
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('/',[UserController::class,'index'])->name('admin.users');
+        Route::get('/edit/{id}',[UserController::class,'show'])->name('admin.users.edit');
+        Route::put('/update/{id}',[UserController::class,'update'])->name('admin.users.update');
+
+        ## Searching ##
+        Route::get('/searching',[UserController::class,'searching_users_sales'])->name('admin.users.sales.searching');
     });
 });

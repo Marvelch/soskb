@@ -164,7 +164,7 @@
                                 `<span class="badge bg-danger-subtle text-danger p-1">Non Active</span>`;
                         }
 
-                        const encryptedIdTransaction = '{{ Crypt::encryptString($item->id) }}';
+                        const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id) }}';
 
                         const cardContent = `
                                 <a href="/admin/products//set-sales//${encryptedIdTransaction}">

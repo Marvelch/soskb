@@ -19,9 +19,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = product::join('sales_products','sales_products.product_id','=','products.id')
+        $usersRegions = @Auth::user()->regions->code;
+
+        if(Auth::user()->positions->level == 5) { // Supervisor
+            $products = product::join('sales_products','sales_products.product_id','=','products.id')
+                                ->where('sales_id',Auth::user()->id)
+                                ->get();
+        }else{
+            $products = product::join('sales_products','sales_products.product_id','=','products.id')
                             ->where('sales_id',Auth::user()->id)
                             ->get();
+        }
+
 
         return view('products.index',compact('products'));
     }

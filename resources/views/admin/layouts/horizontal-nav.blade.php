@@ -84,28 +84,19 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-user-follow-line"></i>Sales <div class="arrow-down"></div>
+                            <i class="ri-user-follow-line"></i>Users <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="widgets.php" class="dropdown-item">List Sales</a>
-                            <!-- <div class="dropdown">
+                            <a href="{{route('admin.users')}}" class="dropdown-item">User</a>
+                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">Customer</a>
+                            <a href="{{route('admin.users')}}" class="dropdown-item">Sales</a>
+                            <!--<div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Base UI 1 <div class="arrow-down"></div>
+                                    Sales <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-ui-kit">
                                     <a href="ui-accordions.php" class="dropdown-item">Accordions</a>
                                     <a href="ui-alerts.php" class="dropdown-item">Alerts</a>
-                                    <a href="ui-avatars.php" class="dropdown-item">Avatars</a>
-                                    <a href="ui-badges.php" class="dropdown-item">Badges</a>
-                                    <a href="ui-breadcrumb.php" class="dropdown-item">Breadcrumb</a>
-                                    <a href="ui-buttons.php" class="dropdown-item">Buttons</a>
-                                    <a href="ui-cards.php" class="dropdown-item">Cards</a>
-                                    <a href="ui-carousel.php" class="dropdown-item">Carousel</a>
-                                    <a href="ui-dropdowns.php" class="dropdown-item">Dropdowns</a>
-                                    <a href="ui-embed-video.php" class="dropdown-item">Embed Video</a>
-                                    <a href="ui-grid.php" class="dropdown-item">Grid</a>
-                                    <a href="ui-list-group.php" class="dropdown-item">List Group</a>
-                                    <a href="ui-links.php" class="dropdown-item">Links</a>
                                 </div>
                             </div>
                             <div class="dropdown">
@@ -191,17 +182,17 @@
                             </div> -->
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-store-3-line"></i>Customers <div class="arrow-down"></div>
+                            <i class="ri-shopping-bag-line"></i>Customers <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <a href="{{route('admin.customers.index')}}" class="dropdown-item">List Customers</a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-layout-line"></i>General <div class="arrow-down"></div>
+                            <i class="ri-leaf-fill"></i>General <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-layouts">
                             <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure Organization </a>

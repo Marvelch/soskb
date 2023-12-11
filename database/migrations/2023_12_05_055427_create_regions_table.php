@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('position_unique')->nullable();
-            $table->foreign('position_unique')->references('unique')->on('positions');
+        Schema::create('regions', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->string('name');
+            $table->integer('status')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('position_unique');
-        });
+        Schema::dropIfExists('regions');
     }
 };

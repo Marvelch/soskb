@@ -35,7 +35,8 @@
         },
         "files": [
             "app/Helpers/UniqueKeyHelper.php",
-            "app/Helpers/UniqueGroup.php"
+            "app/Helpers/UniqueGroup.php",
+            "app/Helpers/UniquePosition.php"
         ]
     },
     "autoload-dev": {

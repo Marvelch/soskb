@@ -21,7 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'account_type'
+        'account_type',
+        'position_unique',
+        'region_id',
+        'customer_type_id'
     ];
 
     /**
@@ -43,4 +46,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function positions()
+    {
+        return $this->belongsTo(position::class,'position_unique','unique');
+    }
+
+    public function regions()
+    {
+        return $this->belongsTo(region::class,'region_id','id');
+    }
 }

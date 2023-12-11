@@ -127,32 +127,22 @@ class GeneralController extends Controller
 
             foreach($request->positions as $key => $item) {
                 position::create([
-                    'unique' => uniqueGroup(),
-                    'level' => $lastLevel + $key + 1,
+                    'unique' => UniquePosition($key),
+                    'level' => ($lastLevel + $key) + 1,
                     'title' => $item
                 ]);
             }
 
             DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return response()->json(['success' => true]);
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollback();
 
             return $th;
         }
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function group()
-    {
-        $jobs = position::all();
-
-        $users = User::all();
-
-        $codes = uniqueGroup();
-
-        return view('admin.generals.group',compact('jobs','users','codes'));
     }
 }

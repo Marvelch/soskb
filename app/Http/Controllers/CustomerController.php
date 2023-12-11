@@ -91,13 +91,13 @@ class CustomerController extends Controller
      */
     public function searchingCustomers(Request $request)
     {
-        // $productData = customer::join('sales_products','sales_products.product_id','=','products.id')
-        //                         ->where('products.product_name', 'ILIKE', '%' . $request->product . '%')
-        //                         ->where('products.status',$request->status)
-        //                         ->where('sales_id',Auth::user()->id)
-        //                         ->get();
+        $productData = customer::join('sales_products','sales_products.product_id','=','products.id')
+                                ->where('products.product_name', 'ILIKE', '%' . $request->product . '%')
+                                ->where('products.status',$request->status)
+                                ->where('sales_id',Auth::user()->id)
+                                ->get();
 
-        // return response()->json(['productData' => $productData]);
+        return response()->json(['productData' => $productData]);
     }
 
     /**

@@ -102,6 +102,7 @@
             },
             success: function (response) {
                 window.location.href = '/admin/generals/structure';
+                // location.reload();
             },
             error: function (xhr, status, error) {
                 // Handle errors if the AJAX request fails

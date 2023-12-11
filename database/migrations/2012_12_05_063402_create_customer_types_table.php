@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('position_unique')->nullable();
-            $table->foreign('position_unique')->references('unique')->on('positions');
+        Schema::create('customer_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('position_unique');
-        });
+        Schema::dropIfExists('customer_types');
     }
 };

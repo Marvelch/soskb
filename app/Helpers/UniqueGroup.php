@@ -1,28 +1,20 @@
 <?php
 
-if (!function_exists('uniqueGroup')) {
-    function uniqueGroup()
+use App\Models\group;
+use App\Models\position;
+
+if (!function_exists('UniqueGroup')) {
+    function UniqueGroup($prefix = 'GP', $yearsDigits = 2, $startFrom = 1, $length = 5)
     {
-        // Get the current year (last two digits)
+        $lastCode = group::latest()->value('unique');
+
+        $lastNumber = $lastCode ? intval(substr($lastCode, -($length + 1))) : 0;
+
+        $newNumber = str_pad($startFrom + $lastNumber, $length, '0', STR_PAD_LEFT);
+
         $currentYear = date('y');
+        $code = $prefix . '-' . $currentYear . '-' . $newNumber;
 
-        // Set a key for the cache (you can adjust it as needed)
-        $cacheKey = "last_generated_code_$currentYear";
-
-        // Get the last generated code from the cache or set a default value
-        $lastNumber = cache()->rememberForever($cacheKey, function () {
-            return 0;
-        });
-
-        // Increment the number part
-        $newNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-
-        // Generate the new unique code
-        $newCode = "GP-$currentYear-$newNumber";
-
-        // Store the updated number back into the cache
-        cache()->forever($cacheKey, $lastNumber + 1);
-
-        return $newCode;
+        return $code;
     }
 }

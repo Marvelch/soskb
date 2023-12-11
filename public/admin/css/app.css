@@ -21387,3 +21387,11 @@ span.flatpickr-weekday,
 [dir="rtl"] .irs-bar--single {
     border-radius: 0 4px 4px 0 !important;
 }
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+input::placeholder {
+  font-size: 11px; /* Change the font size to your desired value */
+}

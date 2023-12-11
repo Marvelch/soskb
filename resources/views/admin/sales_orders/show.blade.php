@@ -187,7 +187,7 @@
                                 statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Canceled</span>`;
                             }
 
-                            const encryptedIdTransaction = '{{ Crypt::encryptString($item->id_transaction) }}';
+                            const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id_transaction) }}';
 
                             const cardContent = `
                                 <a href="/admin/sales-orders/detail/${encryptedIdTransaction}">

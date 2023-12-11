@@ -20,7 +20,7 @@
                     </div> -->
                 </div>
                 <h4 class="page-title">
-                    List Products
+                    List Users
                 </h4>
             </div>
             <!-- end page title -->
@@ -40,45 +40,45 @@
                     <div class="row">
                         <div class="col-md-9">
                             <div id="transactions"></div>
-                            @foreach($products as $item)
-                            <a href="{{route('admin.products.set.sales',['id'=>Crypt::encryptString($item->id)])}}"
+                            @foreach($users as $item)
+                            <a href="{{route('admin.users.edit',['id'=>Crypt::encryptString($item->id)])}}"
                                 id="transactions">
                                 <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
                                         <div class="row justify-content-sm-between">
-                                            <div class="col-sm-6 mb-sm-0">
+                                            <div class="col-md-1">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png"
+                                                    class="w-100" alt="" srcset="">
+                                            </div>
+                                            <div class="col-sm-5 mb-sm-0">
                                                 <div class="form-check">
                                                     <p class="fw-bold h5 text-muted text-uppercase">
-                                                        {{@$item->product_name}}
+                                                        {{@$item->name}}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm">{{@$item->email}}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mb-sm-0">
                                                 <div class="d-flex justify-content-between">
-                                                    <div id="tooltip-container">
-                                                        @if($item->status == 1)
-                                                        <p class="form-check-label small text-capitalize"><span
-                                                                class="badge bg-success-subtle text-success p-1">Active</span>
-                                                        </p>
-                                                        @else
-                                                        <p class="form-check-label small text-capitalize"><span
-                                                                class="badge bg-danger-subtle text-danger p-1">Non
-                                                                Active</span>
-                                                        </p>
-                                                        @endif
-                                                    </div>
-                                                    <div>
+                                                    <div class="mt-2">
                                                         <ul class="list-inline fs-13 text-end">
-                                                            <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-user-settings-line fs-16 me-1'></i>
-                                                                SET SALES
+                                                            <li class="list-inline-item m-2">
+                                                                <i class='ri-qr-code-line text-success fs-16 me-1'></i>
+                                                                {{sprintf("ID-%05d", @$item->id)}}
+                                                            </li>
+                                                            <li class="list-inline-item ms-1 m-2 text-capitalize">
+                                                                <i class='ri-shield-user-line text-success fs-16 me-1'></i>
+                                                                {{@strtolower($item->positions->title)}}
+                                                            </li>
+                                                            <li class="list-inline-item ms-1 m-2 text-capitalize">
+                                                                <i class='ri-map-pin-user-fill text-success fs-16 me-1'></i>
+                                                                {{@strtolower($item->regions->name)}}
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div> <!-- end .d-flex-->
-                                            </div> <!-- end col -->
+                                            </div>
                                         </div>
                                         <!-- end task -->
 
@@ -99,14 +99,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <input type="text" id="products" class="form-control form-control-sm"
+                                        <input type="text" id="sales" class="form-control form-control-sm"
                                             placeholder="Searching...">
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        <select name="" id="status_products" class="form-control form-control-sm">
-                                            <option value="1">Active</option>
-                                            <option value="0">Non Active</option>
-                                        </select>
                                     </div>
                                     <div class="form-group mt-2">
                                         <button class="btn btn-filter btn-sm small btn-primary w-100">Filter</button>
@@ -120,7 +114,7 @@
 
         </div> <!-- end col -->
 
-        {{ $products->links() }}
+        {{ $users->links() }}
 
     </div>
     <!-- end row-->
@@ -132,75 +126,78 @@
         $('.btn-filter').on('click', function (e) {
             e.preventDefault(); // Prevent default form submission behavior
 
-            const productssValue = $('#products').val();
-            const statusValue = $('#status_products').val();
+            const salesValue = $('#sales').val();
 
             // Make an AJAX request to process the filter
             $.ajax({
-                url: '/admin/products/searching/', // Replace with your route URL
-                method: 'GET',
+                url: '{{route("admin.users.sales.searching")}}', // Replace with your route URL
+                dataType: 'json',
+                delay: 250,
                 data: {
-                    status: statusValue,
-                    product: productssValue,
-                    // Include other parameters here if needed
+                    search : salesValue
                 },
                 success: function (response) {
 
-                    console.log(response);
-                    // Update card content with fetched data
-                    const productData = response.productData;
+                    const userData = response.userData;
 
-                    // Clear existing card content before appending new data
                     $('[id^=transactions]').empty();
 
-                    productData.forEach(function (item) {
+                    userData.forEach(function (item) {
                         let statusBadge;
 
-                        if (item.status == 1) {
+                        if (item.account_type == 'ADM') {
                             statusBadge =
-                                `<span class="badge bg-warning-subtle text-primary p-1">Active</span>`;
+                                `<span class="badge bg-warning-subtle text-primary p-1">ADMIN</span>`;
                         } else {
                             statusBadge =
-                                `<span class="badge bg-danger-subtle text-danger p-1">Non Active</span>`;
+                                `<span class="badge bg-danger-subtle text-danger p-1">SALES</span>`;
                         }
 
-                        const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id) }}';
+                        // const encryptedIdTransaction =
+                        //     '{{ Crypt::encryptString($item->id) }}';
 
                         const cardContent = `
-                                <a href="/admin/products//set-sales//${encryptedIdTransaction}">
-                                    <div class="card">
+                                <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
                                         <div class="row justify-content-sm-between">
-                                            <div class="col-sm-6 mb-sm-0">
+                                            <div class="col-md-1">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png"
+                                                    class="w-100" alt="" srcset="">
+                                            </div>
+                                            <div class="col-sm-5 mb-sm-0">
                                                 <div class="form-check">
                                                     <p class="fw-bold h5 text-muted text-uppercase">
-                                                        ${item.product_name}
+                                                        ${item.name}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm">${item.email}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6 mb-sm-0">
                                                 <div class="d-flex justify-content-between">
-                                                    <div class="form-check-label text-muted small text-capitalize">
-                                                        ${statusBadge}
-                                                    </div>
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
+                                                            <li class="list-inline-item">
+                                                                <i class='ri-qr-code-line text-success fs-16 me-1'></i>
+                                                                ${"ID-" + ("00000" + item.id).slice(-5)}
+                                                            </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-user-settings-line fs-16 me-1'></i>
-                                                                SET SALES
+                                                                <i class='ri-shield-user-line text-success fs-16 me-1'></i>
+                                                                // kosong
+                                                            </li>
+                                                            <li class="list-inline-item ms-1 text-capitalize">
+                                                                <i class='ri-map-pin-user-fill text-success fs-16 me-1'></i>
+                                                                {{@strtolower($item->regions->name)}}
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div> <!-- end .d-flex-->
-                                            </div> <!-- end col -->
+                                            </div>
                                         </div>
                                         <!-- end task -->
 
                                     </div> <!-- end card-body-->
                                 </div>
-                                </a>
                             `;
 
                         $('#transactions').append(cardContent);
