@@ -21,15 +21,17 @@ class CustomerController extends Controller
     {
         $level = @Auth::user()->positions->level;
         $region_id = @Auth::user()->region_id;
+        $customer_id = @Auth::user()->customer_type_id;
+        $sub_customer_id = @Auth::user()->sub_customer_type_id;
         $city_id = @Auth::user()->city_id;
         $user_id = @Auth::user()->id;
 
-        $customers = User::join('positions','users.position_unique','=','positions.unique')
+        if(@Auth::user()->positions->level == 2) {
+
+            $customers = User::join('positions','users.position_unique','=','positions.unique')
                             ->join('sales_customers','users.id','=','sales_customers.sales_id')
                             ->join('customers','sales_customers.customer_id','=','customers.id')
                             ->where('positions.level','>=',$level)
-                            ->where('users.region_id','=',$region_id)
-                            ->where('users.city_id','=',$city_id)
                             ->select('customers.id as id',
                                      'customers.name as name',
                                      'customers.customer_number as customer_number',
@@ -37,6 +39,84 @@ class CustomerController extends Controller
                                      'customers.created_at as created_at')
                             ->groupBy('customers.id')
                             ->get();
+
+        }else if(@Auth::user()->positions->level == 3) {
+            if($region_id == null || $customer_id == null || $sub_customer_id == null) {
+                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+
+                return back();
+            }
+
+            $customers = User::join('positions','users.position_unique','=','positions.unique')
+                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
+                            ->join('customers','sales_customers.customer_id','=','customers.id')
+                            ->where('positions.level','>=',$level)
+                            ->where('customers.customer_type_id','=',$customer_id)
+                            ->select('customers.id as id',
+                                     'customers.name as name',
+                                     'customers.customer_number as customer_number',
+                                     'customers.status as status',
+                                     'customers.created_at as created_at')
+                            ->groupBy('customers.id')
+                            ->get();
+
+        }else if(@Auth::user()->positions->level == 4) {
+            if($region_id == null || $customer_id == null || $sub_customer_id == null) {
+                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+
+                return back();
+            }
+
+            $customers = User::join('positions','users.position_unique','=','positions.unique')
+                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
+                            ->join('customers','sales_customers.customer_id','=','customers.id')
+                            ->where('positions.level','>=',$level)
+                            ->where('customers.customer_type_id','=',$customer_id)
+                            ->where('customers.sub_customer_type_id','=',$sub_customer_id)
+                            ->where('customers.region_id','=',$region_id)
+                            ->select('customers.id as id',
+                                     'customers.name as name',
+                                     'customers.customer_number as customer_number',
+                                     'customers.status as status',
+                                     'customers.created_at as created_at')
+                            ->groupBy('customers.id')
+                            ->get();
+        }else if(@Auth::user()->positions->level == 5) {
+            if($region_id == null || $city_id == null || $customer_id == null || $sub_customer_id == null) {
+                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+
+                return back();
+            }
+
+            $customers = User::join('positions','users.position_unique','=','positions.unique')
+                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
+                            ->join('customers','sales_customers.customer_id','=','customers.id')
+                            ->where('positions.level','>=',$level)
+                            ->where('customers.customer_type_id','=',$customer_id)
+                            ->where('customers.sub_customer_type_id','=',$sub_customer_id)
+                            ->where('customers.region_id','=',$region_id)
+                            ->where('customers.city_id','=',$city_id)
+                            ->select('customers.id as id',
+                                     'customers.name as name',
+                                     'customers.customer_number as customer_number',
+                                     'customers.status as status',
+                                     'customers.created_at as created_at')
+                            ->groupBy('customers.id')
+                            ->get();
+        }else{
+            $customers = User::join('positions','users.position_unique','=','positions.unique')
+                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
+                            ->join('customers','sales_customers.customer_id','=','customers.id')
+                            ->where('positions.level','=',$level)
+                            ->where('users.id','=',Auth::user()->id)
+                            ->select('customers.id as id',
+                                     'customers.name as name',
+                                     'customers.customer_number as customer_number',
+                                     'customers.status as status',
+                                     'customers.created_at as created_at')
+                            ->groupBy('customers.id')
+                            ->get();
+        }
 
         return view('customers.index',compact('customers'));
     }
