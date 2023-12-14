@@ -137,7 +137,7 @@
 
             // Make an AJAX request to process the filter
             $.ajax({
-                url: '/admin/products/searching/', // Replace with your route URL
+                url: '/admin/products/searching-products/', // Replace with your route URL
                 method: 'GET',
                 data: {
                     status: statusValue,
@@ -146,8 +146,6 @@
                 },
                 success: function (response) {
 
-                    console.log(response);
-                    // Update card content with fetched data
                     const productData = response.productData;
 
                     // Clear existing card content before appending new data

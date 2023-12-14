@@ -176,13 +176,24 @@ class ProductController extends Controller
      */
     public function searchingProducts(Request $request)
     {
-        $productData = product::join('sales_products','sales_products.product_id','=','products.id')
-                                ->where('products.product_name', 'ILIKE', '%' . $request->product . '%')
-                                ->where('products.status',$request->status)
-                                ->where('sales_id',Auth::user()->id)
+        $productData = product::where('product_name', 'ILIKE', '%' . $request->product . '%')
+                                ->where('status',$request->status)
                                 ->get();
 
-        return response()->json(['productData' => $productData]);
+        $encryptedProductData = [];
+
+        // Encrypting IDs in the customer data
+        foreach ($productData as $item) {
+            $encryptedProductData[] = [
+                'id' => Crypt::encryptString($item->id),
+                'product_name' => $item->product_name,
+                'code' => $item->code,
+                'status' => $item->status
+                // Add other customer properties as needed
+            ];
+        }
+
+        return response()->json(['productData' => $encryptedProductData]);
     }
 
     /**

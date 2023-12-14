@@ -181,18 +181,28 @@ class CustomerController extends Controller
         return view('admin.customers.index',compact('customers'));
     }
 
-    /**
-     * Searching products
-     */
     public function searchingCustomers(Request $request)
     {
-        $productData = customer::join('sales_products','sales_products.product_id','=','products.id')
-                                ->where('products.product_name', 'ILIKE', '%' . $request->product . '%')
-                                ->where('products.status',$request->status)
-                                ->where('sales_id',Auth::user()->id)
+        $customerData = customer::where('name', 'ILIKE', '%' . $request->customer . '%')
+                                ->where('status', $request->status)
                                 ->get();
 
-        return response()->json(['productData' => $productData]);
+        $encryptedCustomerData = [];
+
+        // Encrypting IDs in the customer data
+        foreach ($customerData as $customer) {
+            $encryptedCustomerData[] = [
+                'id' => Crypt::encryptString($customer->id),
+                'customer_number' => $customer->customer_number,
+                'name' => $customer->name,
+                'address' => $customer->address,
+                'customer_type_id' => $customer->customer_type_id,
+                'status' => $customer->status
+                // Add other customer properties as needed
+            ];
+        }
+
+        return response()->json(['customerData' => $encryptedCustomerData]);
     }
 
     /**

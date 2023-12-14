@@ -52,7 +52,11 @@
                                                     <p class="fw-bold h5 text-muted text-uppercase">
                                                         {{@$item->name}}
                                                     </p>
-                                                    <p class="form-check-label text-sm small"><i class="ri-qr-code-line text-success"></i> #{{@$item->customer_number}} <i class="ri-map-pin-range-line text-success"></i>{{@$item->address}}</p>
+                                                    <p class="form-check-label text-sm small"><i
+                                                            class="ri-qr-code-line text-success"></i>
+                                                        #{{@$item->customer_number}} <i
+                                                            class="ri-map-pin-range-line text-success"></i>{{@$item->address}}
+                                                    </p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
@@ -137,52 +141,49 @@
 
             // Make an AJAX request to process the filter
             $.ajax({
-                url: '/admin/products/searching/', // Replace with your route URL
+                url: '/admin/customers/searching-customers/', // Replace with your route URL
                 method: 'GET',
                 data: {
                     status: statusValue,
-                    product: customerValue,
+                    customer: customerValue,
                     // Include other parameters here if needed
                 },
                 success: function (response) {
 
-                    console.log(response);
-                    // Update card content with fetched data
-                    const productData = response.productData;
+                    const customerData = response.customerData;
 
-                    // Clear existing card content before appending new data
+                    console.log(customerData);
+
                     $('[id^=transactions]').empty();
 
-                    productData.forEach(function (item) {
+                    customerData.forEach(function (item) {
                         let statusBadge;
 
                         if (item.status == 1) {
                             statusBadge =
-                                `<span class="badge bg-warning-subtle text-primary p-1">Active</span>`;
+                                `<span class="badge bg-success-subtle text-success p-1">Active</span>`;
                         } else {
                             statusBadge =
                                 `<span class="badge bg-danger-subtle text-danger p-1">Non Active</span>`;
                         }
 
-                        const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id) }}';
-
                         const cardContent = `
-                                <a href="/admin/products//set-sales//${encryptedIdTransaction}">
-                                    <div class="card">
+                                <a href="/admin/customers/set-sales/${item.id}">
+                                <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
                                         <div class="row justify-content-sm-between">
                                             <div class="col-sm-6 mb-sm-0">
                                                 <div class="form-check">
                                                     <p class="fw-bold h5 text-muted text-uppercase">
-                                                        ${item.product_name}
+                                                        ${item.name}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm small"><i class="ri-qr-code-line text-success"></i> #${item.customer_number} <i class="ri-map-pin-range-line text-success"></i>${item.address}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
                                                 <div class="d-flex justify-content-between">
-                                                    <div class="form-check-label text-muted small text-capitalize">
+                                                    <div id="tooltip-container">
                                                         ${statusBadge}
                                                     </div>
                                                     <div>
@@ -199,8 +200,8 @@
                                         <!-- end task -->
 
                                     </div> <!-- end card-body-->
-                                </div>
-                                </a>
+                                </div> <!-- end card -->
+                            </a>
                             `;
 
                         $('#transactions').append(cardContent);

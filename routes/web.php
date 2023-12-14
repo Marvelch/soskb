@@ -117,7 +117,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::post('/store-sales-products/{id}',[ProductController::class,'storeSalesProducts'])->name('admin.store.sales.products');
 
         ## Searching ##
-        Route::get('/searching',[ProductController::class,'searchingProducts'])->name('admin.products.searching');
+        Route::get('/searching-products',[ProductController::class,'searchingProducts'])->name('admin.products.searching');
     });
 
     Route::prefix('customers')->group(function () {
@@ -126,7 +126,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::post('/store-sales-customers/{id}',[CustomerController::class,'store_sales_customer'])->name('admin.store.sales.customer');
 
         ## Searching ##
-        Route::get('/searching',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
+        Route::get('/searching-customers',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
     });
 
     Route::prefix('generals')->group(function () {
