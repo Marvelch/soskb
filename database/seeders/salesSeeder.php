@@ -15,6 +15,7 @@ class salesSeeder extends Seeder
     public function run(): void
     {
         $sales = [
+            'Admin',
             'Lina',
             'Roby',
             'Ridwan',
@@ -26,7 +27,6 @@ class salesSeeder extends Seeder
             'Salsa',
             'Taufik',
             'Dian',
-            'Robby',
             'Aldo',
             'Fadlun Amir',
             'Wahyudi',
@@ -44,43 +44,12 @@ class salesSeeder extends Seeder
             'Agha'
         ];
 
-        $id = [
-            '119593',
-            '119593',
-            '119593',
-            '119593',
-            '119593',
-            '119593',
-            '119593',
-            '183180',
-            '115425',
-            '183180',
-            '98404',
-            '183181',
-            '183180',
-            '183179',
-            '183179',
-            '183179',
-            '135902',
-            '126205',
-            '183179',
-            '183179',
-            '183179',
-            '183179',
-            '183179',
-            '183179',
-            '183179',
-            '126205',
-            '126205'
-        ];
-
         foreach ($sales as $key => $item) {
             User::create([
                 'name' => $item,
-                'email' => $item.'@mail.com',
+                'email' => strtolower(str_replace(' ', '', $item)).'@mail.com',
                 'account_type' => 'USR',
-                'password' => Hash::make('123456789'),
-                'region_id' => $id[$key]
+                'password' => Hash::make('123456789')
             ]);
         }
     }

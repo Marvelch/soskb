@@ -36,8 +36,7 @@
                 <div class="collapse show mt-1" id="transactionList">
                     <div class="row">
                         <div class="col-md-9">
-                            <form action="{{route('admin.users.update',['id'=>Crypt::encryptString($users->id)])}}"
-                                method="post">
+                            <form action="{{route('admin.users.update',['id'=>Crypt::encryptString($users->id)])}}" method="post">
                                 @method('PUT')
                                 @csrf
                                 <div class="card">
@@ -72,8 +71,8 @@
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
                                                     <label for="" class="small">Pilih Posisi / Jabatan</label>
-                                                    <select name="position"
-                                                        class="form-control form-control-sm mt-1" id="position">
+                                                    <select name="position" class="form-control form-control-sm mt-1"
+                                                        id="position">
                                                         {{@$item->unique}}
                                                         @foreach($positions as $item)
                                                         <option value="{{$item->unique}}"
@@ -83,27 +82,37 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6" id="customer">
                                                 <div class="form-group">
-                                                    <label for="" class="small">Pilih Wilayah</label>
-                                                    <select name="region" id="region"
-                                                        class="form-control form-control-sm mt-1 text-capitalize">
-                                                        @foreach($regions as $item)
-                                                        <option value="{{$item->id}}" {{$item->id == $users->region_id ? 'selected' : ''}}>
-                                                            {{@strtolower($item->name)}}
+                                                    <label for="" class="small mb-1">Customer Group</label>
+                                                    <select name="customer"
+                                                        class="customer form-control form-control-sm mt-1">
+                                                        @foreach($customerTypes as $item)
+                                                        <option value="{{$item->id}}">
+                                                            {{@$item->name}}
                                                         </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-6" id="customer">
+                                            <div class="col-6" id="subcustomer">
                                                 <div class="form-group">
-                                                    <label for="" class="small">Tipe Customer</label>
-                                                    <select name="customer"
-                                                        class="form-control form-control-sm mt-1">
-                                                        @foreach($customerTypes as $item)
-                                                        <option value="{{$item->id}}">
-                                                            {{@$item->name}}
+                                                    <label for="" class="small mb-1">Sub Customer Group</label>
+                                                    <select name="subcustomer"
+                                                        class="subcustomer form-control mt-1 form-control-sm mt-1 text-capitalize">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="" class="small">Pilih Wilayah</label>
+                                                    <select name="region" id="region"
+                                                        class="form-control form-control-sm mt-1 text-capitalize">
+                                                        @foreach($regions as $item)
+                                                        <option value="{{$item->id}}"
+                                                            {{$item->id == $users->region_id ? 'selected' : ''}}>
+                                                            {{@strtolower($item->name)}}
                                                         </option>
                                                         @endforeach
                                                     </select>
@@ -115,7 +124,7 @@
 
                                 <div class="card mt-2">
                                     <div class="card-body d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                        <button type="submit" class="btn-submit btn btn-sm btn-primary">Simpan</button>
                                     </div>
                                 </div>
                             </form>
@@ -131,26 +140,60 @@
 
 </div> <!-- container -->
 @push('jsscripts')
-    <script>
-        const position = $('#position option:selected').text();
+<script>
+    const position = $('#position option:selected').text();
 
-        console.log(position);
+    if (position.toLowerCase().replace(/\s/g, '') == 'sales' || position.toLowerCase().replace(/\s/g, '') == 'spv' ||
+        position.toLowerCase().replace(/\s/g, '') == 'supervisor') {
+        $('#customer').show();
+        $('#subcustomer').show();
+    } else {
+        $('#customer').hide();
+        $('#subcustomer').hide();
+    }
 
-        if(position.toLowerCase().replace(/\s/g, '') == 'sales' || position.toLowerCase().replace(/\s/g, '') == 'spv' || position.toLowerCase().replace(/\s/g, '') == 'supervisor') {
+    $('#position').on('change', function () {
+        const valPosition = $(this).find('option:selected').text();
+
+        if (valPosition.toLowerCase().replace(/\s/g, '') == 'sales' || valPosition.toLowerCase().replace(/\s/g,
+                '') == 'spv' || valPosition.toLowerCase().replace(/\s/g, '') == 'supervisor') {
             $('#customer').show();
-        }else{
+            $('#subcustomer').show();
+        } else {
             $('#customer').hide();
+            $('#subcustomer').hide();
         }
+    });
 
-        $('#position').on('change',function(){
-            const valPosition = $(this).find('option:selected').text();
+    // searching products
+    $('.customer').on('change click', function () {
+        $('.subcustomer').val(null);
 
-            if(valPosition.toLowerCase().replace(/\s/g, '') == 'sales' || valPosition.toLowerCase().replace(/\s/g, '') == 'spv' || valPosition.toLowerCase().replace(/\s/g, '') == 'supervisor') {
-                $('#customer').show();
-            }else{
-                $('#customer').hide();
+        var customer_id = $(this).find('option:selected').val();
+
+        $('.subcustomer').select2({
+            ajax: {
+                url: '{{route("admin.users.sub.customers.searching")}}',
+                dataType: 'json',
+                delay: 250,
+                data: {
+                    customer_id: customer_id
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
             }
         });
-    </script>
+    });
+
+</script>
 @endpush
 @endsection

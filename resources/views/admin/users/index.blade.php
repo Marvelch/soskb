@@ -153,10 +153,8 @@
                                 `<span class="badge bg-danger-subtle text-danger p-1">SALES</span>`;
                         }
 
-                        // const encryptedIdTransaction =
-                        //     '{{ Crypt::encryptString($item->id) }}';
-
                         const cardContent = `
+                            <a href="/admin/users/edit/${item.id}">
                                 <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
@@ -183,7 +181,7 @@
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
                                                                 <i class='ri-shield-user-line text-success fs-16 me-1'></i>
-                                                                // kosong
+
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
                                                                 <i class='ri-map-pin-user-fill text-success fs-16 me-1'></i>
@@ -198,6 +196,7 @@
 
                                     </div> <!-- end card-body-->
                                 </div>
+                            </a>
                             `;
 
                         $('#transactions').append(cardContent);

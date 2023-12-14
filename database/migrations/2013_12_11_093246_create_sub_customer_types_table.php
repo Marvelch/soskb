@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('region_id')->nullable();
-            $table->foreign('region_id')->references('id')->on('regions');
-            $table->unsignedBigInteger('customer_type_id')->nullable();
+        Schema::create('sub_customer_types', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('customer_type_id');
             $table->foreign('customer_type_id')->references('id')->on('customer_types');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -24,9 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('region_id');
-            $table->dropColumn('customer_type_id');
-        });
+        Schema::dropIfExists('sub_customer_types');
     }
 };

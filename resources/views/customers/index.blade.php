@@ -20,7 +20,7 @@
                         @else
                         <p class="bg-danger text-white py-1 px-2 mb-0 rounded small">Not active</p>
                         @endif
-                        <p class="text-muted ms-auto small mb-0"><i class="icofont-clock-time"></i> {{date('d/m/Y',strtotime(@$item->created_at))}} | {{@$item->customer_number}}</p>
+                        <p class="text-muted ms-auto small mb-0"><i class="icofont-clock-time"></i> {{date('d-m-Y',strtotime(@$item->created_at))}} | {{@$item->customer_number}}</p>
                     </div>
                     <div class="d-flex">
                         <p class="text-dark m-0 fw-bold">{{@$item->name}}<br>

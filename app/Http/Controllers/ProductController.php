@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
+Use Alert;
 use DB;
 use Auth;
 
@@ -19,18 +20,94 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $usersRegions = @Auth::user()->regions->code;
+        $regions = @Auth::user()->region_id;
+        $city = @Auth::user()->city_id;
+        $customerType = @Auth::user()->customer_type_id;
+        $subCustomerType = @Auth::user()->sub_customer_type_id;
+        $level = @Auth::user()->positions->level;
 
-        if(Auth::user()->positions->level == 5) { // Supervisor
-            $products = product::join('sales_products','sales_products.product_id','=','products.id')
-                                ->where('sales_id',Auth::user()->id)
-                                ->get();
+        if(@Auth::user()->positions->level == 2) {
+             $products = User::join('sales_products', 'users.id', '=', 'sales_products.sales_id')
+                ->join('products', 'sales_products.product_id', '=', 'products.id')
+                ->where('products.status',1)
+                ->select('products.id as id',
+                         'products.product_name as product_name',
+                         'products.code as code',
+                         'products.status as status')
+                ->groupBy('products.id')
+                ->get();
+        }else if(@Auth::user()->positions->level == 3) {
+             if($customerType == null) {
+                toast('Regions & City Not Found','error');
+
+                return back();
+             }
+
+             $products = User::join('sales_products', 'users.id', '=', 'sales_products.sales_id')
+                ->join('products', 'sales_products.product_id', '=', 'products.id')
+                ->join('positions','users.position_unique','=','positions.unique')
+                ->where('users.customer_type_id','=',$customerType)
+                ->where('positions.level','>=',$level)
+                ->where('products.status',1)
+                ->select('products.id as id',
+                         'products.product_name as product_name',
+                         'products.code as code',
+                         'products.status as status')
+                ->groupBy('products.id')
+                ->get();
+        }else if(@Auth::user()->positions->level == 4) {
+            if($regions == null || $customerType == null  || $subCustomerType == null) {
+                toast('Regions, City & Customer Type Not Found','error');
+
+                return back();
+             }
+
+            $products = User::join('regions', 'users.region_id', '=', 'regions.id')
+                ->join('cities', 'regions.id', '=', 'cities.region_id')
+                ->join('sales_products', 'users.id', '=', 'sales_products.sales_id')
+                ->join('products', 'sales_products.product_id', '=', 'products.id')
+                ->join('positions','users.position_unique','=','positions.unique')
+                ->where('users.customer_type_id','=',$customerType)
+                ->where('users.sub_customer_type_id','=',$subCustomerType)
+                ->where('positions.level','>=',$level)
+                ->where('users.region_id', '=', $regions)
+                ->where('products.status',1)
+                ->select('products.id as id',
+                         'products.product_name as product_name',
+                         'products.code as code',
+                         'products.status as status')
+                ->groupBy('products.id')
+                ->get();
+        }else if(@Auth::user()->positions->level == 5) { // Supervisor
+            if($regions == null || $city == null || $customerType == null || $subCustomerType == null) {
+                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+
+                return back();
+             }
+
+            $products = User::join('regions', 'users.region_id', '=', 'regions.id')
+                ->join('cities', 'regions.id', '=', 'cities.region_id')
+                ->join('sales_products', 'users.id', '=', 'sales_products.sales_id')
+                ->join('products', 'sales_products.product_id', '=', 'products.id')
+                ->join('positions','users.position_unique','=','positions.unique')
+                ->where('users.customer_type_id','=',$customerType)
+                ->where('users.sub_customer_type_id','=',$subCustomerType)
+                ->where('positions.level','>=',$level)
+                ->where('users.region_id', '=', $regions)
+                ->where('users.city_id', '=', $city)
+                ->where('products.status',1)
+                ->select('products.id as id',
+                         'products.product_name as product_name',
+                         'products.code as code',
+                         'products.status as status')
+                ->groupBy('products.id')
+                ->get();
         }else{
             $products = product::join('sales_products','sales_products.product_id','=','products.id')
                             ->where('sales_id',Auth::user()->id)
+                            ->where('products.status',true)
                             ->get();
         }
-
 
         return view('products.index',compact('products'));
     }

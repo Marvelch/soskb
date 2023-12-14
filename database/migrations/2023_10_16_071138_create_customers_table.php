@@ -16,8 +16,14 @@ return new class extends Migration
             $table->string('customer_number');
             $table->string('name');
             $table->string('address')->nullable();
-            $table->string('customer_type_name')->nullable();
-            $table->string('province')->nullable();
+            $table->unsignedBigInteger('customer_type_id')->nullable();
+            $table->foreign('customer_type_id')->references('id')->on('customer_types');
+            $table->unsignedBigInteger('sub_customer_type_id')->nullable();
+            $table->foreign('sub_customer_type_id')->references('id')->on('sub_customer_types');
+            $table->unsignedBigInteger('region_id')->nullable();
+            $table->foreign('region_id')->references('id')->on('regions');
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->boolean('status')->default(1);

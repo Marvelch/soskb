@@ -2,6 +2,7 @@
 <html lang="en">
    @include('tamplate.head')
    <body class="fixed-bottom-padding">
+    @include('sweetalert::alert')
       <!-- <div class="theme-switch-wrapper">
          <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox" />

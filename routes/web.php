@@ -150,5 +150,6 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
 
         ## Searching ##
         Route::get('/searching',[UserController::class,'searching_users_sales'])->name('admin.users.sales.searching');
+        Route::get('/searching/sub-customer-type',[UserController::class,'searching_sub_customer_type'])->name('admin.users.sub.customers.searching');
     });
 });

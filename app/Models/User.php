@@ -24,7 +24,8 @@ class User extends Authenticatable
         'account_type',
         'position_unique',
         'region_id',
-        'customer_type_id'
+        'customer_type_id',
+        'sub_customer_type_id'
     ];
 
     /**

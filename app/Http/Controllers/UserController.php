@@ -6,6 +6,7 @@ use App\Models\customerType;
 use App\Models\position;
 use App\Models\region;
 use App\Models\sales;
+use App\Models\subCustomerType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -46,7 +47,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $users = User::find(Crypt::decryptString($id));
+        $users = User::find($id);
 
         $positions = position::all();
 
@@ -70,7 +71,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         DB::beginTransaction();
 
         try {
@@ -80,13 +80,15 @@ class UserController extends Controller
                 User::find(Crypt::decryptString($id))->update([
                     'password' => @Hash::make($request->password),
                     'position_unique' => $request->position,
-                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' ? $request->customer : null,
+                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->customer : null,
+                    'sub_customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->subCustomer : null,
                     'region_id' => $request->region
                 ]);
             }else{
                 User::find(Crypt::decryptString($id))->update([
                     'position_unique' => $request->position,
-                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' ? $request->customer : null,
+                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->customer : null,
+                    'sub_customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->subCustomer : null,
                     'region_id' => $request->region
                 ]);
             }
@@ -127,4 +129,17 @@ class UserController extends Controller
 
         return response()->json(['userData' => $userData]);
     }
+
+    /**
+     * Searching sub customer type.
+     */
+    public function searching_sub_customer_type(Request $request)
+    {
+        $data = subCustomerType::where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('customer_type_id',$request->customer_id)
+                            ->get();
+
+        return response()->json($data);
+    }
+
 }

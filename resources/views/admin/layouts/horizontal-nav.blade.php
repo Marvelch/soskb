@@ -38,12 +38,17 @@
                             <a href="apps-file-manager.php" class="dropdown-item">File Manager</a> -->
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                     <li class="nav-item">
+                        <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
+                            <i class="ri-shopping-bag-line"></i>Products
+                        </a>
+                    </li>
+                    <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-instance-line"></i>Products <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-pages">
-                            <!-- <div class="dropdown">
+                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-auth" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Authenitication <div class="arrow-down"></div>
                                 </a>
@@ -72,24 +77,23 @@
                                     <a href="error-500.php" class="dropdown-item">Error 500</a>
                                 </div>
                             </div> -->
-                            <a href="{{route('admin.products.index')}}" class="dropdown-item">List Products</a>
+                            <!-- <a href="{{route('admin.products.index')}}" class="dropdown-item">List Products</a> -->
                             <!-- <a href="pages-preloader.php" class="dropdown-item">With Preloader</a>
                             <a href="pages-profile.php" class="dropdown-item">Profile</a>
                             <a href="pages-invoice.php" class="dropdown-item">Invoice</a>
                             <a href="pages-faq.php" class="dropdown-item">FAQ</a>
                             <a href="pages-pricing.php" class="dropdown-item">Pricing</a>
                             <a href="pages-maintenance.php" class="dropdown-item">Maintenance</a>
-                            <a href="pages-timeline.php" class="dropdown-item">Timeline</a> -->
+                            <a href="pages-timeline.php" class="dropdown-item">Timeline</a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-user-follow-line"></i>Users <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="{{route('admin.users')}}" class="dropdown-item">User</a>
-                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">Customer</a>
-                            <a href="{{route('admin.users')}}" class="dropdown-item">Sales</a>
+                            <a href="{{route('admin.users')}}" class="dropdown-item">User Accounts</a>
+                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">Customers</a>
                             <!--<div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Sales <div class="arrow-down"></div>
@@ -192,7 +196,7 @@
                     </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-leaf-fill"></i>General <div class="arrow-down"></div>
+                            <i class="ri-route-line"></i>General <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-layouts">
                             <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure Organization </a>
