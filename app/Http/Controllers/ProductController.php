@@ -188,7 +188,8 @@ class ProductController extends Controller
                 'id' => Crypt::encryptString($item->id),
                 'product_name' => $item->product_name,
                 'code' => $item->code,
-                'status' => $item->status
+                'status' => $item->status,
+                'created_at' => $item->created_at
                 // Add other customer properties as needed
             ];
         }

@@ -297,6 +297,8 @@ class SalesOrderController extends Controller
             DB::rollback();
 
             toast($th->getMessage(),'error');
+
+            return back();
         }
     }
 

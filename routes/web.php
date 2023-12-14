@@ -124,9 +124,13 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/',[CustomerController::class,'index_customer'])->name('admin.customers.index');
         Route::get('/set-sales/{id}',[CustomerController::class,'sales_customer'])->name('admin.customers.set.sales');
         Route::post('/store-sales-customers/{id}',[CustomerController::class,'store_sales_customer'])->name('admin.store.sales.customer');
+        Route::get('/create',[CustomerController::class,'create'])->name('admin.customers.create');
+        Route::post('/store',[CustomerController::class,'store'])->name('admin.customers.store');
 
         ## Searching ##
         Route::get('/searching-customers',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
+        Route::get('/searching-sub-customers-type',[CustomerController::class,'searchingSubCustomersType'])->name('admin.sub.customers.type.searching');
+        Route::get('/searching-city',[CustomerController::class,'searchingCity'])->name('admin.city.searching');
     });
 
     Route::prefix('generals')->group(function () {

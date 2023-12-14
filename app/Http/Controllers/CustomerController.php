@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\city;
 use App\Models\customer;
 use App\Models\customerTemp;
+use App\Models\customerType;
 use App\Models\product;
+use App\Models\region;
 use App\Models\salesCustomer;
+use App\Models\subCustomerType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -126,7 +130,11 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        $customerData = customerType::all();
+
+        $regionData = region::all();
+
+        return view('admin.customers.create',compact('customerData','regionData'));
     }
 
     /**
@@ -134,7 +142,46 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'customer_number' => 'required',
+            'name' => 'required|unique:customers',
+            'address' => 'required',
+            'customer_type_id' => 'required',
+            'sub_customer_type_id' => 'required',
+            'region_id' => 'required',
+            'city_id' => 'required'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            customer::create([
+                'customer_number' => $request->customer_number,
+                'name' => $request->name,
+                'address' => $request->address,
+                'customer_type_id' => $request->customer_type_id,
+                'sub_customer_type_id' => $request->customer_type_id,
+                'region_id' => $request->region_id,
+                'city_id' => $request->city_id,
+                'created_by' => Auth::user()->id
+            ]);
+
+            DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return redirect()->route('admin.customers.index');
+        } catch (\Throwable $th) {
+
+            DB::rollback();
+
+            // toast($th->getMessage(),'error');
+
+            // return back();
+
+            return $th;
+
+        }
     }
 
     /**
@@ -197,12 +244,37 @@ class CustomerController extends Controller
                 'name' => $customer->name,
                 'address' => $customer->address,
                 'customer_type_id' => $customer->customer_type_id,
-                'status' => $customer->status
+                'status' => $customer->status,
+                'created_at' => $customer->created_at
                 // Add other customer properties as needed
             ];
         }
 
         return response()->json(['customerData' => $encryptedCustomerData]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function searchingSubCustomersType(Request $request)
+    {
+        $data = subCustomerType::where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                                ->where('customer_type_id',$request->customer)
+                                ->get();
+
+        return response()->json($data);
+    }
+
+     /**
+     * City search from area value
+     */
+    public function searchingCity(Request $request)
+    {
+        $data = city::where('city_name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('region_id',$request->region)
+                            ->get();
+
+        return response()->json($data);
     }
 
     /**
