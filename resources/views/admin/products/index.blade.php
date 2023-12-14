@@ -156,7 +156,7 @@
 
                         if (item.status == 1) {
                             statusBadge =
-                                `<span class="badge bg-warning-subtle text-primary p-1">Active</span>`;
+                                `<span class="badge bg-success-subtle text-success p-1">Active</span>`;
                         } else {
                             statusBadge =
                                 `<span class="badge bg-danger-subtle text-danger p-1">Non Active</span>`;
