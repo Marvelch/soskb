@@ -201,7 +201,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, customer $customer)
+    public function update_admin(Request $request, $id)
     {
         //
     }
@@ -336,4 +336,48 @@ class CustomerController extends Controller
 
         return view('admin.customers.edit',compact('customerData','regionData','customerDataUsers'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    // public function update_admin(Request $request, $id)
+    // {
+        // $request->validate([
+        //     'customer_number' => 'required',
+        //     'name' => 'required|unique:customers',
+        //     'address' => 'required',
+        //     'customer_type_id' => 'required',
+        //     'sub_customer_type_id' => 'required',
+        //     'region_id' => 'required',
+        //     'city_id' => 'required'
+        // ]);
+
+        // DB::beginTransaction();
+
+        // try {
+        //     customer::find()->([
+        //         'customer_number' => $request->customer_number,
+        //         'name' => $request->name,
+        //         'address' => $request->address,
+        //         'customer_type_id' => $request->customer_type_id,
+        //         'sub_customer_type_id' => $request->customer_type_id,
+        //         'region_id' => $request->region_id,
+        //         'city_id' => $request->city_id,
+        //         'created_by' => Auth::user()->id
+        //     ]);
+
+        //     DB::commit();
+
+        //     toast('Transaction Has Been Successful','success');
+
+        //     return redirect()->route('admin.customers.index');
+        // } catch (\Throwable $th) {
+
+        //     DB::rollback();
+
+        //     toast($th->getMessage(),'error');
+
+        //     return back();
+        // }
+    // }
 }

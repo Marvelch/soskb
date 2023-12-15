@@ -184,8 +184,6 @@
 
 </div> <!-- container -->
 <script>
-    var subCustomerType = new Option(<?php echo json_encode($customerDataUsers->subCustomerType->name) ?>, <?php echo json_encode($customerDataUsers->subCustomerType->id) ?>, false, false);
-    $('#subCustomer').append(subCustomerType).trigger('change');
 
     $('document').ready(function () {
 

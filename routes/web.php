@@ -127,6 +127,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/create',[CustomerController::class,'create'])->name('admin.customers.create');
         Route::post('/store',[CustomerController::class,'store'])->name('admin.customers.store');
         Route::get('/edit/{id}',[CustomerController::class,'edit_admin'])->name('admin.customers.edit');
+        Route::get('/update/{id}',[CustomerController::class,'update_admin'])->name('admin.customers.update');
 
         ## Searching ##
         Route::get('/searching-customers',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
