@@ -72,9 +72,11 @@
                                                                 Non Active
                                                                 @endif
                                                             </li>
-                                                            <li class="list-inline-item ms-1 m-2 text-capitalize">
-                                                                <i class='ri-edit-2-fill text-success fs-16 me-1'></i>
-                                                                Edit
+                                                            <li class="list-inline-item ms-1 m-2 text-capitalize" style="text-decoration: none;">
+                                                                <a href="{{route('admin.customers.edit',['id'=>Crypt::encryptString($item->id)])}}">
+                                                                    <i class='ri-edit-2-fill text-success fs-16 me-1'></i>
+                                                                    <span style="color: #7f80a7;">Edit</span>
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                 </div> <!-- end .d-flex-->

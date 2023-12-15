@@ -15,10 +15,17 @@ class customer extends Model
         'customer_number',
         'name',
         'address',
-        'customer_type_name',
-        'province',
+        'customer_type_id',
+        'sub_customer_type_id',
+        'region_id',
+        'city_id',
         'created_by',
         'status',
         'changed_by'
     ];
+
+    public function subCustomerType()
+    {
+        return $this->belongsTo(subCustomerType::class,'customer_type_id','id');
+    }
 }

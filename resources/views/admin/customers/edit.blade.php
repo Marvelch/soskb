@@ -11,7 +11,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Customers</a></li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
                 <!-- <h4 class="page-title">Add Customers</h4> -->
@@ -21,7 +21,7 @@
 
     <div class="row">
         <div class="col-xl-8 col-lg-7">
-            <form action="{{route('admin.customers.store')}}" method="post">
+            <form action="" method="post">
                 @csrf
                 <!-- project card -->
                 <div class="card d-block">
@@ -32,15 +32,15 @@
 
                         <div class="row m-2">
                             <div class="col-md-12">
-                                <h4 class="text-muted">Add Customers</h4>
-                                <p class="small text-muted">Perhatikan poses penginputan <u>customer</u> untuk mengisi
+                                <h4 class="text-muted">Edit Customers</h4>
+                                <p class="small text-muted">Perhatikan poses perubahaan <u>customer</u> untuk mengisi
                                     semua
                                     kolom sesuai kebutuhan sales dan laporan akhir.</p>
                                 <!-- assignee -->
                                 <p class="mt-2 mb-1 text-muted mt-4 small">Customer Name</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="name" class="form-control form-control-sm" required>
+                                        <input type="text" name="name" class="form-control form-control-sm" value="{{$customerDataUsers->name}}" required>
                                         @error('name')
                                             <p class="text-danger small">{{ $message }}</p>
                                         @enderror
@@ -55,7 +55,7 @@
                                 <p class="mt-2 mb-1 text-muted small">CN ERP / Accurate</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="customer_number" class="form-control form-control-sm"
+                                        <input type="text" name="customer_number" class="form-control form-control-sm" value="{{$customerDataUsers->customer_number}}"
                                             required>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                 <p class="mt-2 mb-1 text-muted small">Address</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="address" class="form-control form-control-sm" required>
+                                        <input type="text" name="address" class="form-control form-control-sm" value="{{$customerDataUsers->address}}" required>
                                     </div>
                                 </div>
                                 <!-- end due date -->
@@ -184,6 +184,9 @@
 
 </div> <!-- container -->
 <script>
+    var subCustomerType = new Option(<?php echo json_encode($customerDataUsers->subCustomerType->name) ?>, <?php echo json_encode($customerDataUsers->subCustomerType->id) ?>, false, false);
+    $('#subCustomer').append(subCustomerType).trigger('change');
+
     $('document').ready(function () {
 
         $('#customer').on('change click', function () {

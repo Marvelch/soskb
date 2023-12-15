@@ -13,6 +13,7 @@ use App\Models\subCustomerType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use DB;
 use Auth;
 
@@ -175,12 +176,9 @@ class CustomerController extends Controller
 
             DB::rollback();
 
-            // toast($th->getMessage(),'error');
+            toast($th->getMessage(),'error');
 
-            // return back();
-
-            return $th;
-
+            return back();
         }
     }
 
@@ -326,5 +324,16 @@ class CustomerController extends Controller
 
             return back();
         }
+    }
+
+    public function edit_admin(customer $customer, $id)
+    {
+        $customerDataUsers = customer::where('id',Crypt::decryptString($id))->first();
+
+        $customerData = customerType::all();
+
+        $regionData = region::all();
+
+        return view('admin.customers.edit',compact('customerData','regionData','customerDataUsers'));
     }
 }

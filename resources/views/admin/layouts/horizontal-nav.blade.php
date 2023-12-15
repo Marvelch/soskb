@@ -92,7 +92,7 @@
                             <i class="ri-user-follow-line"></i>Users <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="{{route('admin.users')}}" class="dropdown-item">User Accounts</a>
+                            <a href="{{route('admin.users')}}" class="dropdown-item">Users</a>
                             <a href="{{route('admin.customers.index')}}" class="dropdown-item">Customers</a>
                             <!--<div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
