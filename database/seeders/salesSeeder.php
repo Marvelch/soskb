@@ -34,7 +34,6 @@ class salesSeeder extends Seeder
             'Ujang',
             'Fajar',
             'BAGUS KETUT',
-            'FAJAR',
             'AL',
             'TSALIS',
             'Vacant ASPR Tangerang',
