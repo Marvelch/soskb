@@ -6,7 +6,7 @@
         <div class="d-flex align-items-center">
             <a class="fw-bold text-success text-decoration-none" href="{{route('on_progress_transaction')}}">
                 <i class="icofont-rounded-left back-page"></i></a>
-            <span class="fw-bold ms-3 h6 mb-0">ID #{{@$transactions->id_transaction}}</span>
+            <span class="fw-bold ms-3 h6 mb-0">History Transaction</span>
         </div>
     </div>
     <!-- status complete -->
@@ -14,7 +14,7 @@
         <p class="m-0"><i class="icofont-ui-calendar"></i> <span
                 style="margin-left: 10px;">{{date('d F',strtotime(@$transactions->so_date))}},
                 {{date('Y',strtotime(@$transactions->so_date))}}</span></p>
-        <a disabled class="text-success ms-auto text-decoration-none">Tanggal Sales Order</a>
+        <a disabled class="text-success ms-auto text-decoration-none">#{{@$transactions->id_transaction}}</a>
     </div>
     <div class="p-3 border-bottom">
         <h6 class="fw-bold">Order Status</h6>
@@ -60,7 +60,7 @@
     <div class="p-3 border-bottom bg-white">
         <h6 class="fw-bold">Customers</h6>
         <p class="m-0 small">{{@$transactions->customers->name}}</p>
-        <p class="m-0 text-muted" style="font-size: 10px;">{{@$transactions->customers->address}}</p>
+        <p class="m-0 text-muted text-capitalize" style="font-size: 10px;">{{strtolower(@$transactions->customers->address)}}</p>
     </div>
     <div class="p-3 border-bottom">
         <p class="fw-bold small mb-1">Information : {{@$transactions->information}}</p>

@@ -27,15 +27,17 @@ class ProductController extends Controller
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {
-             $products = User::join('sales_products', 'users.id', '=', 'sales_products.sales_id')
-                ->join('products', 'sales_products.product_id', '=', 'products.id')
-                ->where('products.status',1)
-                ->select('products.id as id',
-                         'products.product_name as product_name',
-                         'products.code as code',
-                         'products.status as status')
-                ->groupBy('products.id')
-                ->get();
+            //  $products = User::join('sales_products', 'users.id', '=', 'sales_products.sales_id')
+            //     ->join('products', 'sales_products.product_id', '=', 'products.id')
+            //     ->where('products.status',1)
+            //     ->select('products.id as id',
+            //              'products.product_name as product_name',
+            //              'products.code as code',
+            //              'products.status as status')
+            //     ->groupBy('products.id')
+            //     ->get();
+
+            $products = product::all();
         }else if(@Auth::user()->positions->level == 3) {
              if($customerType == null) {
                 toast('Regions & City Not Found','error');

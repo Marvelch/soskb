@@ -5,119 +5,112 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-xxl-8">
-            <!-- start page title -->
+        <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
-                    <!-- <div class="app-search">
-                        <form>
-                            <div class="mb-2 position-relative">
-                                <input type="text" class="form-control border border-dark border-opacity-10" id="searchInput"
-                                    placeholder="Search Customer...">
-                                <span class="ri-search-line search-icon"></span>
-                            </div>
-                        </form>
-                    </div> -->
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                        <li class="breadcrumb-item active">List Users</li>
+                    </ol>
                 </div>
-                <h4 class="page-title">
-                    List Users
-                </h4>
+                <!-- <h4 class="page-title">Add Customers</h4> -->
             </div>
-            <!-- end page title -->
+        </div>
+    </div>
 
-            <!-- tasks panel -->
-            <div class="mt-2">
-                <!-- <div class="row">
-                    <div class="d-flex flex-row-reverse bd-highlight">
-                        <div class="p-1 bd-highlight mt-1"><i class="ri-search-line"></i></div>
-                        <div class="p-1 bd-highlight"><input type="date" name="" id="" class="form-control form-control-sm" value="{{@date('Y-m-d',strtotime(now()))}}">
-                        </div>
-                        <div class="p-1 bd-highlight"><input type="date" name="" id="" class="form-control form-control-sm" value="{{@date('Y-m-d',strtotime(now()))}}">
-                        </div>
-                    </div>
-                </div> -->
-                <div class="collapse show mt-1" id="transactionList">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div id="transactions"></div>
-                            @foreach($users as $item)
-                            <a href="{{route('admin.users.edit',['id'=>Crypt::encryptString($item->id)])}}"
-                                id="transactions">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <!-- task -->
-                                        <div class="row justify-content-sm-between">
-                                            <div class="col-md-1">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png"
-                                                    class="w-100" alt="" srcset="">
-                                            </div>
-                                            <div class="col-sm-5 mb-sm-0">
-                                                <div class="form-check">
-                                                    <p class="fw-bold h5 text-muted text-uppercase">
-                                                        {{@$item->name}}
-                                                    </p>
-                                                    <p class="form-check-label text-sm">{{@$item->email}}</p>
-                                                </div> <!-- end checkbox -->
-                                            </div> <!-- end col -->
-                                            <div class="col-sm-6 mb-sm-0">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="mt-2">
-                                                        <ul class="list-inline fs-13 text-end">
-                                                            <li class="list-inline-item m-2">
-                                                                <i class='ri-qr-code-line text-success fs-16 me-1'></i>
-                                                                {{sprintf("ID-%05d", @$item->id)}}
-                                                            </li>
-                                                            <li class="list-inline-item ms-1 m-2 text-capitalize">
-                                                                <i class='ri-shield-user-line text-success fs-16 me-1'></i>
-                                                                {{@strtolower($item->positions->title)}}
-                                                            </li>
-                                                            <li class="list-inline-item ms-1 m-2 text-capitalize">
-                                                                <i class='ri-map-pin-user-fill text-success fs-16 me-1'></i>
-                                                                {{@strtolower($item->regions->name)}}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div> <!-- end .d-flex-->
-                                            </div>
-                                        </div>
-                                        <!-- end task -->
+    <div class="row">
 
-                                    </div> <!-- end card-body-->
-                                </div> <!-- end card -->
-                            </a>
-                            @endforeach
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-start">
-                                        <i class="ri-filter-2-line fs-18 text-success me-1"></i>
-                                        <div class="w-100">
-                                            <h5 class="mt-1 text-capitalize">
-                                                FILTER
-                                            </h5>
-                                        </div>
+        <!-- tasks panel -->
+        <div class="collapse show mt-1" id="transactionList">
+            <div class="row">
+                <div class="col-md-9">
+                    @foreach($users as $item)
+                    <div id="transactions">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- task -->
+                                <div class="row justify-content-sm-between">
+                                    <div class="col-md-1">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png" class="w-100"
+                                            alt="" srcset="">
                                     </div>
-                                    <div class="form-group mt-2">
-                                        <input type="text" id="sales" class="form-control form-control-sm"
-                                            placeholder="Searching...">
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        <button class="btn btn-filter btn-sm small btn-primary w-100">Filter</button>
+                                    <div class="col-sm-5">
+                                        <div class="form-check">
+                                            <a href="{{route('admin.users.edit',['id'=>Crypt::encryptString($item->id)])}}">
+                                                <p class="fw-bold h5 text-primary text-muted text-uppercase"
+                                                    style="padding-top: 5px;">
+                                                    {{@$item->name}}
+                                                </p>
+                                            </a>
+                                            <p class="form-check-label text-muted" style="font-size: 12px;">
+                                                {{@$item->email}}</p>
+                                        </div> <!-- end checkbox -->
+                                    </div> <!-- end col -->
+                                    <div class="col-sm-6">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="mt-2">
+                                                <ul class="list-inline fs-13 text-end">
+                                                    <li class="list-inline-item">
+                                                        <i class='ri-qr-code-line text-success fs-16'></i>
+                                                        {{sprintf("ID-%05d", @$item->id)}}
+                                                    </li>
+                                                    <li class="list-inline-item ms-1 text-capitalize">
+                                                        @if(@$item->positions->title)
+                                                        <i class='ri-medal-2-fill text-success fs-16'></i>
+                                                        {{strtolower(@$item->positions->title)}}
+                                                        @endif
+                                                    </li>
+                                                    <li class="list-inline-item ms-1 text-capitalize">
+                                                        @if(@$item->account_type)
+                                                        <i class='ri-account-circle-line text-success fs-16'></i>
+                                                        {{strtolower(@$item->account_type == 'USR' ? 'Basic' : 'Administrator')}}
+                                                        @endif
+                                                    </li>
+                                                    <li class="list-inline-item ms-1 text-capitalize">
+                                                        <i class='ri-edit-2-fill text-success fs-16'></i>
+                                                        Edit
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> <!-- end .d-flex-->
                                     </div>
                                 </div>
+                                <!-- end task -->
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card -->
+                    </div>
+                    @endforeach
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start">
+                                <i class="ri-filter-2-line fs-18 text-success me-1"></i>
+                                <div class="w-100">
+                                    <h5 class="mt-1 small">
+                                        FILTER
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="text" id="sales" class="form-control form-control-sm"
+                                    placeholder="Name Users">
+                            </div>
+                            <div class="form-group mt-2">
+                                <button class="btn btn-filter btn-sm small btn-primary w-100">Searching</button>
                             </div>
                         </div>
                     </div>
-                </div> <!-- end .collapse-->
-            </div> <!-- end .mt-2-->
+                </div>
+            </div>
+        </div> <!-- end .collapse-->
 
-        </div> <!-- end col -->
+    </div> <!-- end col -->
 
-        {{ $users->links() }}
+    {{ $users->links() }}
 
-    </div>
-    <!-- end row-->
+</div>
+<!-- end row-->
 
 </div> <!-- container -->
 @push('jsscripts')
@@ -134,7 +127,7 @@
                 dataType: 'json',
                 delay: 250,
                 data: {
-                    search : salesValue
+                    search: salesValue
                 },
                 success: function (response) {
 
@@ -143,49 +136,53 @@
                     $('[id^=transactions]').empty();
 
                     userData.forEach(function (item) {
-                        let statusBadge;
+                        let position;
 
-                        if (item.account_type == 'ADM') {
-                            statusBadge =
-                                `<span class="badge bg-warning-subtle text-primary p-1">ADMIN</span>`;
-                        } else {
-                            statusBadge =
-                                `<span class="badge bg-danger-subtle text-danger p-1">SALES</span>`;
+                        if (item.position) {
+                            position =
+                                `<i class='ri-medal-2-fill text-success fs-16'></i>.${item.position}`;
                         }
 
                         const cardContent = `
-                            <a href="/admin/users/edit/${item.id}">
+                            <div id="transactions">
                                 <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
                                         <div class="row justify-content-sm-between">
                                             <div class="col-md-1">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png"
-                                                    class="w-100" alt="" srcset="">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/599/599305.png" class="w-100"
+                                                    alt="" srcset="">
                                             </div>
-                                            <div class="col-sm-5 mb-sm-0">
+                                            <div class="col-sm-5">
                                                 <div class="form-check">
-                                                    <p class="fw-bold h5 text-muted text-uppercase">
+                                                <a href="/admin/users/edit/${item.idEncrypt}">
+                                                    <p class="fw-bold h5 text-primary text-muted text-uppercase" style="padding-top: 5px;">
                                                         ${item.name}
                                                     </p>
-                                                    <p class="form-check-label text-sm">${item.email}</p>
+                                                    </a>
+                                                    <p class="form-check-label text-muted" style="font-size: 12px;">${item.email}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
-                                            <div class="col-sm-6 mb-sm-0">
+                                            <div class="col-sm-6">
                                                 <div class="d-flex justify-content-between">
-                                                    <div>
+                                                    <div class="mt-2">
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item">
-                                                                <i class='ri-qr-code-line text-success fs-16 me-1'></i>
+                                                                <i class='ri-qr-code-line text-success fs-16'></i>
                                                                 ${"ID-" + ("00000" + item.id).slice(-5)}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-shield-user-line text-success fs-16 me-1'></i>
-
+                                                                ${position}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-map-pin-user-fill text-success fs-16 me-1'></i>
-                                                                {{@strtolower($item->regions->name)}}
+                                                                @if(@$item->regions->name)
+                                                                <i class='ri-map-pin-user-fill text-success fs-16'></i>
+                                                                {{strtolower(@$item->regions->name)}}
+                                                                @endif
+                                                            </li>
+                                                            <li class="list-inline-item ms-1 text-capitalize">
+                                                                <i class='ri-edit-2-fill text-success fs-16'></i>
+                                                                Edit
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -193,12 +190,10 @@
                                             </div>
                                         </div>
                                         <!-- end task -->
-
                                     </div> <!-- end card-body-->
-                                </div>
-                            </a>
+                                </div> <!-- end card -->
+                            </div>
                             `;
-
                         $('#transactions').append(cardContent);
                     });
                 },

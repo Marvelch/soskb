@@ -152,7 +152,7 @@
                     <div class="card-body">
                         <!-- end file preview template -->
                         <div class="form-group d-flex justify-content-end">
-                            <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-sm btn-primary w-25">Simpan</button>
                         </div>
                         <!-- end sub tasks/checklists -->
                     </div>

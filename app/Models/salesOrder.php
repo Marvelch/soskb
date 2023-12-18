@@ -9,6 +9,10 @@ class salesOrder extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = null;
+
+    public $incrementing = false;
+
     protected $table = 'sales_orders';
 
     protected $fillable = [

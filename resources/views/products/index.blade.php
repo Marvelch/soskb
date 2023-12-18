@@ -1,10 +1,16 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="osahan-order">
-    <div class="order-menu">
-        <h5 class="fw-bold p-3 d-flex align-items-center">Product List</h5>
+<div class="osahan-help-ticket">
+    <div class="p-3 border-bottom">
+        <div class="d-flex align-items-center">
+            <a class="fw-bold text-success text-decoration-none" href="{{route('home')}}">
+                <i class="icofont-rounded-left back-page"></i></a>
+            <h6 class="fw-bold m-0 ms-3">Product List</h6>
+        </div>
     </div>
+</div>
+<div class="osahan-order">
     <div class="order-body px-3 pt-3">
         <div class="mb-3">
             <!-- Search input field -->

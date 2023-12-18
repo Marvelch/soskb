@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $users = User::find($id);
+        $users = User::find(Crypt::decryptString($id));
 
         $positions = position::all();
 
@@ -120,14 +120,35 @@ class UserController extends Controller
     /*------------------------------ ADMIN PAGE ------------------------------*/
 
     /**
-     * Searching Sales
+     * Search for users in the users table
      */
     public function searching_users_sales(Request $request)
     {
-        $userData = User::where('name', 'ILIKE', '%' . $request->search . '%')
-                                ->get();
+        if($request->search) {
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                        ->where('users.name', 'ILIKE', '%' . $request->search . '%')
+                        ->get();
+        }else{
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                        ->where('users.name', 'ILIKE', '%' . $request->search . '%')
+                        ->limit(10)
+                        ->get();
+        }
 
-        return response()->json(['userData' => $userData]);
+        $encryptedUserData = [];
+
+        foreach ($userData as $item) {
+            $encryptedUserData[] = [
+                'idEncrypt' => Crypt::encryptString($item->id),
+                'id' => $item->id,
+                'name' => $item->name,
+                'email' => $item->email,
+                'account_type' => $item->account_type,
+                'position' => $item->positions->title
+            ];
+        }
+
+        return response()->json(['userData' => $encryptedUserData]);
     }
 
     /**

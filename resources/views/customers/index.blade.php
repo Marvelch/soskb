@@ -1,14 +1,19 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="osahan-order">
-    <div class="order-menu">
-        <h5 class="fw-bold p-3 d-flex align-items-center">Customer List</h5>
+<div class="osahan-help-ticket">
+    <div class="p-3 border-bottom">
+        <div class="d-flex align-items-center">
+            <a class="fw-bold text-success text-decoration-none" href="{{route('home')}}">
+                <i class="icofont-rounded-left back-page"></i></a>
+            <h6 class="fw-bold m-0 ms-3">Customer List</h6>
+        </div>
     </div>
+</div>
     <div class="order-body px-3 pt-3">
-        <div class="mb-3">
+        <div class="mb-4 mt-2">
             <!-- Search input field -->
-            <input type="text" class="form-control w-40" id="searchInput" placeholder="Cari Produk">
+            <input type="text" class="form-control" id="searchInput" placeholder="Searching">
         </div>
         @foreach($customers as $item)
         <div class="pb-3 osahan-order-detail">

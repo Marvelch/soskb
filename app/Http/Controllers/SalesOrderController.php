@@ -69,7 +69,7 @@ class SalesOrderController extends Controller
         DB::beginTransaction();
 
         try {
-            $unique = generateUniqueKey(6);
+            $unique = UniqueSalesOrder();
 
             $customers = customerTemp::where('user_id',Auth::user()->id)->first();
 
@@ -243,7 +243,7 @@ class SalesOrderController extends Controller
      */
     public function transaction(Request $request)
     {
-        $transactions = salesOrder::where('created_by',Auth::user()->id)->get();
+        $transactions = salesOrder::where('created_by',Auth::user()->id)->orderBy('created_at','desc')->get();
 
         return view('sales.transaction',compact('transactions'));
     }
