@@ -58,11 +58,11 @@ class ProductController extends Controller
                 ->groupBy('products.id')
                 ->get();
         }else if(@Auth::user()->positions->level == 4) {
-            if($regions == null || $customerType == null ) {
-                toast('Regions, City & Customer Type Not Found','error');
+            // if($regions == null || $customerType == null ) {
+            //     toast('Regions, City & Customer Type Not Found','error');
 
-                return back();
-             }
+            //     return back();
+            //  }
 
             $products = User::join('regions', 'users.region_id', '=', 'regions.id')
                 ->join('cities', 'regions.id', '=', 'cities.region_id')
@@ -80,11 +80,11 @@ class ProductController extends Controller
                 ->groupBy('products.id')
                 ->get();
         }else if(@Auth::user()->positions->level == 5) { // Supervisor
-            if($regions == null || $city == null || $customerType == null) {
-                toast('Regions, City, and Customer Not Found','error');
+            // if($regions == null || $city == null || $customerType == null) {
+            //     toast('Regions, City, and Customer Not Found','error');
 
-                return back();
-             }
+            //     return back();
+            //  }
 
             $products = User::join('regions', 'users.region_id', '=', 'regions.id')
                 ->join('cities', 'regions.id', '=', 'cities.region_id')
