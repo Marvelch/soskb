@@ -32,8 +32,9 @@
                                 @csrf
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="text-muted"><i class="ri-edit-2-fill"></i> Edit Users</h4>
-                                        <p class="text-sm small text-muted mb-3">Baca juga untuk syarat dan ketentuan sebelum melakukan perubahaan informasi pengguna</p>
+                                        <h4 class="text-muted"><i class="ri-edit-2-fill text-success"></i> Edit Users</h4>
+                                        <p class="text-sm small text-muted mb-3">Baca juga untuk syarat dan ketentuan
+                                            sebelum melakukan perubahaan informasi pengguna</p>
                                         <div class="row pt-2">
                                             <div class="col-6">
                                                 <div class="form-group">
@@ -72,57 +73,79 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-6" id="customer">
-                                                <div class="form-group">
-                                                    <label for="" class="small mb-1">Customer Group</label>
-                                                    <select name="customer"
-                                                        class="customer form-control form-control-sm mt-1">
-                                                        @foreach($customerTypes as $item)
-                                                        <option value="{{$item->id}}">
-                                                            {{@$item->name}}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-6" id="subcustomer">
-                                                <div class="form-group">
-                                                    <label for="" class="small mb-1">Sub Customer Group</label>
-                                                    <select name="subcustomer"
-                                                        class="subcustomer form-control mt-1 form-control-sm mt-1 text-capitalize">
-
-                                                    </select>
-                                                </div>
-                                            </div> -->
-                                            <!-- <div class="col-6 mt-3">
-                                                <div class="form-group">
-                                                    <label for="" class="small">Pilih Wilayah</label>
-                                                    <select name="region" id="region"
-                                                        class="form-control form-control-sm mt-1 text-capitalize">
-                                                        @foreach($regions as $item)
-                                                        <option value="{{$item->id}}"
-                                                            {{$item->id == $users->region_id ? 'selected' : ''}}>
-                                                            {{@strtolower($item->name)}}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h5 class="text-muted mt-2">Tentukan Lokasi</h5>
-                                        <p class="text-sm small text-muted mb-3">Tentukan lokasi toko pelanggan {{@$users->name}} dari pulau, provinsi dan kota pada kolom berikut :</p>
+                                        <div class="m-2">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label for="" class="small mb-1">Pilih Customer Group</label>
+                                                    <select name="customer_type_id" id="customerGroup" class="form-control form-control-sm text-capitalize">
+                                                        @foreach($customerTypes as $item)
+                                                            <option value="{{$item->id}}">{{strtolower(@$item->name)}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="" class="small mb-1">Pilih Sub Customer Group</label>
+                                                    <select name="sub_customer_type_id" id="subCustomerGroup" class="form-control form-control-sm text-capitalize">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mt-2">
+                                    <div class="card-body">
+                                        <div class="m-2">
+                                            <!-- <h5 class="text-muted mt-2">Tentukan Lokasi</h5>
+                                            <p class="text-sm small text-muted mb-3">Pilih beberapa kota, provinsi dan kota pada kolom berikut :</p> -->
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="" class="small">Pilih Pulau</label>
-                                                    <select name="" id="" class="form-control mt-1 form-control-sm w-25">
-                                                        <option value=""></option>
-                                                    </select>
+                                                <div class="table-responsive">
+                                                <table class="table table-borderless" id="dynamic_field">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="" class="small mb-1">Pilih Pulau</label>
+                                                                <select name="island[]" id="1"
+                                                                    class="form-control form-control-sm">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="" class="small mb-1">Pilih Provinsi</label>
+                                                                <select name="region_id[]" id="100"
+                                                                    class="form-control form-control-sm">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <label for="" class="small mb-1">Pilih Kota</label>
+                                                                <select name="city_id[]" id="200"
+                                                                    class="form-control form-control-sm">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <button class="btn btn-sm btn-primary"
+                                                                    style="margin-top: 25px;" type="button" name="add"
+                                                                    id="add"><i class="ri-add-circle-line"></i></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,7 +163,14 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
-                                    asd
+                                    <img src="https://img.freepik.com/premium-vector/warning-attention-illustration-vector_690904-59.jpg" class="w-100" alt="" srcset="">
+                                    <div class="form-group">
+                                        <ul class="small">
+                                            <li>Perubahan lokasi pengguna akan mempengaruhi penentuan customers dan products.</li>
+                                            <li>Kolom provinsi dan kota boleh kosong, tapi pemilihan pulau tidak boleh kosong.</li>
+                                            <li>Pastikan setting lokasi sales sesuai dengan lokasi customers.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -156,49 +186,46 @@
 </div> <!-- container -->
 @push('jsscripts')
 <script>
-    const position = $('#position option:selected').text();
 
-    if (position.toLowerCase().replace(/\s/g, '') == 'sales' || position.toLowerCase().replace(/\s/g, '') == 'spv' ||
-        position.toLowerCase().replace(/\s/g, '') == 'supervisor') {
-        $('#customer').show();
-        $('#subcustomer').show();
-    } else {
-        $('#customer').hide();
-        $('#subcustomer').hide();
-    }
+    $(document).ready(function () {
+        // select sub customer group / sub customer type
+        $("#customerGroup").on('change click',function() {
+            const customer_group_id = $(this).find('option:selected').val();
+            $("#subCustomerGroup").val(null);
+            $("#subCustomerGroup").select2({
+                ajax: {
+                    url: "{{ route('admin.searching.sub.customer.group.searching') }}",
+                    dataType: "json",
+                    delay: 250,
+                    data: {
+                        customer_group_id : customer_group_id
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
 
-    $('#position').on('change', function () {
-        const valPosition = $(this).find('option:selected').text();
 
-        if (valPosition.toLowerCase().replace(/\s/g, '') == 'sales' || valPosition.toLowerCase().replace(/\s/g,
-                '') == 'spv' || valPosition.toLowerCase().replace(/\s/g, '') == 'supervisor') {
-            $('#customer').show();
-            $('#subcustomer').show();
-        } else {
-            $('#customer').hide();
-            $('#subcustomer').hide();
-        }
-    });
-
-    // searching products
-    $('.customer').on('change click', function () {
-        $('.subcustomer').val(null);
-
-        var customer_id = $(this).find('option:selected').val();
-
-        $('.subcustomer').select2({
+        $("#1").select2({
             ajax: {
-                url: '{{route("admin.users.sub.customers.searching")}}',
-                dataType: 'json',
+                url: "{{ route('admin.searching.island.searching') }}",
+                dataType: "json",
                 delay: 250,
-                data: {
-                    customer_id: customer_id
-                },
                 processResults: function (data) {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.name,
+                                text: item.island_name,
                                 id: item.id
                             }
                         })
@@ -206,6 +233,180 @@
                 },
                 cache: true
             }
+        });
+
+        $("#1").change(function() {
+            const island_id = $(this).find('option:selected').val();
+            $("#100").empty();
+            $("#200").empty();
+            $("#100").select2({
+                ajax: {
+                    url: "{{ route('admin.searching.region.searching') }}",
+                    dataType: "json",
+                    delay: 250,
+                    data: {
+                        island_id : island_id
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.region_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+
+        $("#100").change(function() {
+            const region_id = $(this).find('option:selected').val();
+            $("#200").empty();
+            $("#200").select2({
+                ajax: {
+                    url: "{{ route('admin.searching.city.searching') }}",
+                    dataType: "json",
+                    delay: 250,
+                    data: {
+                        region_id : region_id
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.city_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+
+        // Append after adding
+        var i = 1;
+        var n = 100;
+        var x = 200;
+        $('#add').click(function () {
+            i++;
+            n = n + 1;
+            x = x + 1;
+            var newRow = '<tr id="row' + i + '">' +
+                '<td>' +
+                '<div class="form-group">' +
+                '<label for="" class="small">Pilih Pulau</label>' +
+                '<select name="island[]" id="' + i + '" class="form-control mt-1 form-control-sm">' +
+                '<option value=""></option>' +
+                '</select>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="form-group">' +
+                '<label for="" class="small">Pilih Provinsi</label>' +
+                '<select name="region_id[]" id="' + n + '" class="form-control mt-1 form-control-sm">' +
+                '<option value=""></option>' +
+                '</select>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="form-group">' +
+                '<label for="" class="small">Pilih Kota</label>' +
+                '<select name="city_id[]" id="' + x + '" class="form-control mt-1 form-control-sm">' +
+                '<option value=""></option>' +
+                '</select>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="form-group">' +
+                '<button class="btn btn-sm btn-danger btn_remove" style="margin-top: 25px;" type="button" name="remove" id="' + i + '"><i class="ri-close-circle-line"></i></button>' +
+                '</div>' +
+                '</td>' +
+                '</tr>';
+
+            $('#dynamic_field').append(newRow);
+
+            // Initialize select2 after adding the row
+            $("#" + i).select2({
+                ajax: {
+                    url: "{{ route('admin.searching.island.searching') }}",
+                    dataType: "json",
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.island_name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $("#" + i).change(function() {
+                const island_id = $(this).find('option:selected').val();
+
+                $("#" + n).select2({
+                    ajax: {
+                        url: "{{ route('admin.searching.region.searching') }}",
+                        dataType: "json",
+                        delay: 250,
+                        data: {
+                            island_id : island_id
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.region_name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
+            });
+
+            $("#" + n).change(function() {
+                const region_id = $(this).find('option:selected').val();
+
+                $("#" + x).select2({
+                    ajax: {
+                        url: "{{ route('admin.searching.city.searching') }}",
+                        dataType: "json",
+                        delay: 250,
+                        data: {
+                            region_id : region_id
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.city_name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        },
+                        cache: true,
+                    }
+                });
+            });
+
+        });
+
+        $(document).on('click', '.btn_remove', function () {
+            var button_id = $(this).attr("id");
+            $('#row' + button_id).remove();
         });
     });
 

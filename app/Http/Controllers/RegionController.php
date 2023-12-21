@@ -62,4 +62,16 @@ class RegionController extends Controller
     {
         //
     }
+
+    /**
+     * Data search for regions / province.
+     */
+    public function searchRegion(Request $request)
+    {
+        $data = region::where('region_name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('island',$request->island_id)
+                            ->get();
+
+        return response()->json($data);
+    }
 }

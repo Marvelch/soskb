@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\city;
 use App\Models\customer;
+use App\Models\customerGroup;
 use App\Models\customerTemp;
 use App\Models\customerType;
+use App\Models\island;
+use App\Models\marketingArea;
 use App\Models\product;
 use App\Models\region;
 use App\Models\salesCustomer;
@@ -17,6 +20,8 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use DB;
 use Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CustomerController extends Controller
 {
     /**
@@ -24,119 +29,411 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $level = @Auth::user()->positions->level;
-        $region_id = @Auth::user()->region_id;
-        $customer_id = @Auth::user()->customer_type_id;
-        $sub_customer_id = @Auth::user()->sub_customer_type_id;
-        $city_id = @Auth::user()->city_id;
-        $user_id = @Auth::user()->id;
+        $level_id = @Auth::user()->positions->level;
+
+        $onCheckMarketing = marketingArea::where('user_id',Auth::user()->id)->get();
+
+        $onCheckCustomerGroup = @customerGroup::where('user_id',Auth::user()->id)->first();
 
         if(@Auth::user()->positions->level == 2) {
 
             $customers = customer::all();
 
         }else if(@Auth::user()->positions->level == 3) {
-            if($customer_id == null) {
-                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+            if(count($onCheckMarketing) <= 0 || $onCheckCustomerGroup == null) {
+                toast('Data is not complete','error');
 
                 return back();
             }
 
-            // $customers = User::join('positions','users.position_unique','=','positions.unique')
-            //                 ->join('sales_customers','users.id','=','sales_customers.sales_id')
-            //                 ->join('customers','sales_customers.customer_id','=','customers.id')
-            //                 ->where('positions.level','>=',$level)
-            //                 ->where('customers.customer_type_id','=',$customer_id)
-            //                 ->select('customers.id as id',
-            //                          'customers.name as name',
-            //                          'customers.customer_number as customer_number',
-            //                          'customers.status as status',
-            //                          'customers.created_at as created_at')
-            //                 ->groupBy('customers.id')
-            //                 ->get();
+            foreach ($onCheckMarketing as $key => $item) {
+                if(@$item->island_id == null || @$onCheckCustomerGroup->customer_type_id == null) {
+                    toast('Island Or Customer Not Found','error');
 
-            $customers = User::join('customers','users.customer_type_id','customers.customer_type_id')
-                            ->where('customers.customer_type_id','=',$customer_id)
-                            ->select('customers.id as id',
-                                     'customers.name as name',
-                                     'customers.customer_number as customer_number',
-                                     'customers.status as status',
-                                     'customers.created_at as created_at')
-                            ->groupBy('customers.id')
-                            ->get();
+                    return back();
+                }
+            }
 
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $customers = [];
+
+            $filterCustomerGroup = customerGroup::where('user_id',Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customer = customer::find($value['customer_id']);
+
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
+                {
+                    $customers[] = $customer;
+                }
+            }
         }else if(@Auth::user()->positions->level == 4) {
-            if($region_id == null || $customer_id == null || $sub_customer_id == null) {
-                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+            if(count($onCheckMarketing) <= 0 || $onCheckCustomerGroup == null) {
+                toast('Data is not complete','error');
 
                 return back();
             }
 
-            // $customers = User::join('positions','users.position_unique','=','positions.unique')
-            //                 ->join('sales_customers','users.id','=','sales_customers.sales_id')
-            //                 ->join('customers','sales_customers.customer_id','=','customers.id')
-            //                 ->where('positions.level','>=',$level)
-            //                 ->where('customers.customer_type_id','=',$customer_id)
-            //                 ->where('customers.sub_customer_type_id','=',$sub_customer_id)
-            //                 ->where('customers.region_id','=',$region_id)
-            //                 ->select('customers.id as id',
-            //                          'customers.name as name',
-            //                          'customers.customer_number as customer_number',
-            //                          'customers.status as status',
-            //                          'customers.created_at as created_at')
-            //                 ->groupBy('customers.id')
-            //                 ->get();
+            foreach ($onCheckMarketing as $key => $item) {
+                if(@$item->island_id == null || @$onCheckCustomerGroup->customer_type_id == null) {
+                    toast('Island Or Customer Not Found','error');
 
-                $customers = User::join('customers','users.customer_type_id','customers.customer_type_id')
-                            ->join('positions','users.position_unique','=','positions.unique')
-                            ->where('positions.level','>=',$level)
-                            ->where('customers.customer_type_id','=',$customer_id)
-                            ->where('customers.sub_customer_type_id','=',$sub_customer_id)
-                            ->where('customers.region_id','=',$region_id)
-                            ->select('customers.id as id',
-                                     'customers.name as name',
-                                     'customers.customer_number as customer_number',
-                                     'customers.status as status',
-                                     'customers.created_at as created_at')
-                            ->groupBy('customers.id')
-                            ->get();
+                    return back();
+                }
+            }
+
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $customers = [];
+
+            $filterCustomerGroup = customerGroup::where('user_id',Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customer = customer::find($value['customer_id']);
+
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
+                {
+                    $customers[] = $customer;
+                }
+            }
         }else if(@Auth::user()->positions->level == 5) {
-            if($region_id == null || $city_id == null || $customer_id == null || $sub_customer_id == null) {
-                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+            if(count($onCheckMarketing) <= 0 || $onCheckCustomerGroup == null) {
+                toast('Data is not complete','error');
 
                 return back();
             }
 
-            $customers = User::join('positions','users.position_unique','=','positions.unique')
-                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
-                            ->join('customers','sales_customers.customer_id','=','customers.id')
-                            ->where('positions.level','>=',$level)
-                            ->where('customers.customer_type_id','=',$customer_id)
-                            ->where('customers.sub_customer_type_id','=',$sub_customer_id)
-                            ->where('customers.region_id','=',$region_id)
-                            ->where('customers.city_id','=',$city_id)
-                            ->select('customers.id as id',
-                                     'customers.name as name',
-                                     'customers.customer_number as customer_number',
-                                     'customers.status as status',
-                                     'customers.created_at as created_at')
-                            ->groupBy('customers.id')
-                            ->get();
+            foreach ($onCheckMarketing as $key => $item) {
+                if(@$item->island_id == null || @$item->region_id == null || @$onCheckCustomerGroup->customer_type_id == null || @$onCheckCustomerGroup->sub_customer_type_id == null) {
+                    toast('Island ,Regions, City, Customer and Sub Customer Group Not Found','error');
+
+                    return back();
+                }
+            }
+
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id && $value['region'] == $filterValue->region_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $customers = [];
+
+            $filterCustomerGroup = customerGroup::where('user_id',Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customer = customer::find($value['customer_id']);
+
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id && $customer->sub_customer_type_id == $filterCustomerGroup->sub_customer_type_id)
+                {
+                    $customers[] = $customer;
+                }
+            }
         }else{
-            $customers = User::join('positions','users.position_unique','=','positions.unique')
-                            ->join('sales_customers','users.id','=','sales_customers.sales_id')
-                            ->join('customers','sales_customers.customer_id','=','customers.id')
-                            ->where('positions.level','=',$level)
-                            ->where('users.id','=',Auth::user()->id)
-                            ->select('customers.id as id',
-                                     'customers.name as name',
-                                     'customers.customer_number as customer_number',
-                                     'customers.status as status',
-                                     'customers.created_at as created_at')
-                            ->groupBy('customers.id')
-                            ->get();
+            if(count($onCheckMarketing) <= 0 || $onCheckCustomerGroup == null) {
+                toast('Data is not complete','error');
+
+                return back();
+            }
+
+            foreach ($onCheckMarketing as $key => $item) {
+                if(@$item->island_id == null || @$item->region_id == null || @$item->city_id == null || @$onCheckCustomerGroup->customer_type_id == null || @$onCheckCustomerGroup->sub_customer_type_id == null) {
+                    toast('Island ,Regions, City, Customer and Sub Customer Group Not Found','error');
+
+                    return back();
+                }
+            }
+
+            $userData = User::join('sales_customers','users.id','=','sales_customers.sales_id')
+                                ->where('users.id','=',Auth::user()->id)
+                                ->select('users.id as id')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id && $value['region'] == $filterValue->region_id && $value['city'] == $filterValue->city_id) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'city' => $value['city'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $customers = [];
+
+            $filterCustomerGroup = customerGroup::where('user_id',Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customer = customer::find($value['customer_id']);
+
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id && $customer->sub_customer_type_id == $filterCustomerGroup->sub_customer_type_id)
+                {
+                    $customers[] = $customer;
+                }
+            }
         }
 
+        // return $customerData;
         return view('customers.index',compact('customers'));
     }
 
@@ -149,7 +446,7 @@ class CustomerController extends Controller
 
         $regionData = region::all();
 
-        return view('admin.customers.create',compact('customerData','regionData'));
+        return view('admin.customers.create',compact('customerData','islandData'));
     }
 
     /**
@@ -213,14 +510,6 @@ class CustomerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update_admin(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(customer $customer)
@@ -250,6 +539,7 @@ class CustomerController extends Controller
 
         foreach ($customerData as $customer) {
             $encryptedCustomerData[] = [
+                'idEncrypt' => Crypt::encryptString($customer->id),
                 'id' => Crypt::encryptString($customer->id),
                 'customer_number' => $customer->customer_number,
                 'name' => $customer->name,
@@ -282,6 +572,18 @@ class CustomerController extends Controller
     {
         $data = city::where('city_name', 'ILIKE', '%' . $request->get('q') . '%')
                             ->where('region_id',$request->region)
+                            ->get();
+
+        return response()->json($data);
+    }
+
+    /**
+     * City search from area value
+     */
+    public function searchingRegion(Request $request)
+    {
+        $data = region::where('region_name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('island',$request->island)
                             ->get();
 
         return response()->json($data);
@@ -340,56 +642,62 @@ class CustomerController extends Controller
 
     public function edit_admin(customer $customer, $id)
     {
+
         $customerDataUsers = customer::where('id',Crypt::decryptString($id))->first();
 
         $customerData = customerType::all();
 
+        $islandData = island::all();
+
         $regionData = region::all();
 
-        return view('admin.customers.edit',compact('customerData','regionData','customerDataUsers'));
+        $sales = user::all();
+
+        return view('admin.customers.edit',compact('customerData','islandData','regionData','customerDataUsers','sales'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    // public function update_admin(Request $request, $id)
-    // {
-        // $request->validate([
-        //     'customer_number' => 'required',
-        //     'name' => 'required|unique:customers',
-        //     'address' => 'required',
-        //     'customer_type_id' => 'required',
-        //     'sub_customer_type_id' => 'required',
-        //     'region_id' => 'required',
-        //     'city_id' => 'required'
-        // ]);
+    public function update_admin(Request $request, $id)
+    {
+        $request->validate([
+            'customer_number' => 'required',
+            'name' => 'required',
+            'address' => 'required',
+            'customer_type_id' => 'required',
+            'sub_customer_type_id' => 'required',
+            'region_id' => 'required',
+            'city_id' => 'required'
+        ]);
 
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
-        // try {
-        //     customer::find()->([
-        //         'customer_number' => $request->customer_number,
-        //         'name' => $request->name,
-        //         'address' => $request->address,
-        //         'customer_type_id' => $request->customer_type_id,
-        //         'sub_customer_type_id' => $request->customer_type_id,
-        //         'region_id' => $request->region_id,
-        //         'city_id' => $request->city_id,
-        //         'created_by' => Auth::user()->id
-        //     ]);
+        try {
+            customer::find(Crypt::decryptString($id))->update([
+                'customer_number' => $request->customer_number,
+                'name' => $request->name,
+                'address' => $request->address,
+                'customer_type_id' => $request->customer_type_id,
+                'sub_customer_type_id' => $request->customer_type_id,
+                'island_id' => $request->island_id,
+                'region_id' => $request->region_id,
+                'city_id' => $request->city_id,
+                'changed_by' => Auth::user()->id
+            ]);
 
-        //     DB::commit();
+            DB::commit();
 
-        //     toast('Transaction Has Been Successful','success');
+            toast('Transaction Has Been Successful','success');
 
-        //     return redirect()->route('admin.customers.index');
-        // } catch (\Throwable $th) {
+            return redirect()->route('admin.customers.index');
+        } catch (\Throwable $th) {
 
-        //     DB::rollback();
+            DB::rollback();
 
-        //     toast($th->getMessage(),'error');
+            toast($th->getMessage(),'error');
 
-        //     return back();
-        // }
-    // }
+            return back();
+        }
+    }
 }

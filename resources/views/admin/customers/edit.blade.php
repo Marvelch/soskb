@@ -21,7 +21,8 @@
 
     <div class="row">
         <div class="col-xl-8 col-lg-7">
-            <form action="" method="post">
+            <form action="{{route('admin.customers.update',['id'=>Crypt::encryptString($customerDataUsers->id)])}}" method="post">
+                @method('PUT')
                 @csrf
                 <!-- project card -->
                 <div class="card d-block">
@@ -40,9 +41,10 @@
                                 <p class="mt-2 mb-1 text-muted mt-4 small">Customer Name</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="name" class="form-control form-control-sm" value="{{$customerDataUsers->name}}" required>
+                                        <input type="text" name="name" class="form-control form-control-sm"
+                                            value="{{$customerDataUsers->name}}" required>
                                         @error('name')
-                                            <p class="text-danger small">{{ $message }}</p>
+                                        <p class="text-danger small">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
@@ -55,8 +57,8 @@
                                 <p class="mt-2 mb-1 text-muted small">CN ERP / Accurate</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="customer_number" class="form-control form-control-sm" value="{{$customerDataUsers->customer_number}}"
-                                            required>
+                                        <input type="text" name="customer_number" class="form-control form-control-sm"
+                                            value="{{$customerDataUsers->customer_number}}" required>
                                     </div>
                                 </div>
                                 <!-- end assignee -->
@@ -68,7 +70,8 @@
                                 <p class="mt-2 mb-1 text-muted small">Address</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <input type="text" name="address" class="form-control form-control-sm" value="{{$customerDataUsers->address}}" required>
+                                        <input type="text" name="address" class="form-control form-control-sm"
+                                            value="{{$customerDataUsers->address}}" required>
                                     </div>
                                 </div>
                                 <!-- end due date -->
@@ -82,7 +85,7 @@
                                         <select name="customer_type_id" id="customer"
                                             class="form-control form-control-sm" required>
                                             @foreach($customerData as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{@$item->id}}" {{@$item->id == @$customerDataUsers->customerType->id ? 'selected' : ''}}>{{@$item->name}}</option>
                                             @endforeach
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
@@ -98,7 +101,7 @@
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
                                         <select name="sub_customer_type_id" id="subCustomer"
-                                            class="form-control form-control-sm" required>
+                                            class="form-control form-control-sm">
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
                                     </div>
@@ -109,16 +112,28 @@
 
                             <div class="col-md-4 mt-2">
                                 <!-- start due date -->
-                                <p class="mt-2 mb-1 text-muted small">Select Region</p>
+                                <p class="mt-2 mb-1 text-muted small">Select Island</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <select name="region_id" id="region" class="form-control form-control-sm"
+                                        <select name="island_id" id="island" class="form-control form-control-sm"
                                             required>
-                                            @foreach($regionData as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @foreach($islandData as $item)
+                                            <option value="{{@$item->id}}" {{@$item->id == $customerDataUsers->island_id ? 'selected' : ''}}>{{@$item->island_name}}</option>
                                             @endforeach
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
+                                    </div>
+                                </div>
+                                <!-- end due date -->
+                            </div>
+
+                            <div class="col-md-4 mt-2">
+                                <!-- start due date -->
+                                <p class="mt-2 mb-1 text-muted small">Select Region</p>
+                                <div class="d-flex align-items-start">
+                                    <div class="w-100">
+                                        <select name="region_id" id="region" class="form-control form-control-sm" required>
+                                        </select>
                                     </div>
                                 </div>
                                 <!-- end due date -->
@@ -184,8 +199,16 @@
 
 </div> <!-- container -->
 <script>
-
     $('document').ready(function () {
+
+        var subCustomerOption = new Option(<?php echo json_encode(@$customerDataUsers->subCustomerType->name ? $customerDataUsers->subCustomerType->name : '') ?>, <?php echo json_encode(@$customerDataUsers->subCustomerType->id) ?>, false, false);
+        $('#subCustomer').append(subCustomerOption).trigger('change');
+
+        var regionOption = new Option(<?php echo json_encode(@$customerDataUsers->region->region_name ? $customerDataUsers->region->region_name : '') ?>, <?php echo json_encode(@$customerDataUsers->region->id) ?>, false, false);
+        $('#region').append(regionOption).trigger('change');
+
+        var cityOption = new Option(<?php echo json_encode(@$customerDataUsers->city->city_name ? $customerDataUsers->city->city_name : '') ?>, <?php echo json_encode(@$customerDataUsers->city->id) ?>, false, false);
+        $('#city').append(cityOption).trigger('change');
 
         $('#customer').on('change click', function () {
             var customerValue = $('#customer').find(':selected').val();
@@ -206,6 +229,37 @@
                                 results: $.map(data, function (item) {
                                     return {
                                         text: item.name,
+                                        id: item.id
+                                    };
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                })
+            }
+        });
+
+        $('#island').on('change click', function () {
+            var islandValue = $('#island').find(':selected').val();
+
+            $('#region').empty();
+            $('#city').empty();
+
+            if (islandValue) {
+                $('#region').select2({
+                    ajax: {
+                        url: '{{route("admin.region.searching")}}',
+                        dataType: 'json',
+                        delay: 250,
+                        data: {
+                            island: islandValue
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.region_name,
                                         id: item.id
                                     };
                                 })

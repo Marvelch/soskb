@@ -11,7 +11,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-apps-line"></i>Sales Orders <div class="arrow-down"></div>
+                            <i class="ri-shopping-bag-line"></i>Sales Orders<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-apps">
                             <a href="{{route('admin.transaction')}}" class="dropdown-item">Transaction</a>
@@ -40,7 +40,7 @@
                     </li>
                      <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
-                            <i class="ri-shopping-bag-line"></i>Products
+                            <i class="ri-archive-line"></i>Products
                         </a>
                     </li>
                     <!--<li class="nav-item dropdown">

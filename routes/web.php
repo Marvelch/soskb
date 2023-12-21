@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IslandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SalesOrderController;
+use App\Http\Controllers\SubCustomerTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\general;
@@ -127,11 +131,12 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/create',[CustomerController::class,'create'])->name('admin.customers.create');
         Route::post('/store',[CustomerController::class,'store'])->name('admin.customers.store');
         Route::get('/edit/{id}',[CustomerController::class,'edit_admin'])->name('admin.customers.edit');
-        Route::get('/update/{id}',[CustomerController::class,'update_admin'])->name('admin.customers.update');
+        Route::put('/update/{id}',[CustomerController::class,'update_admin'])->name('admin.customers.update');
 
         ## Searching ##
         Route::get('/searching-customers',[CustomerController::class,'searchingCustomers'])->name('admin.customers.searching');
         Route::get('/searching-sub-customers-type',[CustomerController::class,'searchingSubCustomersType'])->name('admin.sub.customers.type.searching');
+        Route::get('/searching-region',[CustomerController::class,'searchingRegion'])->name('admin.region.searching');
         Route::get('/searching-city',[CustomerController::class,'searchingCity'])->name('admin.city.searching');
     });
 
@@ -158,4 +163,11 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/searching',[UserController::class,'searching_users_sales'])->name('admin.users.sales.searching');
         Route::get('/searching/sub-customer-type',[UserController::class,'searching_sub_customer_type'])->name('admin.users.sub.customers.searching');
     });
+
+    ## General Access Searching ##
+    Route::get('/searching-island',[IslandController::class,'searchIsland'])->name('admin.searching.island.searching');
+    Route::get('/searching-region',[RegionController::class,'searchRegion'])->name('admin.searching.region.searching');
+    Route::get('/searching-city',[CityController::class,'searchCity'])->name('admin.searching.city.searching');
+
+    Route::get('/searching-sub-customer-group',[SubCustomerTypeController::class,'searchSubCustomerGroup'])->name('admin.searching.sub.customer.group.searching');
 });

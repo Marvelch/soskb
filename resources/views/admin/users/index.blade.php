@@ -36,12 +36,10 @@
                                     </div>
                                     <div class="col-sm-5">
                                         <div class="form-check">
-                                            <a href="{{route('admin.users.edit',['id'=>Crypt::encryptString($item->id)])}}">
-                                                <p class="fw-bold h5 text-primary text-muted text-uppercase"
-                                                    style="padding-top: 5px;">
-                                                    {{@$item->name}}
-                                                </p>
-                                            </a>
+                                            <p class="fw-bold h5 text-primary text-muted text-uppercase"
+                                                style="padding-top: 5px;">
+                                                {{@$item->name}}
+                                            </p>
                                             <p class="form-check-label text-muted" style="font-size: 12px;">
                                                 {{@$item->email}}</p>
                                         </div> <!-- end checkbox -->
@@ -67,8 +65,11 @@
                                                         @endif
                                                     </li>
                                                     <li class="list-inline-item ms-1 text-capitalize">
-                                                        <i class='ri-edit-2-fill text-success fs-16'></i>
-                                                        Edit
+                                                        <a
+                                                            href="{{route('admin.users.edit',['id'=>Crypt::encryptString($item->id)])}}">
+                                                            <i class='ri-edit-2-fill text-success fs-16'></i>
+                                                            <span style="color: #79797e;">Edit</span>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -155,11 +156,9 @@
                                             </div>
                                             <div class="col-sm-5">
                                                 <div class="form-check">
-                                                <a href="/admin/users/edit/${item.idEncrypt}">
                                                     <p class="fw-bold h5 text-primary text-muted text-uppercase" style="padding-top: 5px;">
                                                         ${item.name}
                                                     </p>
-                                                    </a>
                                                     <p class="form-check-label text-muted" style="font-size: 12px;">${item.email}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
@@ -181,8 +180,10 @@
                                                                 @endif
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-edit-2-fill text-success fs-16'></i>
-                                                                Edit
+                                                                <a href="/admin/users/edit/${item.idEncrypt}">
+                                                                    <i class='ri-edit-2-fill text-success fs-16'></i>
+                                                                    <span style="color: #79797e;">Edit</span>
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </div>

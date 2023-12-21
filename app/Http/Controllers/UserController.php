@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\customer;
+use App\Models\customerGroup;
 use App\Models\customerType;
+use App\Models\marketingArea;
 use App\Models\position;
 use App\Models\region;
 use App\Models\sales;
@@ -80,17 +83,65 @@ class UserController extends Controller
                 User::find(Crypt::decryptString($id))->update([
                     'password' => @Hash::make($request->password),
                     'position_unique' => $request->position,
-                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->customer : null,
-                    'sub_customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->subCustomer : null,
-                    'region_id' => $request->region
                 ]);
+
+                customerGroup::updateOrCreate([
+                        'user_id' => Crypt::decryptString($id)],
+                    [
+                    'customer_type_id' => $request->customer_type_id,
+                    'sub_customer_type_id' => $request->sub_customer_type_id
+                ]);
+                foreach($request->island as $key => $item) {
+
+                    $region = @$request->region_id[$key];
+                    $city = @$request->city_id[$key];
+
+                    $removeDuplicate = marketingArea::where('island_id',$item)
+                                                    ->where('region_id',$region ? $region : null)
+                                                    ->where('city_id',$city ? $city : null)
+                                                    ->where('user_id',Crypt::decryptString($id))
+                                                    ->first();
+                    if(!$removeDuplicate)
+                    {
+                        marketingArea::create([
+                            'island_id' => $item,
+                            'region_id' => @$request->region_id[$key],
+                            'city_id' => @$request->city_id[$key],
+                            'user_id' => Crypt::decryptString($id)
+                        ]);
+                    }
+                }
             }else{
                 User::find(Crypt::decryptString($id))->update([
-                    'position_unique' => $request->position,
-                    'customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->customer : null,
-                    'sub_customer_type_id' => strtolower($positions->title) == 'sales' || strtolower($positions->title) == 'spv' || strtolower($positions->title) == 'supervisor' ? $request->subCustomer : null,
-                    'region_id' => $request->region
+                    'position_unique' => $request->position
                 ]);
+
+                customerGroup::updateOrCreate([
+                        'user_id' => Crypt::decryptString($id)],
+                    [
+                    'customer_type_id' => $request->customer_type_id,
+                    'sub_customer_type_id' => $request->sub_customer_type_id
+                ]);
+                foreach($request->island as $key => $item) {
+
+                    $region = @$request->region_id[$key];
+                    $city = @$request->city_id[$key];
+
+                    $removeDuplicate = marketingArea::where('island_id',$item)
+                                                    ->where('region_id',$region ? $region : null)
+                                                    ->where('city_id',$city ? $city : null)
+                                                    ->where('user_id',Crypt::decryptString($id))
+                                                    ->first();
+                    if(!$removeDuplicate)
+                    {
+                        marketingArea::create([
+                            'island_id' => $item,
+                            'region_id' => @$request->region_id[$key],
+                            'city_id' => @$request->city_id[$key],
+                            'user_id' => Crypt::decryptString($id)
+                        ]);
+                    }
+                }
             }
 
             DB::commit();
@@ -103,9 +154,11 @@ class UserController extends Controller
 
             DB::rollback();
 
-            toast($th->getMessage(),'error');
+            // toast($th->getMessage(),'error');
 
-            return back();
+            // return back();
+
+            return $th;
         }
     }
 

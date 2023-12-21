@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class city extends Model
+class customerGroup extends Model
 {
     use HasFactory;
 
-    protected $table = 'cities';
+    protected $table = 'customer_groups';
 
     protected $fillable = [
-        'region_id',
-        'city_name'
+        'customer_type_id',
+        'sub_customer_type_id',
+        'user_id'
     ];
 }

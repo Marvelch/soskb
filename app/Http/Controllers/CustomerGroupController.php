@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\subCustomerType;
+use App\Models\customerGroup;
 use Illuminate\Http\Request;
 
-class SubCustomerTypeController extends Controller
+class CustomerGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(subCustomerType $subCustomerType)
+    public function show(customerGroup $customerGroup)
     {
         //
     }
@@ -42,7 +42,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(subCustomerType $subCustomerType)
+    public function edit(customerGroup $customerGroup)
     {
         //
     }
@@ -50,7 +50,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, subCustomerType $subCustomerType)
+    public function update(Request $request, customerGroup $customerGroup)
     {
         //
     }
@@ -58,20 +58,8 @@ class SubCustomerTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(subCustomerType $subCustomerType)
+    public function destroy(customerGroup $customerGroup)
     {
         //
-    }
-
-    /**
-     * Data search for sub customer groups.
-     */
-    public function searchSubCustomerGroup(Request $request)
-    {
-        $data = subCustomerType::where('name', 'ILIKE', '%' . $request->get('q') . '%')
-                            ->where('customer_type_id',$request->customer_group_id)
-                            ->get();
-
-        return response()->json($data);
     }
 }

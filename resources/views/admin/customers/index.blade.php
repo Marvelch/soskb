@@ -46,7 +46,7 @@
                                             <div class="col-sm-8 mb-sm-0">
                                                 <div class="form-check">
                                                     <a href="{{route('admin.customers.set.sales',['id'=>Crypt::encryptString($item->id)])}}">
-                                                    <p class="fw-bold h4 text-muted text-uppercase">
+                                                    <p class="fw-bold h5 pt-1 text-muted text-uppercase">
                                                         {{@$item->name}}
                                                     </p>
                                                     </a>
@@ -176,7 +176,7 @@
                                             <div class="col-sm-8 mb-sm-0">
                                                 <div class="form-check">
                                                     <a href="/admin/customers/set-sales/${item.id}">
-                                                    <p class="fw-bold h4 text-muted text-uppercase">
+                                                    <p class="fw-bold h5 pt-1 text-muted text-uppercase">
                                                         ${item.name}
                                                     </p>
                                                     </a>
@@ -199,8 +199,10 @@
                                                                 ${statusBadge}
                                                             </li>
                                                             <li class="list-inline-item ms-1 m-2 text-capitalize">
-                                                                <i class='ri-edit-2-fill text-success fs-16 me-1'></i>
-                                                                Edit
+                                                                <a href="/admin/customers/edit/${item.idEncrypt}">
+                                                                    <i class='ri-edit-2-fill text-success fs-16 me-1'></i>
+                                                                    Edit
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                 </div> <!-- end .d-flex-->

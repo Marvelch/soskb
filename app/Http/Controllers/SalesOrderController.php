@@ -11,10 +11,14 @@ use App\Models\salesOrderDetail;
 use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
 Use Alert;
+use App\Models\customerGroup;
+use App\Models\marketingArea;
+use App\Models\salesCustomer;
 use App\Models\salesProduct;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\unit;
+use App\Models\User;
 use DB;
 use Auth;
 
@@ -213,12 +217,393 @@ class SalesOrderController extends Controller
      */
     public function searchCustomers(Request $request)
     {
-        $data = customer::join('sales_customers','sales_customers.customer_id','=','customers.id')
-                            ->where('customers.name', 'ILIKE', '%' . $request->get('q') . '%')
-                            ->where('sales_id',Auth::user()->id)
-                            ->select('customers.id as id',
-                                     'customers.name as name')
-                            ->get();
+        $level_id = @Auth::user()->positions->level;
+
+        $onCheckMarketing = marketingArea::where('user_id',Auth::user()->id)->get();
+
+        $onCheckCustomerGroup = @customerGroup::where('user_id',Auth::user()->id)->first();
+
+        if(@Auth::user()->positions->level == 2) {
+
+            $data = customer::all();
+
+        }else if(@Auth::user()->positions->level == 3) {
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $data = [];
+            $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customerDataExisting = customer::where('id', $value['customer_id'])
+                    ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                    ->get();
+
+                $customerGroupFilter = customer::where('id',$value['customer_id'])->first();
+
+                if (
+                    $customerGroupFilter['customer_type_id'] == $filterCustomerGroup->customer_type_id)
+                    {
+                        if ($customerDataExisting->isNotEmpty()) {
+                            // Merge the results into the $data array
+                            $data = array_merge($data, $customerDataExisting->toArray());
+                        }
+                    }
+            }
+
+            $data = array_filter($data);
+        }else if(@Auth::user()->positions->level == 4) {
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $data = [];
+            $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customerDataExisting = customer::where('id', $value['customer_id'])
+                    ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                    ->get();
+
+                $customerGroupFilter = customer::where('id',$value['customer_id'])->first();
+
+                if (
+                    $customerGroupFilter['customer_type_id'] == $filterCustomerGroup->customer_type_id)
+                    {
+                        if ($customerDataExisting->isNotEmpty()) {
+                            // Merge the results into the $data array
+                            $data = array_merge($data, $customerDataExisting->toArray());
+                        }
+                    }
+            }
+
+            $data = array_filter($data);
+        }else if(@Auth::user()->positions->level == 5) {
+            $userData = User::join('positions','users.position_unique','=','positions.unique')
+                                ->where('positions.level','>=',$level_id)
+                                ->select('users.id as id',
+                                         'users.name as name',
+                                         'positions.level as level',
+                                         'positions.unique as unique')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id && $value['region'] == $filterValue->region_id ) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            // return $filterCustomerGroup;
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $data = [];
+            $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customerDataExisting = customer::where('id', $value['customer_id'])
+                    ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                    ->get();
+
+                $customerGroupFilter = customer::where('id',$value['customer_id'])->first();
+
+                if (
+                    $customerGroupFilter['customer_type_id'] == $filterCustomerGroup->customer_type_id &&
+                    $customerGroupFilter['sub_customer_type_id'] == $filterCustomerGroup->sub_customer_type_id)
+                    {
+                        if ($customerDataExisting->isNotEmpty()) {
+                            // Merge the results into the $data array
+                            $data = array_merge($data, $customerDataExisting->toArray());
+                        }
+                    }
+            }
+
+            $data = array_filter($data);
+
+        }else{
+
+            $userData = User::join('sales_customers','users.id','=','sales_customers.sales_id')
+                                ->where('users.id','=',Auth::user()->id)
+                                ->select('users.id as id')
+                                ->get();
+
+            $marketingData = [];
+
+            foreach ($userData as $key => $value) {
+                $marketingListUser = marketingArea::where('user_id',$value->id)->get();
+                $customerGroup = customerGroup::where('user_id',$value->id)->first();
+
+                foreach ($marketingListUser as $key => $item) {
+                    $marketingData[] = [
+                        'id' => $item->user_id,
+                        'name' => $value->name,
+                        'island' => $item->island_id,
+                        'region' => $item->region_id,
+                        'city' => $item->city_id,
+                        'customer' => $customerGroup->customer_type_id,
+                        'sub_customer' => $customerGroup->sub_customer_type_id
+                    ];
+                }
+            }
+
+            // Filtering for island, region and city searches according to criteria
+            $filterDataMarketingArea = marketingArea::where('user_id',Auth::user()->id)->get();
+
+            $filterDataMarketing = [];
+
+            foreach ($marketingData as $key => $value) {
+                foreach ($filterDataMarketingArea as $key => $filterValue) {
+                    if($value['island'] == $filterValue->island_id && $value['region'] == $filterValue->region_id && $value['city'] == $filterValue->city_id) {
+                        $filterDataMarketing[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'island' => $value['island'],
+                            'region' => $value['region'],
+                            'city' => $value['city'],
+                            'customer' => $value['customer'],
+                            'sub_customer' => $value['sub_customer']
+                        ];
+                    }
+                }
+            }
+
+            $customerData = [];
+
+            foreach ($filterDataMarketing as $key => $item) {
+                $customer = salesCustomer::where('sales_id', $item['id'])->get();
+
+                foreach ($customer as $key => $value) {
+                    if ($value['customer_id']) {
+                        $customerData[] = [
+                            'customer_id' => $value['customer_id']
+                        ];
+                    }
+                }
+            }
+
+            // Extract unique customer_id values
+            $uniqueCustomerData = array_unique(array_column($customerData, 'customer_id'));
+
+            // Reformat the data structure to match the original format
+            $customerDataWithoutDuplicates = [];
+            foreach ($uniqueCustomerData as $customerId) {
+                $customerDataWithoutDuplicates[] = ['customer_id' => $customerId];
+            }
+
+            $data = [];
+            $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
+
+            foreach ($customerDataWithoutDuplicates as $key => $value) {
+                $customerDataExisting = customer::where('id', $value['customer_id'])
+                    ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                    ->get();
+
+                $customerGroupFilter = customer::where('id',$value['customer_id'])->first();
+
+                if (
+                    $customerGroupFilter['customer_type_id'] == $filterCustomerGroup->customer_type_id &&
+                    $customerGroupFilter['sub_customer_type_id'] == $filterCustomerGroup->sub_customer_type_id)
+                    {
+                        if ($customerDataExisting->isNotEmpty()) {
+                            // Merge the results into the $data array
+                            $data = array_merge($data, $customerDataExisting->toArray());
+                        }
+                    }
+            }
+
+            $data = array_filter($data);
+        }
 
         return response()->json($data);
     }

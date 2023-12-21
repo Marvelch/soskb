@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class subCustomerType extends Model
 {
     use HasFactory;
+
+    protected $table = 'sub_customer_types';
+
+    protected $fillable = [
+        'customer_type_id',
+        'name'
+    ];
 }

@@ -62,4 +62,16 @@ class CityController extends Controller
     {
         //
     }
+
+    /**
+     * Data search for regions / province.
+     */
+    public function searchCity(Request $request)
+    {
+        $data = city::where('city_name', 'ILIKE', '%' . $request->get('q') . '%')
+                            ->where('region_id',$request->region_id)
+                            ->get();
+
+        return response()->json($data);
+    }
 }

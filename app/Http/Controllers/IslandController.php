@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\subCustomerType;
+use App\Models\island;
 use Illuminate\Http\Request;
 
-class SubCustomerTypeController extends Controller
+class IslandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(subCustomerType $subCustomerType)
+    public function show(island $island)
     {
         //
     }
@@ -42,7 +42,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(subCustomerType $subCustomerType)
+    public function edit(island $island)
     {
         //
     }
@@ -50,7 +50,7 @@ class SubCustomerTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, subCustomerType $subCustomerType)
+    public function update(Request $request, island $island)
     {
         //
     }
@@ -58,20 +58,20 @@ class SubCustomerTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(subCustomerType $subCustomerType)
+    public function destroy(island $island)
     {
         //
     }
 
     /**
-     * Data search for sub customer groups.
+     * Data search for islands.
      */
-    public function searchSubCustomerGroup(Request $request)
+    public function searchIsland(Request $request)
     {
-        $data = subCustomerType::where('name', 'ILIKE', '%' . $request->get('q') . '%')
-                            ->where('customer_type_id',$request->customer_group_id)
+        $data = island::where('island_name', 'ILIKE', '%' . $request->get('q') . '%')
                             ->get();
 
         return response()->json($data);
     }
+
 }
