@@ -62,13 +62,16 @@ class ProductController extends Controller
                 $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
                                             ->where('sales_id',$item)
                                             ->select('products.id as id',
-                                                    'products.product_name as product_name',
                                                     'products.code as code',
-                                                    'products.status as status')
-                                            ->first();
+                                                    'products.product_name as product_name',
+                                                    'products.status as status',
+                                                    'products.created_at as created_at',
+                                                    'products.updated_at as updated_at')
+                                            ->get()
+                                            ->toArray(); // Convert the collection to array
 
-                if($salesProduct) {
-                    array_push($productData,$salesProduct);
+                if ($salesProduct) {
+                    $productData = array_merge($productData, $salesProduct);
                 }
             }
         }else if(@Auth::user()->positions->level == 4) {
@@ -103,31 +106,19 @@ class ProductController extends Controller
                 $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
                                             ->where('sales_id',$item)
                                             ->select('products.id as id',
-                                                    'products.product_name as product_name',
                                                     'products.code as code',
-                                                    'products.status as status')
-                                            ->first();
+                                                    'products.product_name as product_name',
+                                                    'products.status as status',
+                                                    'products.created_at as created_at',
+                                                    'products.updated_at as updated_at')
+                                            ->get()
+                                            ->toArray(); // Convert the collection to array
 
-                if($salesProduct) {
-                    array_push($productData,$salesProduct);
+                if ($salesProduct) {
+                    $productData = array_merge($productData, $salesProduct);
                 }
             }
 
-            // $products = User::join('regions', 'users.region_id', '=', 'regions.id')
-            //     ->join('cities', 'regions.id', '=', 'cities.region_id')
-            //     ->join('sales_products', 'users.id', '=', 'sales_products.sales_id')
-            //     ->join('products', 'sales_products.product_id', '=', 'products.id')
-            //     ->join('positions','users.position_unique','=','positions.unique')
-            //     ->where('users.customer_type_id','=',$customerType)
-            //     ->where('positions.level','>=',$level)
-            //     ->where('users.region_id', '=', $regions)
-            //     ->where('products.status',1)
-            //     ->select('products.id as id',
-            //              'products.product_name as product_name',
-            //              'products.code as code',
-            //              'products.status as status')
-            //     ->groupBy('products.id')
-            //     ->get();
         }else if(@Auth::user()->positions->level == 5) { // Supervisor
             foreach ($marketingAreaData as $key => $value) {
                 if($value->island_id == null || $value->region_id == null || $customerType == null) {
@@ -161,36 +152,22 @@ class ProductController extends Controller
                 $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
                                             ->where('sales_id',$item)
                                             ->select('products.id as id',
-                                                    'products.product_name as product_name',
                                                     'products.code as code',
-                                                    'products.status as status')
-                                            ->first();
+                                                    'products.product_name as product_name',
+                                                    'products.status as status',
+                                                    'products.created_at as created_at',
+                                                    'products.updated_at as updated_at')
+                                            ->get()
+                                            ->toArray(); // Convert the collection to array
 
-                if($salesProduct) {
-                    array_push($productData,$salesProduct);
+                if ($salesProduct) {
+                    $productData = array_merge($productData, $salesProduct);
                 }
             }
-
-            // $products = User::join('regions', 'users.region_id', '=', 'regions.id')
-            //     ->join('cities', 'regions.id', '=', 'cities.region_id')
-            //     ->join('sales_products', 'users.id', '=', 'sales_products.sales_id')
-            //     ->join('products', 'sales_products.product_id', '=', 'products.id')
-            //     ->join('positions','users.position_unique','=','positions.unique')
-            //     ->where('users.customer_type_id','=',$customerType)
-            //     ->where('positions.level','>=',$level)
-            //     ->where('users.region_id', '=', $regions)
-            //     ->where('users.city_id', '=', $city)
-            //     ->where('products.status',1)
-            //     ->select('products.id as id',
-            //              'products.product_name as product_name',
-            //              'products.code as code',
-            //              'products.status as status')
-            //     ->groupBy('products.id')
-            //     ->get();
         }else{
             foreach ($marketingAreaData as $key => $value) {
-                if($value->region_id == null || $value->city_id == null || $customerType == null) {
-                    toast('Regions, City, and Customer Not Found','error');
+                if($value->island_id == null || $value->region_id == null || $customerType == null) {
+                    toast('Island, Regions and Customer Not Found','error');
                     return back();
                 }
             }
@@ -203,7 +180,6 @@ class ProductController extends Controller
                             ->where('customer_groups.customer_type_id',$customerType)
                             ->where('marketing_areas.island_id',$value->island_id)
                             ->where('marketing_areas.region_id',$value->region_id)
-                            ->where('marketing_areas.city_id',$value->city_id)
                             ->where('positions.level','>=',$level)
                             ->select('users.id as user_id')
                             ->groupBy('users.id')
@@ -218,9 +194,20 @@ class ProductController extends Controller
 
             $productData = [];
             foreach ($products as $key => $item) {
-                $productCheck = product::where('id',$item)->first();
+                $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
+                                            ->where('sales_products.sales_id',$item)
+                                            ->select('products.id as id',
+                                                    'products.code as code',
+                                                    'products.product_name as product_name',
+                                                    'products.status as status',
+                                                    'products.created_at as created_at',
+                                                    'products.updated_at as updated_at')
+                                            ->get()
+                                            ->toArray(); // Convert the collection to array
 
-                array_push($productData,$productCheck);
+                if ($salesProduct) {
+                    $productData = array_merge($productData, $salesProduct);
+                }
             }
         }
 
