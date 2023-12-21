@@ -16,7 +16,7 @@
             <!-- Search input field -->
             <input type="text" class="form-control w-40" id="searchInput" placeholder="Cari Produk">
         </div>
-        @foreach($products as $item)
+        @foreach($productData as $item)
         <div class="pb-3 osahan-order-detail">
             <a class="text-decoration-none text-dark">
                 <div class="p-3 rounded shadow-sm bg-white">
