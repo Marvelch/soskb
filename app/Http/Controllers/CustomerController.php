@@ -344,8 +344,8 @@ class CustomerController extends Controller
             }
 
             foreach ($onCheckMarketing as $key => $item) {
-                if(@$item->island_id == null || @$item->region_id == null || @$item->city_id == null || @$onCheckCustomerGroup->customer_type_id == null || @$onCheckCustomerGroup->sub_customer_type_id == null) {
-                    toast('Island ,Regions, City, Customer and Sub Customer Group Not Found','error');
+                if(@$item->island_id == null || @$item->region_id == null || @$item->city_id == null || @$onCheckCustomerGroup->customer_type_id == null) {
+                    toast('Island ,Regions, City and Customer Not Found','error');
 
                     return back();
                 }
@@ -426,7 +426,7 @@ class CustomerController extends Controller
             foreach ($customerDataWithoutDuplicates as $key => $value) {
                 $customer = customer::find($value['customer_id']);
 
-                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id && $customer->sub_customer_type_id == $filterCustomerGroup->sub_customer_type_id)
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
                 {
                     $customers[] = $customer;
                 }
