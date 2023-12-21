@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form action="{{route('admin.update.transaction',['id'=>$transactions->id])}}" method="post">
+    <form action="{{route('admin.update.transaction',['id'=>Crypt::encryptString($transactions->id_transaction)])}}" method="post">
         @method('PUT')
         @csrf
         <div class="row">

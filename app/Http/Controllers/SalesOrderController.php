@@ -809,11 +809,9 @@ class SalesOrderController extends Controller
      */
     public function storeAdmin(Request $request, $id)
     {
-
         DB::beginTransaction();
         try {
-
-            salesOrder::find($id)->update([
+            salesOrder::where('id_transaction',Crypt::decryptString($id))->update([
                 'note' => $request->note,
                 'status' => $request->status,
                 'changed_by' => Auth::user()->id
