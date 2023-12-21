@@ -39,11 +39,11 @@ class ProductController extends Controller
 
             $products = product::all();
         }else if(@Auth::user()->positions->level == 3) {
-             if($customerType == null) {
-                toast('Regions & City Not Found','error');
+            //  if($customerType == null) {
+            //     toast('Regions & City Not Found','error');
 
-                return back();
-             }
+            //     return back();
+            //  }
 
              $products = User::join('sales_products', 'users.id', '=', 'sales_products.sales_id')
                 ->join('products', 'sales_products.product_id', '=', 'products.id')
