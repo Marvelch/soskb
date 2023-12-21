@@ -20,10 +20,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $regions = @Auth::user()->region_id;
-        $city = @Auth::user()->city_id;
-        $customerType = @Auth::user()->customer_type_id;
-        $subCustomerType = @Auth::user()->sub_customer_type_id;
+        // $regions = @Auth::user()->region_id;
+        // $city = @Auth::user()->city_id;
+        $customerType = @Auth::user()->customers->customer_type_id;
+        $subCustomerType = @Auth::user()->subCustomers->sub_customer_type_id;
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {

@@ -60,8 +60,13 @@ class User extends Authenticatable
         return $this->belongsTo(region::class,'region_id','id');
     }
 
-    // public function marketings()
-    // {
-    //     return $this->belongsTo(marketingArea::class,'region_id','id');
-    // }
+    public function customers()
+    {
+        return $this->belongsTo(customerGroup::class,'customer_type_id','customer_type_id');
+    }
+
+    public function subCustomers()
+    {
+        return $this->belongsTo(customerGroup::class,'sub_customer_type_id','customer_type_id');
+    }
 }
