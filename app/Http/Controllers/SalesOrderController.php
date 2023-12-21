@@ -518,6 +518,11 @@ class SalesOrderController extends Controller
                                 ->select('users.id as id')
                                 ->get();
 
+            $userData = User::join('sales_customers','users.id','=','sales_customers.sales_id')
+                                ->where('users.id','=',Auth::user()->id)
+                                ->select('users.id as id')
+                                ->get();
+
             $marketingData = [];
 
             foreach ($userData as $key => $value) {
@@ -582,27 +587,19 @@ class SalesOrderController extends Controller
             }
 
             $data = [];
-            $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
+
+            $filterCustomerGroup = customerGroup::where('user_id',Auth::user()->id)->first();
 
             foreach ($customerDataWithoutDuplicates as $key => $value) {
-                $customerDataExisting = customer::where('id', $value['customer_id'])
-                    ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
-                    ->get();
+                $customer = customer::where('id',$value['customer_id'])
+                                ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
+                                ->first();
 
-                $customerGroupFilter = customer::where('id',$value['customer_id'])->first();
-
-                if (
-                    $customerGroupFilter['customer_type_id'] == $filterCustomerGroup->customer_type_id &&
-                    $customerGroupFilter['sub_customer_type_id'] == $filterCustomerGroup->sub_customer_type_id)
-                    {
-                        if ($customerDataExisting->isNotEmpty()) {
-                            // Merge the results into the $data array
-                            $data = array_merge($data, $customerDataExisting->toArray());
-                        }
-                    }
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
+                {
+                    $data[] = $customer;
+                }
             }
-
-            $data = array_filter($data);
         }
 
         return response()->json($data);
