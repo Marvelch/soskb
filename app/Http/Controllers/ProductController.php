@@ -58,7 +58,7 @@ class ProductController extends Controller
                 ->groupBy('products.id')
                 ->get();
         }else if(@Auth::user()->positions->level == 4) {
-            if($regions == null || $customerType == null  || $subCustomerType == null) {
+            if($regions == null || $customerType == null ) {
                 toast('Regions, City & Customer Type Not Found','error');
 
                 return back();
@@ -70,7 +70,6 @@ class ProductController extends Controller
                 ->join('products', 'sales_products.product_id', '=', 'products.id')
                 ->join('positions','users.position_unique','=','positions.unique')
                 ->where('users.customer_type_id','=',$customerType)
-                ->where('users.sub_customer_type_id','=',$subCustomerType)
                 ->where('positions.level','>=',$level)
                 ->where('users.region_id', '=', $regions)
                 ->where('products.status',1)
@@ -81,8 +80,8 @@ class ProductController extends Controller
                 ->groupBy('products.id')
                 ->get();
         }else if(@Auth::user()->positions->level == 5) { // Supervisor
-            if($regions == null || $city == null || $customerType == null || $subCustomerType == null) {
-                toast('Regions, City, Customer and Sub Customer Type Not Found','error');
+            if($regions == null || $city == null || $customerType == null) {
+                toast('Regions, City, and Customer Not Found','error');
 
                 return back();
              }
@@ -93,7 +92,6 @@ class ProductController extends Controller
                 ->join('products', 'sales_products.product_id', '=', 'products.id')
                 ->join('positions','users.position_unique','=','positions.unique')
                 ->where('users.customer_type_id','=',$customerType)
-                ->where('users.sub_customer_type_id','=',$subCustomerType)
                 ->where('positions.level','>=',$level)
                 ->where('users.region_id', '=', $regions)
                 ->where('users.city_id', '=', $city)
