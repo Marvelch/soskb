@@ -29,7 +29,7 @@ class ProductController extends Controller
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {
-            $products = product::all();
+            $productData = product::all();
         }else if(@Auth::user()->positions->level == 3) {
             foreach ($marketingAreaData as $key => $value) {
                 if($value->island_id == null || $customerType == null) {
