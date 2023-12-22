@@ -17543,7 +17543,7 @@ body.auth-fluid-pages[data-sidenav-size="condensed"] {
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
     align-items: stretch;
-    background: url(../images/bg-auth.svg) center;
+    background: url(../images/bg-auth.png) center;
     background-size: cover;
 }
 .auth-fluid .auth-fluid-form-box {

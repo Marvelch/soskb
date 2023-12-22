@@ -10,14 +10,13 @@
 
                 <!-- Logo -->
                 <div class="auth-brand text-center text-lg-start">
-                    <a href="index.php" class="logo-dark">
-                        <span><img src="{{asset('admin/images/logo-transparent.png')}}" alt="dark logo" height="22"></span>
+                    <a href="{{url('/')}}" class="logo-dark">
+                        <span><img src="{{asset('admin/images/logo-transparent.png')}}" alt="dark logo" class="w-100"></span>
                     </a>
-                    <a href="index.php" class="logo-light">
-                        <span><img src="{{asset('admin/images/logo-transparent.png')}}" alt="logo" height="22"></span>
+                    <a href="{{url('/')}}" class="logo-light">
+                        <span><img src="{{asset('admin/images/logo-transparent.png')}}" alt="logo" class="w-100"></span>
                     </a>
                 </div>
-
                 <div class="my-auto">
                     <!-- title-->
                     <h4 class="mt-0">Sign In</h4>

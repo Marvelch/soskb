@@ -89,7 +89,7 @@
                     </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-user-follow-line"></i>Users <div class="arrow-down"></div>
+                            <i class="ri-user-line"></i>Users <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <a href="{{route('admin.users')}}" class="dropdown-item">Users</a>
@@ -200,7 +200,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-layouts">
                             <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure Organization </a>
-                            <a href="{{route('admin_group_general')}}" class="dropdown-item">Group</a>
+                            <!-- <a href="{{route('admin_group_general')}}" class="dropdown-item">Group</a> -->
                             <!-- <a href="layouts-full.php" class="dropdown-item" target="_blank">Full</a>
                             <a href="layouts-fullscreen.php" class="dropdown-item" target="_blank">Fullscreen</a>
                             <a href="layouts-hover.php" class="dropdown-item" target="_blank">Hover Menu</a>

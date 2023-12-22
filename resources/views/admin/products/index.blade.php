@@ -52,7 +52,7 @@
                                                     <p class="fw-bold h5 text-muted text-uppercase">
                                                         {{@$item->product_name}}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm"><i class="ri-qr-code-line text-success"></i> {{@$item->code}}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
@@ -72,8 +72,7 @@
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-user-settings-line fs-16 me-1'></i>
-                                                                SET SALES
+                                                                <i class="ri-edit-2-fill text-success" style="font-size: 15px;"></i>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -93,14 +92,14 @@
                                     <div class="d-flex align-items-start">
                                         <i class="ri-filter-2-line fs-18 text-success me-1"></i>
                                         <div class="w-100">
-                                            <h5 class="mt-1 text-capitalize">
+                                            <h5 class="mt-1 text-capitalize small">
                                                 FILTER
                                             </h5>
                                         </div>
                                     </div>
                                     <div class="form-group mt-2">
                                         <input type="text" id="products" class="form-control form-control-sm"
-                                            placeholder="Searching...">
+                                            placeholder="Product Name">
                                     </div>
                                     <div class="form-group mt-2">
                                         <select name="" id="status_products" class="form-control form-control-sm">
@@ -109,7 +108,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <button class="btn btn-filter btn-sm small btn-primary w-100">Filter</button>
+                                        <button class="btn btn-filter btn-sm small btn-primary w-100">Searching</button>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +136,7 @@
 
             // Make an AJAX request to process the filter
             $.ajax({
-                url: '/admin/products/searching-products/', // Replace with your route URL
+                url: "{{route('admin.products.searching')}}", // Replace with your route URL
                 method: 'GET',
                 data: {
                     status: statusValue,
@@ -175,7 +174,7 @@
                                                     <p class="fw-bold h5 text-muted text-uppercase">
                                                         ${item.product_name}
                                                     </p>
-                                                    <p class="form-check-label text-sm">#{{@$item->code}}</p>
+                                                    <p class="form-check-label text-sm"><i class="ri-qr-code-line text-success"></i>#${item.code}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
                                             <div class="col-sm-6">
@@ -186,8 +185,7 @@
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-user-settings-line fs-16 me-1'></i>
-                                                                SET SALES
+                                                                <i class="ri-edit-2-fill text-success" style="font-size: 15px;"></i>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -205,8 +203,7 @@
                     });
                 },
                 error: function (xhr, status, error) {
-                    console.error(error);
-                    // Handle error if necessary
+                    alert(alert.message);
                 }
             });
         });

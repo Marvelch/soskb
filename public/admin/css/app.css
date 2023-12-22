@@ -9599,7 +9599,7 @@ fieldset:disabled .btn {
 }
 
 .my-auto {
-    margin-top: auto !important;
+    margin-top: 30%;
     margin-bottom: auto !important;
 }
 
@@ -18755,7 +18755,7 @@ body.auth-fluid-pages[data-sidenav-size="condensed"] {
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
     align-items: stretch;
-    background: url("../images/bg-auth.svg") center;
+    background: url("../images/bg-auth.png") center;
     background-size: cover;
 }
 .auth-fluid .auth-fluid-form-box {
@@ -21393,5 +21393,5 @@ span.flatpickr-weekday,
 }
 
 input::placeholder {
-  font-size: 11px; /* Change the font size to your desired value */
+    font-size: 11px; /* Change the font size to your desired value */
 }

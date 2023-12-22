@@ -278,9 +278,18 @@ class ProductController extends Controller
      */
     public function searchingProducts(Request $request)
     {
-        $productData = product::where('product_name', 'ILIKE', '%' . $request->product . '%')
+        $productName = $request->product;
+
+        if($productName) {
+            $productData = product::where('product_name', 'ILIKE', '%' . $productName . '%')
+                                    ->where('status',$request->status)
+                                    ->get();
+        }else{
+            $productData = product::where('product_name', 'ILIKE', '%' . $productName . '%')
                                 ->where('status',$request->status)
+                                ->take(10)
                                 ->get();
+        }
 
         $encryptedProductData = [];
 

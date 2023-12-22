@@ -135,14 +135,15 @@
                                         <div class="row align-items-center">
                                             <div class="col-auto" style="width: 130px; margin-top: -17px;">
                                                 <div class="avatar-sm w-100" style="height: 20px;">
-                                                    <span class="avatar-title bg-primary-subtle text-primary rounded">
+                                                    <a href="javascript:void(0);" class="avatar-title bg-primary-subtle text-primary rounded" id="product_code_{{ $item->products->id }}" onClick="copyProductCode('{{ $item->products->id }}')">
                                                         {{@$item->products->code}}
-                                                    </span>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="col ps-0" style="margin-top: -17px;">
-                                                <a href="javascript:void(0);"
-                                                    class="text-muted text-sm fw-bold">{{@$item->products->product_name}}</a>
+                                                <a href="javascript:void(0);" class="text-muted text-sm fw-bold" id="product_{{ $item->products->id }}" onClick="copyProductName('{{ $item->products->id }}')">
+                                                    {{ $item->products->product_name }}
+                                                </a>
                                             </div>
                                             <div class="col-auto" style="margin-top: -15px;">
                                                 <!-- Button -->
@@ -278,4 +279,44 @@
     <!-- end row -->
 
 </div> <!-- container -->
+@push('jsscripts')
+<script>
+    function copyProductName(id) {
+        const productName = document.getElementById('product_' + id).innerText;
+
+        // Buat elemen textarea untuk menyimpan teks yang akan disalin
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = productName;
+
+        // Sisipkan elemen textarea ke dalam dokumen
+        document.body.appendChild(tempTextArea);
+
+        // Pilih dan salin teks dari elemen textarea ke clipboard
+        tempTextArea.select();
+        document.execCommand('copy');
+
+        // Hapus elemen textarea setelah teks tercopy
+        document.body.removeChild(tempTextArea);
+    }
+
+    function copyProductCode(id) {
+        const productCode = document.getElementById('product_code_' + id).innerText;
+
+        // Buat elemen textarea untuk menyimpan teks yang akan disalin
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = productCode;
+
+        // Sisipkan elemen textarea ke dalam dokumen
+        document.body.appendChild(tempTextArea);
+
+        // Pilih dan salin teks dari elemen textarea ke clipboard
+        tempTextArea.select();
+        document.execCommand('copy');
+
+        // Hapus elemen textarea setelah teks tercopy
+        document.body.removeChild(tempTextArea);
+    }
+</script>
+
+@endpush
 @endsection

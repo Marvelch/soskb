@@ -840,11 +840,9 @@ class SalesOrderController extends Controller
     {
         $salesOrderData = salesOrder::join('customers', 'sales_orders.customer_id', '=', 'customers.id')
                                     ->join('users','sales_orders.created_by','=','users.id')
-                                    ->where(function ($query) use ($request) {
-                                        $query->where('customers.name', 'ILIKE', '%' . $request->get('customer') . '%')
-                                            ->orWhereBetween('sales_orders.so_date', [$request->start, $request->end]);
-                                    })
-                                    ->where('sales_orders.status',$request->status)
+                                    ->where('customers.name', 'ILIKE', '%' . $request['customer'] . '%')
+                                    ->whereBetween('sales_orders.so_date', [$request['start'], $request['end']])
+                                    ->where('sales_orders.status',$request['status'])
                                     ->select(
                                         'customers.name as customer_name',
                                         'so_date',
