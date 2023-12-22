@@ -75,9 +75,9 @@
                             <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Total Products</h5>
                             <h3 class="my-3">{{@$totalProducts}}</h3>
                             <p class="mb-0 text-muted text-truncate">
-                                <span class="badge bg-danger me-1"><i class="ri-lock-unlock-line"></i>
+                                <span class="badge bg-danger me-1" title="Non Active"><i class="ri-lock-2-line"></i>
                                     {{@$productNonActive}}</span>
-                                <span class="badge bg-success me-1"><i class="ri-lock-2-line"></i>
+                                <span class="badge bg-success me-1" title="Active"><i class="ri-lock-unlock-line"></i>
                                     {{@$productActive}}</span>
                             </p>
                         </div>

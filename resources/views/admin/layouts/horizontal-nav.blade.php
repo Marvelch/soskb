@@ -40,7 +40,7 @@
                     </li>
                      <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
-                            <i class="ri-archive-line"></i>Products
+                            <i class="ri-box-3-line"></i>Products
                         </a>
                     </li>
                     <!--<li class="nav-item dropdown">
