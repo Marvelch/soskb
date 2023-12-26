@@ -446,6 +446,8 @@ class CustomerController extends Controller
 
         $regionData = region::all();
 
+        $islandData = island::all();
+
         return view('admin.customers.create',compact('customerData','islandData'));
     }
 
