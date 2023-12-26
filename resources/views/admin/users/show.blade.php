@@ -136,6 +136,7 @@
                                                                     <label for="" class="small mb-1">Pilih Kota</label>
                                                                     <select name="city_id[]" id="200"
                                                                         class="form-control form-control-sm">
+                                                                        <option value=""></option>
                                                                     </select>
                                                                 </div>
                                                             </td>
