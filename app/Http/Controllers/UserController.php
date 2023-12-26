@@ -94,10 +94,9 @@ class UserController extends Controller
                     'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
 
-                foreach(@$request->island as $key => $item) {
-
-                    if($item != null && $request->region_id[$key] != null && $request->city_id[$key])
-                    {
+                if(count($request->island) > 0)
+                {
+                    foreach($request->island as $key => $item) {
                         $region = $request->region_id[$key];
                         $city = $request->city_id[$key];
 
@@ -131,10 +130,9 @@ class UserController extends Controller
                     'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
 
-                foreach(@$request->island as $key => $item) {
-
-                    if($item != null && $request->region_id[$key] != null && $request->city_id[$key])
-                    {
+                if(count($request->island) > 0)
+                {
+                    foreach(@$request->island as $key => $item) {
                         $region = $request->region_id[$key];
                         $city = $request->city_id[$key];
 
