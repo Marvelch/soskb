@@ -505,6 +505,7 @@
                             };
                         },
                         processResults: function (data) {
+                            console.log(data);
                             return {
                                 results: $.map(data, function (item) {
                                     return {

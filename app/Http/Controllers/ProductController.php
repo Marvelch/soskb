@@ -23,8 +23,8 @@ class ProductController extends Controller
     {
         $marketingAreaData = marketingArea::where('user_id',Auth::user()->id)->get();
 
-        $customerType = Auth::user()->customers->customer_type_id;
-        $subCustomerType = Auth::user()->subCustomers->sub_customer_type_id;
+        $customerType = @Auth::user()->customers->customer_type_id;
+        $subCustomerType = @Auth::user()->subCustomers->sub_customer_type_id;
 
         $level = @Auth::user()->positions->level;
 
