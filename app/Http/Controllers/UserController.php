@@ -82,9 +82,9 @@ class UserController extends Controller
 
         try {
             if($request->sub_customer_type_id) {
-                $request->sub_customer_type_id = $request->sub_customer_type_id;
+                $subCustomerType = $request->sub_customer_type_id;
             }else{
-                $request->sub_customer_type_id = null;
+                $subCustomerType = null;
             }
 
             if($request->password) {
@@ -97,7 +97,7 @@ class UserController extends Controller
                         'user_id' => Crypt::decryptString($id)],
                     [
                     'customer_type_id' => $request->customer_type_id,
-                    'sub_customer_type_id' => $request->sub_customer_type_id
+                    'sub_customer_type_id' => $subCustomerType
                 ]);
                 foreach($request->island as $key => $item) {
 
@@ -130,7 +130,7 @@ class UserController extends Controller
                         'user_id' => Crypt::decryptString($id)],
                     [
                     'customer_type_id' => $request->customer_type_id,
-                    'sub_customer_type_id' => $request->sub_customer_type_id
+                    'sub_customer_type_id' => $subCustomerType
                 ]);
 
                 foreach($request->island as $key => $item) {
