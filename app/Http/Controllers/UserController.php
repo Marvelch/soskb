@@ -94,26 +94,27 @@ class UserController extends Controller
                     'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
 
-                if(count(@$request->island) > 0)
-                {
-                    foreach($request->island as $key => $item) {
-                        $region = $request->region_id[$key];
-                        $city = $request->city_id[$key];
+                if (!is_null($request->island)) {
+                    if(count(@$request->island) > 0) {
+                        foreach(@$request->island as $key => $item) {
+                            $region = $request->region_id[$key];
+                            $city = $request->city_id[$key];
 
-                        $removeDuplicate = marketingArea::where('island_id',$item)
-                                                        ->where('region_id',$region ? $region : null)
-                                                        ->where('city_id',$city ? $region : null)
-                                                        ->where('user_id',Crypt::decryptString($id))
-                                                        ->first();
-                        if($item) {
-                            if(!$removeDuplicate)
-                            {
-                                marketingArea::create([
-                                    'island_id' => $item,
-                                    'region_id' => @$request->region_id[$key],
-                                    'city_id' => @$request->city_id[$key],
-                                    'user_id' => Crypt::decryptString($id)
-                                ]);
+                            $removeDuplicate = marketingArea::where('island_id',$item)
+                                                                ->where('region_id',$region ? $region : null)
+                                                                ->where('city_id',$city ? $region : null)
+                                                                ->where('user_id',Crypt::decryptString($id))
+                                                                ->first();
+                            if($item) {
+                                if(!$removeDuplicate)
+                                {
+                                    marketingArea::create([
+                                        'island_id' => $item,
+                                        'region_id' => @$request->region_id[$key],
+                                        'city_id' => @$request->city_id[$key],
+                                        'user_id' => Crypt::decryptString($id)
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -130,26 +131,27 @@ class UserController extends Controller
                     'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
 
-                if(count(@$request->island) > 0)
-                {
-                    foreach(@$request->island as $key => $item) {
-                        $region = $request->region_id[$key];
-                        $city = $request->city_id[$key];
+                if (!is_null($request->island)) {
+                    if(count(@$request->island) > 0) {
+                        foreach(@$request->island as $key => $item) {
+                            $region = $request->region_id[$key];
+                            $city = $request->city_id[$key];
 
-                        $removeDuplicate = marketingArea::where('island_id',$item)
-                                                        ->where('region_id',$region ? $region : null)
-                                                        ->where('city_id',$city ? $region : null)
-                                                        ->where('user_id',Crypt::decryptString($id))
-                                                        ->first();
-                        if($item) {
-                            if(!$removeDuplicate)
-                            {
-                                marketingArea::create([
-                                    'island_id' => $item,
-                                    'region_id' => @$request->region_id[$key],
-                                    'city_id' => @$request->city_id[$key],
-                                    'user_id' => Crypt::decryptString($id)
-                                ]);
+                            $removeDuplicate = marketingArea::where('island_id',$item)
+                                                                ->where('region_id',$region ? $region : null)
+                                                                ->where('city_id',$city ? $region : null)
+                                                                ->where('user_id',Crypt::decryptString($id))
+                                                                ->first();
+                            if($item) {
+                                if(!$removeDuplicate)
+                                {
+                                    marketingArea::create([
+                                        'island_id' => $item,
+                                        'region_id' => @$request->region_id[$key],
+                                        'city_id' => @$request->city_id[$key],
+                                        'user_id' => Crypt::decryptString($id)
+                                    ]);
+                                }
                             }
                         }
                     }
