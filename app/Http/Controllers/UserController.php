@@ -103,13 +103,21 @@ class UserController extends Controller
                                                     ->where('city_id',$city ? $city : null)
                                                     ->where('user_id',Crypt::decryptString($id))
                                                     ->first();
+
+                    if( $request->island[$key]) {
+                        $regionInitial =  $request->region_id[$key];
+                    }
+                    if( $request->island[$key] || $request->region_id[$key]) {
+                        $cityInitial =  $request->city_id[$key];
+                    }
+
                     if($item) {
                         if(!$removeDuplicate)
                         {
                             marketingArea::create([
                                 'island_id' => $item,
-                                'region_id' => @$request->region_id[$key],
-                                'city_id' => @$request->city_id[$key],
+                                'region_id' => $regionInitial ?: null,
+                                'city_id' => $cityInitial ?: null,
                                 'user_id' => Crypt::decryptString($id)
                             ]);
                         }
