@@ -130,12 +130,12 @@ class UserController extends Controller
 
                 foreach($request->island as $key => $item) {
 
-                    $region = @$request->region_id[$key];
-                    $city = @$request->city_id[$key];
+                    $region = $request->region_id[$key];
+                    $city = $request->city_id[$key];
 
                     $removeDuplicate = marketingArea::where('island_id',$item)
-                                                    ->where('region_id',$region ? $region : null)
-                                                    ->where('city_id',$city ? $city : null)
+                                                    ->where('region_id',$region ?: null)
+                                                    ->where('city_id',$city ?: null)
                                                     ->where('user_id',Crypt::decryptString($id))
                                                     ->first();
                     if($item) {
