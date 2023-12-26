@@ -141,7 +141,7 @@
 
                         if (item.position) {
                             position =
-                                `<i class='ri-medal-2-fill text-success fs-16'></i>.${item.position}`;
+                                `<i class='ri-medal-2-fill text-success fs-16'></i>${item.position}`;
                         }
 
                         const cardContent = `
