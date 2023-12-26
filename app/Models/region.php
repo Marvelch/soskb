@@ -12,8 +12,8 @@ class region extends Model
     protected $table = 'regions';
 
     protected $fillable = [
-        'code',
-        'name',
+        'island',
+        'region_name',
         'status'
     ];
 }

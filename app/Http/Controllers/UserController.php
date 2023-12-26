@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Auth;
 use DB;
 
 class UserController extends Controller
@@ -58,7 +59,9 @@ class UserController extends Controller
 
         $customerTypes = customerType::all();
 
-        return view('admin.users.show',compact('users','positions','regions','customerTypes'));
+        $marketingArea = marketingArea::where('user_id',Crypt::decryptString($id))->get();
+
+        return view('admin.users.show',compact('users','positions','regions','customerTypes','marketingArea'));
     }
 
     /**
@@ -74,10 +77,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         DB::beginTransaction();
 
         try {
-            $positions = position::where('unique',$request->position)->first();
+            if($request->sub_customer_type_id) {
+                $request->sub_customer_type_id = $request->sub_customer_type_id;
+            }else{
+                $request->sub_customer_type_id = null;
+            }
 
             if($request->password) {
                 User::find(Crypt::decryptString($id))->update([
@@ -101,14 +109,16 @@ class UserController extends Controller
                                                     ->where('city_id',$city ? $city : null)
                                                     ->where('user_id',Crypt::decryptString($id))
                                                     ->first();
-                    if(!$removeDuplicate)
-                    {
-                        marketingArea::create([
-                            'island_id' => $item,
-                            'region_id' => @$request->region_id[$key],
-                            'city_id' => @$request->city_id[$key],
-                            'user_id' => Crypt::decryptString($id)
-                        ]);
+                    if($item) {
+                        if(!$removeDuplicate)
+                        {
+                            marketingArea::create([
+                                'island_id' => $item,
+                                'region_id' => @$request->region_id[$key],
+                                'city_id' => @$request->city_id[$key],
+                                'user_id' => Crypt::decryptString($id)
+                            ]);
+                        }
                     }
                 }
             }else{
@@ -122,6 +132,7 @@ class UserController extends Controller
                     'customer_type_id' => $request->customer_type_id,
                     'sub_customer_type_id' => $request->sub_customer_type_id
                 ]);
+
                 foreach($request->island as $key => $item) {
 
                     $region = @$request->region_id[$key];
@@ -132,14 +143,16 @@ class UserController extends Controller
                                                     ->where('city_id',$city ? $city : null)
                                                     ->where('user_id',Crypt::decryptString($id))
                                                     ->first();
-                    if(!$removeDuplicate)
-                    {
-                        marketingArea::create([
-                            'island_id' => $item,
-                            'region_id' => @$request->region_id[$key],
-                            'city_id' => @$request->city_id[$key],
-                            'user_id' => Crypt::decryptString($id)
-                        ]);
+                    if($item) {
+                        if(!$removeDuplicate)
+                        {
+                            marketingArea::create([
+                                'island_id' => $item,
+                                'region_id' => @$request->region_id[$key],
+                                'city_id' => @$request->city_id[$key],
+                                'user_id' => Crypt::decryptString($id)
+                            ]);
+                        }
                     }
                 }
             }
@@ -158,7 +171,7 @@ class UserController extends Controller
 
             // return back();
 
-            return $th;
+            return $th->getMessage();
         }
     }
 

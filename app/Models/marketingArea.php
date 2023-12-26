@@ -17,4 +17,19 @@ class marketingArea extends Model
         'city_id',
         'user_id'
     ];
+
+    public function regions()
+    {
+        return $this->belongsTo(region::class,'region_id','id');
+    }
+
+    public function islands()
+    {
+        return $this->belongsTo(island::class,'island_id','id');
+    }
+
+    public function citys()
+    {
+        return $this->belongsTo(city::class,'city_id','id');
+    }
 }

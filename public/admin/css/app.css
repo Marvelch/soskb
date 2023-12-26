@@ -21395,3 +21395,9 @@ span.flatpickr-weekday,
 input::placeholder {
     font-size: 11px; /* Change the font size to your desired value */
 }
+
+#elementToToggle {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Transition for opacity change */
+}

@@ -7,6 +7,7 @@ use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IslandController;
+use App\Http\Controllers\MarketingAreaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\SubCustomerTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\general;
+use App\Models\marketingArea;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 
@@ -162,6 +164,10 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         ## Searching ##
         Route::get('/searching',[UserController::class,'searching_users_sales'])->name('admin.users.sales.searching');
         Route::get('/searching/sub-customer-type',[UserController::class,'searching_sub_customer_type'])->name('admin.users.sub.customers.searching');
+    });
+
+    Route::prefix('marketing-area')->group(function () {
+        Route::get('/delete/{id}',[MarketingAreaController::class,'destroy'])->name('admin.marketing.area.destroy');
     });
 
     ## General Access Searching ##
