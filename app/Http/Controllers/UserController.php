@@ -81,12 +81,6 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            if($request->sub_customer_type_id) {
-                $subCustomerType = $request->sub_customer_type_id;
-            }else{
-                $subCustomerType = null;
-            }
-
             if($request->password) {
                 User::find(Crypt::decryptString($id))->update([
                     'password' => @Hash::make($request->password),
@@ -97,7 +91,7 @@ class UserController extends Controller
                         'user_id' => Crypt::decryptString($id)],
                     [
                     'customer_type_id' => $request->customer_type_id,
-                    'sub_customer_type_id' => $subCustomerType
+                    'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
                 foreach($request->island as $key => $item) {
 
@@ -130,7 +124,7 @@ class UserController extends Controller
                         'user_id' => Crypt::decryptString($id)],
                     [
                     'customer_type_id' => $request->customer_type_id,
-                    'sub_customer_type_id' => $subCustomerType
+                    'sub_customer_type_id' => $request->sub_customer_type_id == null || $request->sub_customer_type_id == "null" ? null : $request->sub_customer_type_id
                 ]);
 
                 foreach($request->island as $key => $item) {
@@ -171,7 +165,7 @@ class UserController extends Controller
 
             // return back();
 
-            return $th->getMessage();
+            return $th;
         }
     }
 
