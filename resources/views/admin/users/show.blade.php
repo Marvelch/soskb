@@ -118,7 +118,6 @@
                                                                             class="text-danger">*</span></label>
                                                                     <select name="island[]" id="1"
                                                                         class="form-control form-control-sm">
-                                                                        <option value=""></option>
                                                                     </select>
                                                                 </div>
                                                             </td>
@@ -137,7 +136,6 @@
                                                                     <label for="" class="small mb-1">Pilih Kota</label>
                                                                     <select name="city_id[]" id="200"
                                                                         class="form-control form-control-sm">
-                                                                        <option value=""></option>
                                                                     </select>
                                                                 </div>
                                                             </td>
@@ -318,6 +316,7 @@
             ajax: {
                 url: "{{ route('admin.searching.island.searching') }}",
                 dataType: "json",
+                allowClear: true,
                 delay: 250,
                 processResults: function (data) {
                     return {
@@ -335,12 +334,11 @@
 
         $("#1").change(function () {
             const island_id = $(this).find('option:selected').val();
-            $("#100").empty();
-            $("#200").empty();
             $("#100").select2({
                 ajax: {
                     url: "{{ route('admin.searching.region.searching') }}",
                     dataType: "json",
+                    allowClear: true,
                     delay: 250,
                     data: {
                         island_id: island_id
@@ -357,17 +355,22 @@
                     },
                     cache: true
                 }
+            }).on('change', function() {
+                if ($(this).val() === '') {
+                    $(this).val(null).trigger('change');
+                }
             });
         });
 
         $("#100").change(function () {
             const region_id = $(this).find('option:selected').val();
-            $("#200").empty();
+
             $("#200").select2({
                 ajax: {
                     url: "{{ route('admin.searching.city.searching') }}",
                     dataType: "json",
                     delay: 250,
+                    allowClear: true,
                     data: {
                         region_id: region_id
                     },
@@ -382,6 +385,10 @@
                         };
                     },
                     cache: true
+                }
+            }).on('change', function() {
+                if ($(this).val() === '') {
+                    $(this).val(null).trigger('change');
                 }
             });
         });
@@ -472,6 +479,10 @@
                         },
                         cache: true
                     }
+                }).on('change', function() {
+                    if ($(this).val() === '') {
+                        $(this).val(null).trigger('change');
+                    }
                 });
             });
 
@@ -497,6 +508,10 @@
                             };
                         },
                         cache: true,
+                    }
+                }).on('change', function() {
+                    if ($(this).val() === '') {
+                        $(this).val(null).trigger('change');
                     }
                 });
             });
