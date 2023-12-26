@@ -68,7 +68,7 @@ class CityController extends Controller
      */
     public function searchCity(Request $request)
     {
-        $data = city::where('city_name', 'ILIKE', '%' . $request->get('q') . '%')
+        $data = city::where('city_name', 'ILIKE', '%' . $request->input('term') . '%')
                             ->where('region_id',$request->region_id)
                             ->get();
 

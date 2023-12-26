@@ -465,8 +465,11 @@
                         url: "{{ route('admin.searching.region.searching') }}",
                         dataType: "json",
                         delay: 250,
-                        data: {
-                            island_id: island_id
+                        data: function (params) {
+                            return {
+                                term: params.term,
+                                island_id: island_id
+                            };
                         },
                         processResults: function (data) {
                             return {
@@ -495,8 +498,11 @@
                         url: "{{ route('admin.searching.city.searching') }}",
                         dataType: "json",
                         delay: 250,
-                        data: {
-                            region_id: region_id
+                        data: function (params) {
+                            return {
+                                term: params.term,
+                                region_id: region_id
+                            };
                         },
                         processResults: function (data) {
                             return {

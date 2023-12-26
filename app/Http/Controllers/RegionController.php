@@ -68,7 +68,7 @@ class RegionController extends Controller
      */
     public function searchRegion(Request $request)
     {
-        $data = region::where('region_name', 'ILIKE', '%' . $request->get('q') . '%')
+        $data = region::where('region_name', 'ILIKE', '%' . $request->input('term') . '%')
                             ->where('island',$request->island_id)
                             ->get();
 
