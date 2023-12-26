@@ -95,21 +95,22 @@ class UserController extends Controller
                 ]);
 
                 foreach($request->island as $key => $item) {
-                    $region = isset($request->region_id[$key]) ? $request->region_id[$key] : null;
-                    $city = isset($request->city_id[$key]) ? $request->city_id[$key] : null;
 
-                    $removeDuplicate = marketingArea::where('island_id', $item)
-                        ->where('region_id', $region)
-                        ->where('city_id', $city)
-                        ->where('user_id', Crypt::decryptString($id))
-                        ->first();
+                    $region = @$request->region_id[$key];
+                    $city = @$request->city_id[$key];
 
-                    if ($item) {
-                        if (!$removeDuplicate) {
+                    $removeDuplicate = marketingArea::where('island_id',$item)
+                                                    ->where('region_id',$region ? $region : null)
+                                                    ->where('city_id',$city ? $city : null)
+                                                    ->where('user_id',Crypt::decryptString($id))
+                                                    ->first();
+                    if($item) {
+                        if(!$removeDuplicate)
+                        {
                             marketingArea::create([
                                 'island_id' => $item,
-                                'region_id' => $region,
-                                'city_id' => $city,
+                                'region_id' => @$request->region_id[$key],
+                                'city_id' => @$request->city_id[$key],
                                 'user_id' => Crypt::decryptString($id)
                             ]);
                         }
@@ -128,27 +129,27 @@ class UserController extends Controller
                 ]);
 
                 foreach($request->island as $key => $item) {
-                    $region = isset($request->region_id[$key]) ? $request->region_id[$key] : null;
-                    $city = isset($request->city_id[$key]) ? $request->city_id[$key] : null;
 
-                    $removeDuplicate = marketingArea::where('island_id', $item)
-                        ->where('region_id', $region)
-                        ->where('city_id', $city)
-                        ->where('user_id', Crypt::decryptString($id))
-                        ->first();
+                    $region = @$request->region_id[$key];
+                    $city = @$request->city_id[$key];
 
-                    if ($item) {
-                        if (!$removeDuplicate) {
+                    $removeDuplicate = marketingArea::where('island_id',$item)
+                                                    ->where('region_id',$region ? $region : null)
+                                                    ->where('city_id',$city ? $city : null)
+                                                    ->where('user_id',Crypt::decryptString($id))
+                                                    ->first();
+                    if($item) {
+                        if(!$removeDuplicate)
+                        {
                             marketingArea::create([
                                 'island_id' => $item,
-                                'region_id' => $region,
-                                'city_id' => $city,
+                                'region_id' => @$request->region_id[$key],
+                                'city_id' => @$request->city_id[$key],
                                 'user_id' => Crypt::decryptString($id)
                             ]);
                         }
                     }
                 }
-
             }
 
             DB::commit();
