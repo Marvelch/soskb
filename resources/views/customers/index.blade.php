@@ -29,7 +29,7 @@
                     </div>
                     <div class="d-flex">
                         <p class="text-dark m-0 fw-bold">{{@$item->name}}<br>
-                            <span class="text-muted">{{@$item->address}}</span>
+                            <span class="text-muted small">{{@$item->address}}</span>
                         </p>
                     </div>
                 </div>

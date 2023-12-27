@@ -60,7 +60,7 @@
                                                     <div id="tooltip-container">
                                                         @if($item->status == 1)
                                                         <p class="form-check-label small text-capitalize"><span
-                                                                class="badge bg-warning-subtle text-danger p-1">On
+                                                                class="badge bg-success-subtle text-success p-1">On
                                                                 Progress</span></p>
                                                         @elseif($item->status == 2)
                                                         <p class="form-check-label small text-capitalize"><span

@@ -97,7 +97,7 @@
                                 <div class="form-group">
                                     <label for="" class="small">Pilih Sales</label>
                                     <select class="js-example-basic-multiple form-control form-control-sm"
-                                        name="sales_id[]" multiple="multiple">
+                                        name="sales_id[]" multiple="multiple" required>
                                         @foreach($sales as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach

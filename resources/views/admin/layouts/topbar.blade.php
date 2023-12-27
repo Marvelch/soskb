@@ -50,18 +50,18 @@
 
                 <div class="dropdown-menu dropdown-menu-animated dropdown-lg" id="search-dropdown">
 
-                    <div class="dropdown-header noti-title">
-                        <h5 class="text-overflow mb-1">Found <b class="text-decoration-underline">08</b> results</h5>
-                    </div>
+                    <!-- <div class="dropdown-header noti-title">
+                        <h5 class="text-overflow mb-1">Deployment service searching</h5>
+                    </div> -->
 
 
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="ri-file-chart-line fs-16 me-1"></i>
-                        <span>Analytics Report</span>
+                        <i class="ri-alert-line text-danger"></i>
+                        <span>Deployment Service !</span>
                     </a>
 
 
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="ri-lifebuoy-line fs-16 me-1"></i>
                         <span>How can I help you?</span>
                     </a>
@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -144,20 +144,20 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <div class="notify-icon bg-primary">
-                                            <i class="ri-message-3-line fs-18"></i>
+                                        <div class="notify-icon bg-danger">
+                                            <i class="ri-error-warning-line"></i>
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold fs-14">NEW SO <small class="fw-normal text-muted float-end ms-1">1 min ago</small></h5>
-                                        <small class="noti-item-subtitle text-muted">Information New Sales Order</small>
+                                        <h5 class="noti-item-title fw-semibold fs-14">NEW Sales Order<small class="fw-normal text-muted float-end ms-1">1 min ago</small></h5>
+                                        <small class="noti-item-subtitle text-muted">Deployment Service !</small>
                                     </div>
                                 </div>
                             </div>
                         </a>
 
 
-                        <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
+                        <!-- <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
@@ -171,12 +171,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
 
-                        <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">Yesterday</h5>
+                        <!-- <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">Yesterday</h5> -->
 
 
-                        <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
+                        <!-- <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
@@ -190,9 +190,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
 
-                        <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">31 Jan 2023</h5>
+                        <!-- <h5 class="text-muted fs-12 fw-bold p-2 mb-0 text-uppercase">31 Jan 2023</h5>
 
 
                         <a href="javascript:void(0);" class="dropdown-item p-0 notify-item read-noti card m-0 shadow-none">
@@ -227,7 +227,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
 
 
                     <a href="javascript:void(0);" class="dropdown-item text-center text-primary text-decoration-underline fw-bold notify-item border-top border-light py-2">
@@ -241,7 +241,7 @@
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="ri-apps-2-line fs-22"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg p-0">
+                <!-- <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg p-0">
 
                     <div class="p-2">
                         <div class="row g-0">
@@ -287,7 +287,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
             </li>
 
             <li class="d-none d-sm-inline-block">

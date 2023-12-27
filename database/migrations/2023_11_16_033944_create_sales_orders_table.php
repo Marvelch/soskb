@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales_orders', function (Blueprint $table) {
-            $table->id();
             $table->string('id_transaction')->unique();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
