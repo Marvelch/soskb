@@ -14,7 +14,7 @@
              <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group mb-3 mt-3">
-                    <label for="exampleInputEmail1">Email</label>
+                    <label for="exampleInputEmail1 fw-bold">Email</label>
                     <input id="email" type="email" class="form-control mt-1 @error('email') is-invalid @enderror"
                         aria-describedby="emailHelp" name="email" value="{{ old('email') }}" autofocus>
                     @error('email')
@@ -32,7 +32,10 @@
                         </span>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-success btn-lg rounded w-100 mt-2">Login</button>
+                <button type="submit" class="btn btn-success btn-lg rounded w-100 mt-3">Login</button>
+                <div class="form-group mt-5 text-center">
+                    <p class="small text-muted">Powered by Information Technology</p>
+                </div>
             </form>
         </div>
     </div>

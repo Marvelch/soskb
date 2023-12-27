@@ -88,6 +88,7 @@ Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () 
 
 Route::prefix('customers')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[CustomerController::class,'index'])->name('index_customers');
+    Route::get('/customer-close',[CustomerController::class,'customerClose'])->name('customer.close.orders');
 });
 
 Route::prefix('transaction')->middleware('auth','authCheck')->group(function () {

@@ -109,14 +109,28 @@
 
                             <div class="col-md-4 mt-2">
                                 <!-- start due date -->
+                                <p class="mt-2 mb-1 text-muted small">Select Island</p>
+                                <div class="d-flex align-items-start">
+                                    <div class="w-100">
+                                        <select name="island_id" id="island" class="form-control form-control-sm"
+                                            required>
+                                            @foreach($islandData as $item)
+                                            <option value="{{$item->id}}">{{$item->island_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
+                                    </div>
+                                </div>
+                                <!-- end due date -->
+                            </div>
+
+                            <div class="col-md-4 mt-2">
+                                <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Select Region</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
                                         <select name="region_id" id="region" class="form-control form-control-sm"
                                             required>
-                                            @foreach($regionData as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
                                     </div>
@@ -205,6 +219,36 @@
                                 results: $.map(data, function (item) {
                                     return {
                                         text: item.name,
+                                        id: item.id
+                                    };
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                })
+            }
+        });
+
+         $('#island').on('change click', function () {
+            var islandValue = $('#island').find(':selected').val();
+
+            $('#region').val(null);
+
+            if (islandValue) {
+                $('#region').select2({
+                    ajax: {
+                        url: '{{route("admin.searching.region.searching")}}',
+                        dataType: 'json',
+                        delay: 250,
+                        data: {
+                            island_id: islandValue
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        text: item.region_name,
                                         id: item.id
                                     };
                                 })

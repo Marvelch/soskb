@@ -75,14 +75,14 @@
                   </div>
                </div>
                <div class="row m-0">
-                  <!-- <div class="col ps-0 pe-1 py-1" id="sales">
+                  <div class="col ps-0 pe-1 py-1" id="sales">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
-                        <a href="{{route('index_customers')}}">
+                        <a href="{{route('customer.close.orders')}}">
                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/data-search-7380507-6041185.png" class="img-fluid px-2">
-                           <p class="m-0 pt-2 text-muted text-center">Data Sales</p>
+                           <p class="m-0 pt-2 text-muted text-center">Close Orders</p>
                         </a>
                      </div>
-                  </div> -->
+                  </div>
                   <div class="col p-1">
                      <!-- <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">
                         <a href="listing.html">

@@ -16,7 +16,7 @@
          <a href="{{route('login')}}" class="btn btn-success rounded btn-block btn-lg">
          Login
          </a>
-         <a href="signin.html" class="text-white btn btn-sm btn-block text-decoration-none mb-2">
+         <a href="{{route('login')}}" class="text-white btn btn-sm btn-block text-decoration-none mb-2">
             <!-- kosong -->
          </a>
       </div>

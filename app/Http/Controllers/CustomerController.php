@@ -12,6 +12,7 @@ use App\Models\marketingArea;
 use App\Models\product;
 use App\Models\region;
 use App\Models\salesCustomer;
+use App\Models\salesOrder;
 use App\Models\subCustomerType;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use DB;
 use Auth;
+use Carbon\Carbon;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -448,7 +450,7 @@ class CustomerController extends Controller
 
         $islandData = island::all();
 
-        return view('admin.customers.create',compact('customerData','islandData'));
+        return view('admin.customers.create',compact('customerData','islandData','regionData'));
     }
 
     /**
@@ -475,6 +477,7 @@ class CustomerController extends Controller
                 'address' => $request->address,
                 'customer_type_id' => $request->customer_type_id,
                 'sub_customer_type_id' => $request->customer_type_id,
+                'island_id' => $request->island_id,
                 'region_id' => $request->region_id,
                 'city_id' => $request->city_id,
                 'created_by' => Auth::user()->id
@@ -702,4 +705,37 @@ class CustomerController extends Controller
             return back();
         }
     }
+
+    /**
+     * The customer has never ordered
+     */
+    public function customerClose(Request $request)
+    {
+        $today = Carbon::today('Asia/Jakarta');
+
+        $firstDayOfThisMonth = $today->startOfMonth();
+
+        $firstDayOfLastMonth = $firstDayOfThisMonth->copy()->subMonthNoOverflow()->startOfMonth();
+
+        $lastDayOfLastMonth = $firstDayOfLastMonth->copy()->endOfMonth();
+
+        $oneDayBeforeLastMonthEnd = $lastDayOfLastMonth->subDay();
+
+        // Month Now
+
+        $firstDayOfNextMonth = $today->copy()->addMonthNoOverflow()->startOfMonth();
+
+        $lastDayOfThisMonth = $firstDayOfNextMonth->copy()->subDay();
+
+        $salesOrderData = salesOrder::join('customers','sales_orders.customer_id','!=','customers.id')
+                                    ->whereBetween('so_date', [
+                                        $oneDayBeforeLastMonthEnd->format('Y-m-d'),
+                                        $lastDayOfThisMonth->format('Y-m-d')
+                                    ])
+                                    ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
+                                    ->get();
+
+        return view('customer_close.index',compact('salesOrderData'));
+    }
+
 }
