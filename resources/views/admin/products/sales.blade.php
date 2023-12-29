@@ -146,7 +146,7 @@
                             <tbody>
                                 @foreach($salesProducts as $item)
                                 <tr>
-                                    <td>{{$item->sales->name}}</td>
+                                    <td>{{$item}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
