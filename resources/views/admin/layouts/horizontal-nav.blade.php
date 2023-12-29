@@ -9,6 +9,11 @@
                             <i class="ri-home-4-line"></i>Dashboards
                         </a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
+                            <i class="ri-box-3-line"></i>Products
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-shopping-bag-line"></i>Sales Orders<div class="arrow-down"></div>
@@ -37,11 +42,6 @@
                             <a href="apps-kanban.php" class="dropdown-item">Kanban</a>
                             <a href="apps-file-manager.php" class="dropdown-item">File Manager</a> -->
                         </div>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
-                            <i class="ri-box-3-line"></i>Products
-                        </a>
                     </li>
                     <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -164,7 +164,7 @@
                         const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id) }}';
 
                         const cardContent = `
-                                <a href="/admin/products//set-sales//${encryptedIdTransaction}">
+                                <a href="/admin/products/set-sales/${encryptedIdTransaction}">
                                     <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
