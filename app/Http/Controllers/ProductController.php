@@ -296,6 +296,7 @@ class ProductController extends Controller
         // Encrypting IDs in the customer data
         foreach ($productData as $item) {
             $encryptedProductData[] = [
+                'idEncrypt' => Crypt::encryptString($item->id),
                 'id' => Crypt::encryptString($item->id),
                 'product_name' => $item->product_name,
                 'code' => $item->code,
@@ -357,5 +358,17 @@ class ProductController extends Controller
 
             return back();
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroySalesProduct($id)
+    {
+        salesProduct::find($id)->delete();
+
+        toast('Delete Has Been Successful','success');
+
+        return back();
     }
 }

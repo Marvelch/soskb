@@ -161,10 +161,8 @@
                                 `<span class="badge bg-danger-subtle text-danger p-1">Non Active</span>`;
                         }
 
-                        const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id) }}';
-
                         const cardContent = `
-                                <a href="/admin/products/set-sales/${encryptedIdTransaction}">
+                                <a href="/admin/products/set-sales/${item.idEncrypt}">
                                     <div class="card">
                                     <div class="card-body">
                                         <!-- task -->

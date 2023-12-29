@@ -122,6 +122,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
         Route::get('/',[ProductController::class,'index_product'])->name('admin.products.index');
         Route::get('/set-sales/{id}',[ProductController::class,'sales_products'])->name('admin.products.set.sales');
         Route::post('/store-sales-products/{id}',[ProductController::class,'storeSalesProducts'])->name('admin.store.sales.products');
+        Route::get('/destroy/set-sales/{id}',[ProductController::class,'destroySalesProduct'])->name('admin.destroy.products.sales');
 
         ## Searching ##
         Route::get('/searching-products',[ProductController::class,'searchingProducts'])->name('admin.products.searching');

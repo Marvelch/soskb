@@ -146,7 +146,18 @@
                             <tbody>
                                 @foreach($salesProducts as $item)
                                 <tr>
-                                    <td>{{$item}}</td>
+                                    <td class="text-capitalize">
+                                        <div class="card">
+                                            <div class="card-body shadow">
+                                                <div class="d-flex bd-highlight">
+                                                <div class="p-2 flex-grow-1 bd-highlight"><i class="ri-user-line text-success"></i> <span style="margin-left: 5%;">{{$item->sales->name}}</span></div>
+                                                <a href="{{route('admin.destroy.products.sales',['id'=>$item->id])}}">
+                                                    <div class="p-2 bd-highlight"><i class="ri-delete-back-line text-danger"></i></div>
+                                                </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
