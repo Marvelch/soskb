@@ -21,7 +21,8 @@
 
     <div class="row">
         <div class="col-xl-8 col-lg-7">
-            <form action="{{route('admin.customers.update',['id'=>Crypt::encryptString($customerDataUsers->id)])}}" method="post">
+            <form action="{{route('admin.customers.update',['id'=>Crypt::encryptString($customerDataUsers->id)])}}"
+                method="post">
                 @method('PUT')
                 @csrf
                 <!-- project card -->
@@ -31,12 +32,10 @@
                         <!-- end form-check-->
                         <div class="clearfix"></div>
 
-                        <div class="row m-2">
+                        <div class="row">
                             <div class="col-md-12">
-                                <h4 class="text-muted">Edit Customers</h4>
-                                <p class="small text-muted">Perhatikan poses perubahaan <u>customer</u> untuk mengisi
-                                    semua
-                                    kolom sesuai kebutuhan sales dan laporan akhir.</p>
+                                <h4 class=""><i class="ri-edit-2-fill text-success"></i> Edit Customers</h4>
+                                <p class="small text-muted">Tentukan alamat lengkap dan koordinat customer pada layanan sales orders</p>
                                 <!-- assignee -->
                                 <p class="mt-2 mb-1 text-muted mt-4 small">Customer Name</p>
                                 <div class="d-flex align-items-start">
@@ -76,8 +75,21 @@
                                 </div>
                                 <!-- end due date -->
                             </div>
+                            <!-- end col -->
+                        </div>
 
-                            <div class="col-md-4 mt-2">
+                        <!-- end row -->
+
+                        <!-- end sub tasks/checklists -->
+                    </div>
+                    <!-- end card-body-->
+                </div>
+                <!-- end card-->
+
+                <div class="card b-block">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Customer Group</p>
                                 <div class="d-flex align-items-start">
@@ -85,7 +97,9 @@
                                         <select name="customer_type_id" id="customer"
                                             class="form-control form-control-sm" required>
                                             @foreach($customerData as $item)
-                                            <option value="{{@$item->id}}" {{@$item->id == @$customerDataUsers->customerType->id ? 'selected' : ''}}>{{@$item->name}}</option>
+                                            <option value="{{@$item->id}}"
+                                                {{@$item->id == @$customerDataUsers->customerType->id ? 'selected' : ''}}>
+                                                {{@$item->name}}</option>
                                             @endforeach
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
@@ -95,7 +109,7 @@
                             </div>
                             <!-- end col -->
 
-                            <div class="col-md-4 mt-2">
+                            <div class="col-md-4">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Sub Customer Group</p>
                                 <div class="d-flex align-items-start">
@@ -109,16 +123,23 @@
                                 <!-- end due date -->
                             </div>
                             <!-- end col -->
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="col-md-4 mt-2">
+                <div class="card d-block">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Select Island</p>
                                 <div class="d-flex align-items-start">
                                     <div class="w-100">
-                                        <select name="island_id" id="island" class="form-control form-control-sm"
-                                            required>
+                                        <select name="island_id" id="island" class="form-control form-control-sm" required>
                                             @foreach($islandData as $item)
-                                            <option value="{{@$item->id}}" {{@$item->id == $customerDataUsers->island_id ? 'selected' : ''}}>{{@$item->island_name}}</option>
+                                            <option value="{{@$item->id}}"
+                                                {{@$item->id == $customerDataUsers->island_id ? 'selected' : ''}}>
+                                                {{@$item->island_name}}</option>
                                             @endforeach
                                         </select>
                                         <!-- <p class="text-danger" style="font-size: 9px; margin-top: 5px;">Penulisan Nama Group : Customer Group - Wilayah </p> -->
@@ -127,7 +148,7 @@
                                 <!-- end due date -->
                             </div>
 
-                            <div class="col-md-4 mt-2">
+                            <div class="col-md-4">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Select Region</p>
                                 <div class="d-flex align-items-start">
@@ -139,7 +160,7 @@
                                 <!-- end due date -->
                             </div>
 
-                            <div class="col-md-4 mt-2">
+                            <div class="col-md-4">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted small">Select City</p>
                                 <div class="d-flex align-items-start">
@@ -151,16 +172,9 @@
                                 </div>
                                 <!-- end due date -->
                             </div>
-                            <!-- end col -->
                         </div>
-
-                        <!-- end row -->
-
-                        <!-- end sub tasks/checklists -->
                     </div>
-                    <!-- end card-body-->
                 </div>
-                <!-- end card-->
 
                 <!-- project card -->
                 <div class="card d-block">
@@ -174,19 +188,15 @@
                     <!-- end card-body-->
                 </div>
                 <!-- end card-->
-
         </div>
         <div class="col-xl-4 col-lg-7">
             <div class="card d-block">
                 <div class="card-body">
-                    <div class="form-group mt-2">
-                        <label for="" class="text-sm small mb-2">Check Existing Data</label>
-                        <select name="" id="employee" class="form-control form-control-sm text-muted text-capitalize">
-
-                        </select>
+                    <div class="form-group">
+                        <img src="https://globalradio.co.id/uploads/news/google%20maps.png" class="w-100" alt="" srcset="">
                     </div>
                     <div class="form-group d-flex justify-content-end">
-                        <button class="btn add btn-primary btn-sm mt-2"><i
+                        <button type="button" class="btn add btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                 class="ri-arrow-left-right-line"></i></button>
                     </div>
                 </div>
@@ -195,8 +205,26 @@
         </form>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body text-capitalize">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center">
+                <img src="https://img.freepik.com/premium-vector/update-flat-purple-update-notification-vector-illustration_748571-1384.jpg" class="w-50" alt="" srcset="">
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- end row -->
-
 </div> <!-- container -->
 <script>
     $('document').ready(function () {
