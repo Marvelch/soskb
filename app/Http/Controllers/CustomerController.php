@@ -265,18 +265,20 @@ class CustomerController extends Controller
             $marketingData = [];
 
             foreach ($userData as $key => $value) {
+
                 $marketingListUser = marketingArea::where('user_id',$value->id)->get();
                 $customerGroup = customerGroup::where('user_id',$value->id)->first();
 
                 foreach ($marketingListUser as $key => $item) {
+
                     $marketingData[] = [
                         'id' => $item->user_id,
                         'name' => $value->name,
                         'island' => $item->island_id,
                         'region' => $item->region_id,
                         'city' => $item->city_id,
-                        'customer' => $customerGroup->customer_type_id,
-                        'sub_customer' => $customerGroup->sub_customer_type_id
+                        'customer' => @$customerGroup->customer_type_id,
+                        'sub_customer' => @$customerGroup->sub_customer_type_id
                     ];
                 }
             }
@@ -333,7 +335,7 @@ class CustomerController extends Controller
             foreach ($customerDataWithoutDuplicates as $key => $value) {
                 $customer = customer::find($value['customer_id']);
 
-                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id && $customer->sub_customer_type_id == $filterCustomerGroup->sub_customer_type_id)
+                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
                 {
                     $customers[] = $customer;
                 }
