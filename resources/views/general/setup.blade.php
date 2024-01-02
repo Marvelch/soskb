@@ -5,7 +5,7 @@
 <body class="background-setup fixed-bottom-padding d-flex justify-content-center text-center">
     <!-- fixed bottom -->
     <div class="form-group setup">
-        <img src="{{asset('./img/logo-transparent.png')}}" class="logo" alt="" srcset="">
+        <img src="{{asset('./img/logo-transparent.png')}}" class="logo" alt="" srcset="" style="width: 90%;">
         <p class="small text-muted sub-title">
             Sales Order Management Service
         </p>
@@ -16,7 +16,7 @@
          </a> -->
         <div class="m-2">
             <div class="form-group">
-                <a href="{{route('login')}}" class="btn bg-success btn-block mb-4 btn-lg" style="border-radius: 10px;">
+                <a href="{{route('login')}}" class="btn bg-success btn-block mb-4 btn-lg" style="border-radius: 10px; color: #fff">
                     Login
                 </a>
             </div>
