@@ -4,7 +4,7 @@
 
 <body class="background-setup fixed-bottom-padding d-flex justify-content-center text-center">
     <!-- fixed bottom -->
-    <div class="form-group setup">
+    <div class="form-group" style="position: absolute; top: 30%;">
         <img src="{{asset('./img/logo-transparent.png')}}" class="logo" alt="" srcset="" style="width: 90%;">
         <p class="small text-muted sub-title">
             Sales Order Management Service

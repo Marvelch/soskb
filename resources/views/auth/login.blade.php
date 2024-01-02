@@ -36,7 +36,7 @@
                 </div>
                 <button type="submit" class="btn btn-success btn-lg rounded w-100 mt-3">Login</button>
                 <div class="form-group text-center mt-5">
-                    <p class="small text-muted fw-bold" style="font-size: 11px;">Powered by Information Technology</p>
+                    <p class="small text-muted" style="font-size: 10px;">Powered by Information Technology</p>
                 </div>
             </form>
         </div>
