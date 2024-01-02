@@ -11,7 +11,7 @@
         </div>
         <div class="p-3">
             <div class="d-flex justify-content-center">
-                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/web-account-6506739-5385799.png" class="w-75" alt="" srcset="">
+                <img src="https://static.vecteezy.com/system/resources/previews/005/647/961/non_2x/illustration-isometric-concept-personal-account-security-process-free-vector.jpg" class="w-100" alt="" srcset="">
             </div>
              <form method="POST" action="{{ route('login') }}">
                 @csrf
