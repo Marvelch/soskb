@@ -249,8 +249,8 @@ class SalesOrderController extends Controller
                         'island' => $item->island_id,
                         'region' => $item->region_id,
                         'city' => $item->city_id,
-                        'customer' => $customerGroup->customer_type_id,
-                        'sub_customer' => $customerGroup->sub_customer_type_id
+                        'customer' => @$customerGroup->customer_type_id,
+                        'sub_customer' => @$customerGroup->sub_customer_type_id
                     ];
                 }
             }
@@ -343,8 +343,8 @@ class SalesOrderController extends Controller
                         'island' => $item->island_id,
                         'region' => $item->region_id,
                         'city' => $item->city_id,
-                        'customer' => $customerGroup->customer_type_id,
-                        'sub_customer' => $customerGroup->sub_customer_type_id
+                        'customer' => @$customerGroup->customer_type_id,
+                        'sub_customer' => @$customerGroup->sub_customer_type_id
                     ];
                 }
             }
@@ -437,8 +437,8 @@ class SalesOrderController extends Controller
                         'island' => $item->island_id,
                         'region' => $item->region_id,
                         'city' => $item->city_id,
-                        'customer' => $customerGroup->customer_type_id,
-                        'sub_customer' => $customerGroup->sub_customer_type_id
+                        'customer' => @$customerGroup->customer_type_id,
+                        'sub_customer' => @$customerGroup->sub_customer_type_id
                     ];
                 }
             }
@@ -536,8 +536,8 @@ class SalesOrderController extends Controller
                         'island' => $item->island_id,
                         'region' => $item->region_id,
                         'city' => $item->city_id,
-                        'customer' => $customerGroup->customer_type_id,
-                        'sub_customer' => $customerGroup->sub_customer_type_id
+                        'customer' => @$customerGroup->customer_type_id,
+                        'sub_customer' => @$customerGroup->sub_customer_type_id
                     ];
                 }
             }
