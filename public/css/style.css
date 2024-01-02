@@ -776,3 +776,22 @@ label {
     padding-left: 10px;
     margin-top: -4.5px;
 }
+
+.setup {
+    position: absolute;
+    top: 30%;
+}
+
+.setup > .logo {
+    width: 90%;
+}
+
+.card-setup {
+    background-color: #28a74530;
+    border-radius: 20px 20px 0px 0px;
+    margin: 0px 10px 0px 10px;
+}
+
+.card-setup a {
+    color: #fff;
+}

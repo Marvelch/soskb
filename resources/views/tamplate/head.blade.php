@@ -30,6 +30,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Noto+Sans:wght@300&family=Nunito&family=Open+Sans&family=Oswald&family=Poppins&family=Quicksand:wght@500&family=Roboto+Condensed&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: white;
+        }
 
         body.background-setup {
         /* Ensure the background covers the entire viewport */
@@ -42,7 +46,7 @@
         background-attachment: fixed;
 
         /* Apply the background image using the Blade templating asset function */
-        background-image: url('{{ asset('img/products.svg') }}');
+        /* background-image: url('{{ asset('img/products.svg') }}'); */
         }
     </style>
 </head>

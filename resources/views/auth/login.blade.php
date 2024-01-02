@@ -10,7 +10,9 @@
                     class="icofont-rounded-left back-page"></i></a>
         </div>
         <div class="p-3">
-            <img src="{{asset('./img/logo-transparent.png')}}" class="w-100 mb-3 mt-2" alt="" srcset="">
+            <div class="d-flex justify-content-center">
+                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/web-account-6506739-5385799.png" class="w-75" alt="" srcset="">
+            </div>
              <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group mb-3 mt-3">
