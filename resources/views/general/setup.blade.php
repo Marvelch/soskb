@@ -27,7 +27,7 @@
                     </div>
                 </a>
             </div>
-            <div class="form-group text-center">
+            <div class="form-group text-center text-muted">
                 OR Login With
             </div>
             <div class="form-group mt-3" data-bs-toggle="modal" data-bs-target="#whatsappModal">
