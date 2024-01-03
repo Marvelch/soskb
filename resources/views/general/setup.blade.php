@@ -4,6 +4,7 @@
 
 <body class="background-setup fixed-bottom-padding d-flex justify-content-center text-center">
     <!-- fixed bottom -->
+    @include('sweetalert::alert')
     <div class="form-group" style="position: absolute; top: 30%;">
         <img src="{{asset('./img/logo-transparent.png')}}" class="logo" alt="" srcset="" style="width: 90%;">
         <p class="small text-muted sub-title">
@@ -52,18 +53,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                 </div>
+                <form action="{{route('login.with.whatsapp')}}" method="post">
+                @csrf
                 <div class="modal-body text-start">
                     <img src="https://www.sinch.com/sites/default/files/styles/large_hq/public/image/2021-07/Illustration_mobile_whatsapp.png.webp"
                         class="w-100" alt="" srcset="">
                     <div class="form-group pt-4">
                         <label for="">Nomor Telpon</label>
-                        <input type="text" class="form-control form-control-sm shadow">
+                        <input name="phone" type="text" class="form-control form-control-sm shadow">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary">Whatsapp Activation</button>
+                    <button type="submit" class="btn btn-primary">Whatsapp Activation</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>

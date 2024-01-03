@@ -55,6 +55,10 @@ Route::get('/logout',function() {
     }
 })->name('logout');
 
+// Login with whatsapp url activation
+Route::post('/login/with/whatsapp',[LoginController::class,'loginWithWhatsapp'])->name('login.with.whatsapp');
+Route::get('verify-login/{token}',[LoginController::class, 'verifyLogin'])->name('verify-login');
+
 Route::prefix('access')->group(function () {
     Route::get('/setup',[GeneralController::class,'setup'])->name('setup_general');
     Route::get('/error',[GeneralController::class,'error'])->name('error_general');

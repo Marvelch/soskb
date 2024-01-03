@@ -89,7 +89,7 @@
                     </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-user-line"></i>Users <div class="arrow-down"></div>
+                            <i class="ri-user-line"></i>Account <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <a href="{{route('admin.users')}}" class="dropdown-item">Users</a>

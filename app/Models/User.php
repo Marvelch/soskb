@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable
 {
@@ -27,6 +30,7 @@ class User extends Authenticatable
         'position_unique',
         'region_id',
         'customer_type_id',
+        'phone',
         'sub_customer_type_id'
     ];
 
@@ -49,6 +53,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function sendLoginLink()
+    {
+        $plaintext = Str::random(32);
+        $time = now()->addMinutes(1440);
+
+        $this->loginTokens()->create([
+            'token' => hash('sha256', $plaintext),
+            'expires_at' => $time,
+        ]);
+
+        Http::post('http://10.10.30.14:8888/wa/sales-order/login', [
+            'phone' => $this->phone,
+            'link' => URL::temporarySignedRoute('verify-login', $time, ['token' => $plaintext])
+        ]);
+    }
+
+    public function loginTokens()
+    {
+        return $this->hasMany(LoginToken::class);
+    }
 
     public function positions()
     {
