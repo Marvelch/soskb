@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('tamplate.head')
-
 <body class="background-setup fixed-bottom-padding d-flex justify-content-center text-center">
-    <!-- fixed bottom -->
+    @include('sweetalert::alert')
     <div class="form-group" style="position: absolute; top: 30%;">
         <img src="{{asset('./img/logo-transparent.png')}}" class="logo" alt="" srcset="" style="width: 90%;">
         <p class="small text-muted sub-title">
@@ -49,11 +48,11 @@
     <!-- Modal -->
     <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form action="{{route('login.with.whatsapp')}}" method="post">
+        @csrf
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                 </div>
-                @csrf
                 <div class="modal-body text-start">
                     <img src="https://www.sinch.com/sites/default/files/styles/large_hq/public/image/2021-07/Illustration_mobile_whatsapp.png.webp"
                         class="w-100" alt="" srcset="">
