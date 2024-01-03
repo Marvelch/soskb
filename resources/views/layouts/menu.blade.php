@@ -8,7 +8,7 @@
             <p class="h5 m-0"><i class="icofont-pie-chart"></i></p>
             Report
         </a>
-        <a href="{{ route('transaction_sales_orders') }}" class="text-muted fw-bold col small text-decoration-none p-2 {{ Route::currentRouteName() === 'transaction_sales_orders' ? 'text-success' : '' }}">
+        <a href="{{ route('transaction_sales_orders') }}" class="text-muted col small text-decoration-none p-2 {{ Route::currentRouteName() === 'transaction_sales_orders' ? 'text-success' : '' }}">
             <p class="h5 m-0"><i class="icofont-bag"></i></p>
             History
         </a>
