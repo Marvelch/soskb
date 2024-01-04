@@ -18,7 +18,7 @@
         </div>
         <div class="pb-3">
             @foreach($salesOrderData as $item)
-                <div class="p-3 rounded shadow-sm bg-white osahan-order-detail">
+                <div class="p-3 rounded shadow-sm mt-1 bg-white osahan-order-detail">
                     <div class="d-flex align-items-center mb-3">
                         <p class="text-white py-1 px-2 rounded small m-0 text-capitalize">
                             <span class="text-dark fw-bold">{{@$item->name}}</p>

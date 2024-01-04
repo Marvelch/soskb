@@ -30,16 +30,18 @@
          <!-- body -->
          <div class="osahan-body">
             <a class="text-decoration-none">
-               <div class="input-group mt-3 rounded shadow-sm overflow-hidden bg-white">
+               <div class="m-3">
+                <div class="input-group mt-3 rounded shadow-sm overflow-hidden bg-white">
                   <div class="input-group-prepend">
                      <button class="border-0 btn btn-outline-secondary text-success bg-white"><i class="icofont-search"></i></button>
                   </div>
                   <input type="text" class="shadow-none border-0 form-control ps-0" id="searchInput" aria-label="" aria-describedby="basic-addon1">
                </div>
+               </div>
             </a>
             <!-- categories -->
             <div class="p-3 osahan-categories">
-               <h6 class="mb-2">Layanan Tersedia</h6>
+               <!-- <h6 class="mb-2">Layanan Tersedia</h6> -->
                <div class="row m-0">
                   <div class="col ps-0 pe-1 py-1" id="sales">
                      <div class="bg-white shadow-sm rounded text-center  px-2 py-3 c-it">

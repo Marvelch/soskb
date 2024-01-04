@@ -56,7 +56,7 @@
                                         <i class="icofont-trash"></i>
                                     </div>
                                 </div>
-                                <p class="card-text mt-1">Name: {{@$item->products->product_name}}</p>
+                                <p class="card-text mt-1">Name: {{@$item->products->product_name}} | {{@$item->products->code}}</p>
                             </div>
                         </div>
                     </div>
@@ -77,11 +77,12 @@
     (function () {
         @foreach($products as $item)
             var products = {
-                id: '{!! json_encode($item->product_id) !!}',
-                qty: '{!! json_encode($item->qty) !!}',
+                id: {!! json_encode($item->product_id) !!},
+                qty: {!! json_encode($item->qty) !!},
                 name: {!!json_encode($item->products->product_name) !!},
-                unit_id: '{!! json_encode($item->unit_id) !!}',
+                unit_id: {!! json_encode($item->unit_id) !!},
                 unit: {!! json_encode($item->units->unit) !!},
+                code: {!! json_encode($item->products->code) !!}
             };
 
             product_list.push(products);
@@ -97,23 +98,29 @@
 
         // Iterate through the product_list and create cards for each item
         $.each(product_list, function (index, item) {
+            let productNameCode = item.name; // Set initial productNameCode to item.name
+            if (item.code) {
+                productNameCode += " | " + item.code; // Concatenate item.code if it exists
+            }
+
             let card = `
-                    <div class="col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex bd-highlight">
-                                    <div class="bd-highlight">
-                                        <span class="text-sm">Qty : ${item.qty} | ${item.unit}</span>
-                                    </div>
-                                    <div class="ms-auto bd-highlight" id="delete(${item.id})">
-                                        <i class="icofont-trash"></i>
-                                    </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex bd-highlight">
+                                <div class="bd-highlight">
+                                    <span class="text-sm">Qty : ${item.qty} | ${item.unit}</span>
                                 </div>
-                                <p class="card-text mt-1">Name: ${item.name}</p>
+                                <div class="ms-auto bd-highlight" id="delete_${item.id}">
+                                    <i class="icofont-trash"></i>
+                                </div>
                             </div>
+                            <p class="card-text mt-1">Name: ${productNameCode}</p>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
+
             // Append each card to the cardContainer
             cardContainer.append(card);
         });

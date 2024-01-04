@@ -20,7 +20,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex bd-highlight">
-                                <div class="flex-grow-1 bd-highlight fw-bold text-muted"><span style="position: fixed; padding-top: 3px;">{{$customers->customers->name}} - {{$customers->customers->customer_number}}</span></div>
+                                <div class="flex-grow-1 bd-highlight text-muted"><span style="padding-top: 3px;">{{$customers->customers->name}} - {{$customers->customers->customer_number}}</span></div>
                                 <div class="bd-highlight"><i class="fa-solid fa-chevron-right mt-2 text-muted"></i>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex bd-highlight">
-                                <div class="flex-grow-1 bd-highlight fw-bold text-muted">Pilih Customer</div>
+                                <div class="flex-grow-1 bd-highlight mt-1 text-muted">Pilih Customer</div>
                                 <div class="bd-highlight"><i class="fa-solid fa-chevron-right mt-2 text-muted"></i>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                 <div style="padding-left: 8px;">
                     <div class="card m-1">
                         <div class="card-body">
-                            <div class="col fw-bold text-muted">
+                            <div class="col text-muted">
                                 {{$item->products->product_name}} - Qty : {{$item->qty}} {{$item->units->unit}}
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex bd-highlight">
-                                <div class="flex-grow-1 bd-highlight fw-bold text-muted">Tambah Produk</div>
+                                <div class="flex-grow-1 mt-1 bd-highlight text-muted">Tambah Produk</div>
                                 <div class="bd-highlight"><i class="fa-solid fa-chevron-right mt-2 text-muted"></i>
                                 </div>
                             </div>

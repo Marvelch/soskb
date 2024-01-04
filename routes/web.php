@@ -15,10 +15,13 @@ use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SubCustomerTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Models\customerTemp;
 use App\Models\general;
 use App\Models\marketingArea;
+use App\Models\productTemp;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +47,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/logout',function() {
+
+    productTemp::where('user_id',Auth::user()->id)->delete();
+
+    customerTemp::where('user_id',Auth::user()->id)->delete();
+
     Auth::logout();
 
     $agent = new Agent();

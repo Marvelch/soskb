@@ -748,13 +748,12 @@ class CustomerController extends Controller
 
         foreach ($uniqueCustomerIds as $key => $item) {
             $customerData = customer::where('id',$item)
-                                        ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
-                                        ->get();
+                                        // ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
+                                        ->first();
 
             array_push($salesOrderData,$customerData);
         }
 
-        return $salesOrderData;
         // $salesOrderData = salesOrder::join('customers','sales_orders.customer_id','!=','customers.id')
         //                             ->join('sales_customers','customers.id','=','sales_customers.customer_id')
         //                             ->where('sales_customers.sales_id',Auth::user()->id)
