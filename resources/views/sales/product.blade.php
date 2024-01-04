@@ -164,8 +164,6 @@
         $('.product').text('');
         $('.qty').val('');
         $('.units').val('');
-
-        console.log(product_list);
     });
 
     $(document).on('click', '[id^="delete("]', function () {
@@ -232,8 +230,9 @@
             processResults: function (data) {
                 return {
                     results: $.map(data, function (item) {
+                        var productName = item.product_name+" | "+item.code;
                         return {
-                            text: item.product_name,
+                            text: productName,
                             id: item.id
                         }
                     })

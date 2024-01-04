@@ -26,6 +26,9 @@
                </p>
                <!-- <a class="toggle ms-3" href="#"><i class="icofont-navigation-menu "></i></a> -->
             </div>
+         </div>
+         <!-- body -->
+         <div class="osahan-body">
             <a class="text-decoration-none">
                <div class="input-group mt-3 rounded shadow-sm overflow-hidden bg-white">
                   <div class="input-group-prepend">
@@ -34,9 +37,6 @@
                   <input type="text" class="shadow-none border-0 form-control ps-0" id="searchInput" aria-label="" aria-describedby="basic-addon1">
                </div>
             </a>
-         </div>
-         <!-- body -->
-         <div class="osahan-body">
             <!-- categories -->
             <div class="p-3 osahan-categories">
                <h6 class="mb-2">Layanan Tersedia</h6>

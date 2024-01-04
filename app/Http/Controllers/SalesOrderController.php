@@ -595,8 +595,7 @@ class SalesOrderController extends Controller
                                 ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
                                 ->first();
 
-                if($customer->customer_type_id == $filterCustomerGroup->customer_type_id)
-                {
+                if($customer) {
                     $data[] = $customer;
                 }
             }
@@ -612,13 +611,13 @@ class SalesOrderController extends Controller
     {
         $marketingAreaData = marketingArea::where('user_id',Auth::user()->id)->get();
 
-        $customerType = Auth::user()->customers->customer_type_id;
-        $subCustomerType = Auth::user()->subCustomers->sub_customer_type_id;
+        $customerType = @Auth::user()->customers->customer_type_id;
+        $subCustomerType = @Auth::user()->subCustomers->sub_customer_type_id;
 
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {
-            $products = product::all();
+            $data = product::all();
         }else if(@Auth::user()->positions->level == 3) {
 
             $products = [];

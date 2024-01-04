@@ -724,18 +724,47 @@ class CustomerController extends Controller
         $oneDayBeforeLastMonthEnd = $lastDayOfLastMonth->subDay();
 
         // Month Now
-
         $firstDayOfNextMonth = $today->copy()->addMonthNoOverflow()->startOfMonth();
 
         $lastDayOfThisMonth = $firstDayOfNextMonth->copy()->subDay();
 
-        $salesOrderData = salesOrder::join('customers','sales_orders.customer_id','!=','customers.id')
-                                    ->whereBetween('so_date', [
-                                        $oneDayBeforeLastMonthEnd->format('Y-m-d'),
-                                        $lastDayOfThisMonth->format('Y-m-d')
-                                    ])
-                                    ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
-                                    ->get();
+        $customerData = salesCustomer::join('customers', 'sales_customers.customer_id', '=', 'customers.id')
+            ->where('sales_customers.sales_id', Auth::user()->id)
+            ->select('customers.id')
+            ->get();
+
+        $salesOrderData = salesOrder::where('created_by', Auth::user()->id)
+            ->select('customer_id')
+            ->get();
+
+        // Ambil semua id customer dari $customerData dan $salesOrderData
+        $customerIds = $customerData->pluck('id')->toArray();
+        $salesOrderCustomerIds = $salesOrderData->pluck('customer_id')->toArray();
+
+        // Filter $customerIds yang tidak ada di $salesOrderCustomerIds
+        $uniqueCustomerIds = array_diff($customerIds, $salesOrderCustomerIds);
+
+        $salesOrderData = [];
+
+        foreach ($uniqueCustomerIds as $key => $item) {
+            $customerData = customer::where('id',$item)
+                                        ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
+                                        ->get();
+
+            array_push($salesOrderData,$customerData);
+        }
+
+        return $salesOrderData;
+        // $salesOrderData = salesOrder::join('customers','sales_orders.customer_id','!=','customers.id')
+        //                             ->join('sales_customers','customers.id','=','sales_customers.customer_id')
+        //                             ->where('sales_customers.sales_id',Auth::user()->id)
+        //                             ->where('')
+        //                             ->whereBetween('so_date', [
+        //                                 $oneDayBeforeLastMonthEnd->format('Y-m-d'),
+        //                                 $lastDayOfThisMonth->format('Y-m-d')
+        //                             ])
+        //                             ->select('customers.id', 'customers.name', 'customers.address', 'customers.status', 'customers.customer_number')
+        //                             ->get();
 
         return view('customer_close.index',compact('salesOrderData'));
     }

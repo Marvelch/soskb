@@ -18,7 +18,6 @@
         </div>
         <div class="pb-3">
             @foreach($salesOrderData as $item)
-            <a href="{{route('show_transaction',['id'=>Crypt::encryptString($item->id_transaction)])}}" class="text-decoration-none text-dark m-1">
                 <div class="p-3 rounded shadow-sm bg-white osahan-order-detail">
                     <div class="d-flex align-items-center mb-3">
                         <p class="text-white py-1 px-2 rounded small m-0 text-capitalize">
@@ -30,7 +29,6 @@
                         </p>
                     </div>
                 </div>
-            </a>
             @endforeach
         </div>
     </div>
