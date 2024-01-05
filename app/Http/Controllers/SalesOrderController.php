@@ -225,7 +225,7 @@ class SalesOrderController extends Controller
 
         if(@Auth::user()->positions->level == 2) {
 
-            $data = customer::all();
+            $data = customer::where('name', 'ILIKE', '%' . $request->get('q') . '%')->get();
 
         }else if(@Auth::user()->positions->level == 3) {
             $userData = User::join('positions','users.position_unique','=','positions.unique')
@@ -617,7 +617,7 @@ class SalesOrderController extends Controller
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {
-            $data = product::all();
+            $data = product::where('product_name', 'ILIKE', '%' . $request->get('q') . '%')->get();
         }else if(@Auth::user()->positions->level == 3) {
 
             $products = [];
