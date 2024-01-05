@@ -88,6 +88,7 @@ Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () 
     Route::get('/product',[SalesOrderController::class,'product'])->name('index_sales_orders_product');
     Route::post('/store',[SalesOrderController::class,'store'])->name('store_sales_orders');
     Route::get('/transaction',[SalesOrderController::class,'transaction'])->name('transaction_sales_orders');
+    Route::get('/destroy-temporary-products',[SalesOrderController::class,'destoryTemporaryProducts'])->name('destory.temporary.product.sales.order');
 
     ## Searching ##
     Route::get('/search/customers',[SalesOrderController::class,'searchCustomers'])->name('searching_customer');

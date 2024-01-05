@@ -46,13 +46,13 @@
                 <div id="cardContainer">
                     @foreach($products as $item)
                     <div class="col-md-6 mb-3">
-                        <div class="card">
+                        <div class="card" id="{{$item->product_id}}">
                             <div class="card-body">
                                 <div class="d-flex bd-highlight">
                                     <div class="bd-highlight">
                                         <span class="text-sm">Qty : {{@$item->qty}} | {{@$item->units->unit}}</span>
                                     </div>
-                                    <div class="ms-auto bd-highlight" id="delete(${item.id})">
+                                    <div class="ms-auto bd-highlight" id="delete({{$item->product_id}})">
                                         <i class="icofont-trash"></i>
                                     </div>
                                 </div>
@@ -61,6 +61,9 @@
                         </div>
                     </div>
                     @endforeach
+                </div>
+                <div class="form-group mb-3 mt-2 reset-btn">
+                    <a href="#" class="btn btn-danger btn-primary w-100">Hapus Semua</a>
                 </div>
                 <div class="form-group mb-3 mt-2 submit-btn">
                     <button type="button" class="btn btn-submit btn-primary w-100">Kirim</button>
@@ -71,6 +74,7 @@
 </div>
 <script>
     $('.submit-btn').hide();
+    $('.reset-btn').hide();
 
     var product_list = [];
 
@@ -111,7 +115,7 @@
                                 <div class="bd-highlight">
                                     <span class="text-sm">Qty : ${item.qty} | ${item.unit}</span>
                                 </div>
-                                <div class="ms-auto bd-highlight" id="delete_${item.id}">
+                                <div class="ms-auto bd-highlight" id="delete(${item.id})">
                                     <i class="icofont-trash"></i>
                                 </div>
                             </div>
@@ -163,6 +167,10 @@
             });
         }
 
+        if(product_list.length >= 2) {
+            $('.reset-btn').hide();
+        }
+
         generateCards(product_list);
         appendSubmitButton(product_list);
 
@@ -174,22 +182,25 @@
     });
 
     $(document).on('click', '[id^="delete("]', function () {
-
-        // Get the ID from the clicked element's ID attribute
         let id = $(this).attr('id').match(/\(([^)]+)\)/)[1];
 
-        // Find the index of the item with the matching ID in the product_list
-        let index = product_list.findIndex(item => item.id === id);
+        // Find the index of the item with the matching ID in the product_list array
+        let index = product_list.findIndex(item => item.id == id);
 
-        // Remove the item from the product_list array
         if (index !== -1) {
-            product_list.splice(index, 1);
+            product_list.splice(index, 1); // Remove the item from product_list
         }
 
-        // Regenerate cards and check whether to show the submit button
+        if(product_list.length <= 1) {
+            $('.reset-btn').show();
+        }
+
+        $('#' + id).closest('.col-md-6').remove(); // Remove the card element from the view
+
         generateCards(product_list);
         appendSubmitButton(product_list);
     });
+
 
     $(document).on('click', '.btn-submit', function () {
         // Prevent the default form submission
@@ -249,5 +260,18 @@
         }
     });
 
+    $('.reset-btn').on('click',function() {
+        $.ajax({
+            url: "{{route('destory.temporary.product.sales.order')}}",
+            type: "GET",
+            cache: false,
+            success:function(response){
+                window.location.href = '/sales-order/product';
+            },
+            error:function(error) {
+                window.location.href = '/sales-order/product';
+            }
+        });
+    });
 </script>
 @endsection

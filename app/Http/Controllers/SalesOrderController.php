@@ -853,4 +853,27 @@ class SalesOrderController extends Controller
 
         return response()->json(['salesOrderData' => $salesOrderData]);
     }
+
+    public function destoryTemporaryProducts(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            productTemp::where('user_id',Auth::user()->id)->delete();
+
+            DB::commit();
+
+            toast('Data deletion Been Successful','success');
+
+            return response()->json([
+                'success' => true,
+            ]);
+        } catch (\Throwable $th) {
+            toast('Data deletion was unsuccessful','error');
+
+            return response()->json([
+                'error' => false,
+            ]);
+        }
+    }
 }
