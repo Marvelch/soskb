@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\customer;
 use App\Models\product;
 use App\Models\salesOrder;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,10 @@ class HomeController extends Controller
 
         $productNonActive = product::where('status',0)->count();
 
-        return view('admin.home',compact('totalProducts','totalSalesOrder','totalCustomers','percentageDifference','percentageDifferenceCust','productActive','productNonActive'));
+        // Data Users
+
+        $users = User::count();
+
+        return view('admin.home',compact('totalProducts','totalSalesOrder','totalCustomers','percentageDifference','percentageDifferenceCust','productActive','productNonActive','users'));
     }
 }

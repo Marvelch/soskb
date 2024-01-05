@@ -7,20 +7,20 @@
 
                 <a href="{{route('admin.home')}}" class="logo-light">
                     <span class="logo-lg">
-                        <img src="{{asset('admin/images/logo-transparent.png')}}" alt="logo">
+                        <img src="{{asset('admin/images/logo.png')}}" alt="logo">
                     </span>
                     <span class="logo-sm">
-                        <img src="{{asset('admin/assets/images/logo-transparent.png')}}" alt="small logo">
+                        <img src="{{asset('admin/assets/images/logo.png')}}" alt="small logo">
                     </span>
                 </a>
 
 
                 <a href="{{route('admin.home')}}" class="logo-dark">
                     <span class="logo-lg">
-                        <img src="{{asset('admin/images/logo-transparent.png')}}" alt="dark logo">
+                        <img src="{{asset('admin/images/logo.png')}}" alt="dark logo">
                     </span>
                     <span class="logo-sm">
-                        <img src="{{asset('admin/images/logo-transparent.png')}}" alt="small logo">
+                        <img src="{{asset('admin/images/logo.png')}}" alt="small logo">
                     </span>
                 </a>
             </div>

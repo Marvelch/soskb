@@ -11,15 +11,15 @@
                     </li>
                      <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
-                            <i class="ri-box-3-line"></i>Products
+                            <i class="ri-shopping-bag-line"></i>Products
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-shopping-bag-line"></i>Sales Orders<div class="arrow-down"></div>
+                            <i class="ri-customer-service-line"></i>Sales Orders<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                            <a href="{{route('admin.transaction')}}" class="dropdown-item">Transaction</a>
+                            <a href="{{route('admin.transaction')}}" class="dropdown-item">List Transaction</a>
                             <!-- <a href="apps-chat.php" class="dropdown-item">Chat</a>
                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-email" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,11 +89,11 @@
                     </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-user-line"></i>Account <div class="arrow-down"></div>
+                            <i class="ri-user-line"></i>Account<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="{{route('admin.users')}}" class="dropdown-item">Users</a>
-                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">Customers</a>
+                            <a href="{{route('admin.users')}}" class="dropdown-item">Data Users</a>
+                            <a href="{{route('admin.customers.index')}}" class="dropdown-item">Data Customers</a>
                             <!--<div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Sales <div class="arrow-down"></div>
@@ -196,7 +196,7 @@
                     </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-route-line"></i>General <div class="arrow-down"></div>
+                            <i class="ri-p2p-fill"></i>App Service<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-layouts">
                             <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure Organization </a>
