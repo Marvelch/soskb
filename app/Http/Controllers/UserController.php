@@ -51,6 +51,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
         $users = User::find(Crypt::decryptString($id));
 
         $positions = position::all();
@@ -62,14 +70,6 @@ class UserController extends Controller
         $marketingArea = marketingArea::where('user_id',Crypt::decryptString($id))->get();
 
         return view('admin.users.show',compact('users','positions','regions','customerTypes','marketingArea'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\profile;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -44,7 +49,7 @@ class ProfileController extends Controller
      */
     public function edit(profile $profile)
     {
-        //
+        return view('profile.edit');
     }
 
     /**
@@ -52,7 +57,62 @@ class ProfileController extends Controller
      */
     public function update(Request $request, profile $profile)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $phoneNumber = $request->phone; // Nomor telepon yang ingin diganti
+
+            // Periksa apakah nomor telepon dimulai dengan '0'
+            if (Str::startsWith($phoneNumber, '0')) {
+                $phoneNumber = '62' . substr($phoneNumber, 1); // Ganti '0' dengan '62' pada karakter pertama
+            }
+
+            $phoneFilter = User::where('phone',$phoneNumber)->first();
+
+            if($phoneFilter) {
+                if($phoneFilter->id == Auth::user()->id) {
+                    if($request->password) {
+                        User::find(Auth::user()->id)->update([
+                            'phone' => $phoneNumber,
+                            'password' => Hash::make($request->password)
+                        ]);
+                    }else{
+                        User::find(Auth::user()->id)->update([
+                            'phone' => $phoneNumber,
+                        ]);
+                    }
+                }else{
+                    toast('The phone number has been used by another user','error');
+
+                    return back();
+                }
+            }else{
+                if($request->password) {
+                    User::find(Auth::user()->id)->update([
+                        'phone' => $phoneNumber,
+                        'password' => Hash::make($request->password)
+                    ]);
+                }else{
+                    User::find(Auth::user()->id)->update([
+                        'phone' => $phoneNumber,
+                    ]);
+                }
+            }
+
+
+
+            DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return redirect()->route('index_profile');
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            toast($th->getMessage(),'error');
+
+            return back();
+        }
     }
 
     /**

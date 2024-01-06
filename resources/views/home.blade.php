@@ -12,6 +12,23 @@
          <em>Enable Dark Mode!</em>
       </div> -->
       <!-- home page -->
+      @if(Auth::user()->account_type == 'ADM')
+        <div class="container">
+            <div class="row d-flex justify-content-center mt-5">
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <img src="{{asset('img/warning.png')}}" class="w-100" alt="" srcset="">
+                            <h5>Hi <span class="text-capitalize">{{Auth::user()->name}}</span></h5>
+                            <br>
+                            <p class="text-muted small">Kamu tidak diperbolehkan mengakses layanan, silahkan hubungi administator untuk pengelolaan hak akses layanan.</p>
+                            <a href="{{route('logout')}}" class="btn btn-primary mt-3 w-100">Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      @else
       <div class="osahan-home-page">
          <div class="border-bottom p-3">
             <div class="title d-flex align-items-center">
@@ -376,6 +393,7 @@
       </div>
       <!-- Footer -->
       @include('layouts.menu')
+      @endif
       <!-- <nav id="main-nav">
          <ul class="second-nav">
             <li><a href="index.html"><i class="icofont-smart-phone me-2"></i> Splash</a></li>

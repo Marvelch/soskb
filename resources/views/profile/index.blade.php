@@ -11,7 +11,7 @@
         <img src="{{asset('img/logo.png')}}" class="w-25 img-fluid rounded-pill">
         <h6 class="fw-bold m-0 mt-2">{{Auth::user()->name}}</h6>
         <p class="small text-muted">{{Auth::user()->email}}</p>
-        <a disabled class="btn btn-success btn-sm"><i class="icofont-pencil-alt-5"></i> Edit Profile</a>
+        <a href="{{route('edit.profile',['id'=>Crypt::encryptString(Auth::user()->id)])}}" class="btn btn-success btn-sm"><i class="icofont-pencil-alt-5"></i> Edit Profile</a>
     </div>
     <div class="account-sections">
         <ul class="list-group">

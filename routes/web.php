@@ -48,9 +48,9 @@ Auth::routes();
 
 Route::get('/logout',function() {
 
-    productTemp::where('user_id',Auth::user()->id)->delete();
+    productTemp::where('user_id',@Auth::user()->id)->delete();
 
-    customerTemp::where('user_id',Auth::user()->id)->delete();
+    customerTemp::where('user_id',@Auth::user()->id)->delete();
 
     Auth::logout();
 
@@ -114,6 +114,8 @@ Route::prefix('transaction')->middleware('auth','authCheck')->group(function () 
 
 Route::prefix('profile')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[ProfileController::class,'index'])->name('index_profile');
+    Route::get('/edit/{id}',[ProfileController::class,'edit'])->name('edit.profile');
+    Route::put('/update',[ProfileController::class,'update'])->name('update.profile');
 });
 
 /*----------------------------------------- Private Access Group -----------------------------------------*/
@@ -173,7 +175,7 @@ Route::prefix('admin')->middleware('auth','authCheck')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/',[UserController::class,'index'])->name('admin.users');
-        Route::get('/edit/{id}',[UserController::class,'show'])->name('admin.users.edit');
+        Route::get('/edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
         Route::put('/update/{id}',[UserController::class,'update'])->name('admin.users.update');
 
         ## Searching ##

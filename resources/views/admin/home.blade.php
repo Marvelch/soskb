@@ -25,14 +25,8 @@
                                 <div class="col-md-6">
                                     <h5 class="text-muted fw-normal mt-0 text-uppercase fw-bold" title="Number of Orders">Users</h5>
                                     <h3 class="my-3">{{@$users}} <span class="small">orang</span></h3>
-                                    <p class="mb-0 text-muted text-truncate small">
-                                        <p class="mb-0 text-muted text-truncate">
-                                        <span class="badge bg-danger me-1" title="Non Active"><i class="ri-arrow-up-circle-line"></i>
-                                            0 </span>
-                                        <span class="badge bg-success me-1" title="Active"><i class="ri-arrow-down-circle-fill"></i>
-                                            {{@$users}}</span>
-                                    </p>
-                                    </p>
+                                    <span class="badge bg-danger me-1" title="Non Active"><i class="ri-arrow-up-circle-line"></i> 0 </span>
+                                    <span class="badge bg-success me-1" title="Active"><i class="ri-arrow-down-circle-fill"></i>{{@$users}}</span>
                                 </div>
                             </div>
                         </div>
