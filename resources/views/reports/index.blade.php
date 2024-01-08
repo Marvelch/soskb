@@ -4,7 +4,7 @@
 <div class="osahan-promo">
     <div class="px-3 pt-3">
         <div class="d-flex align-items-center pb-3">
-            <a class="fw-bold text-success text-decoration-none" href="home.html"><i
+            <a class="fw-bold text-success text-decoration-none" href="{{route('home')}}"><i
                     class="icofont-rounded-left back-page"></i></a>
         </div>
     </div>
