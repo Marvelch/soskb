@@ -11,6 +11,7 @@ use App\Http\Controllers\MarketingAreaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\SubCustomerTypeController;
 use App\Http\Controllers\TransactionController;
@@ -116,6 +117,13 @@ Route::prefix('profile')->middleware('auth','authCheck')->group(function () {
     Route::get('/',[ProfileController::class,'index'])->name('index_profile');
     Route::get('/edit/{id}',[ProfileController::class,'edit'])->name('edit.profile');
     Route::put('/update',[ProfileController::class,'update'])->name('update.profile');
+});
+
+Route::prefix('reports')->group(function () {
+    Route::get('/',[ReportController::class,'index'])->name('reports');
+    Route::get('/show',[ReportController::class,'show'])->name('reports.show');
+    Route::get('/report-data',[ReportController::class,'reportData'])->name('reports.data');
+    Route::get('/show-customer',[ReportController::class,'showCustomerData'])->name('reports.show.customer');
 });
 
 /*----------------------------------------- Private Access Group -----------------------------------------*/

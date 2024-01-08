@@ -37,4 +37,14 @@ class salesOrder extends Model
     {
         return $this->belongsto(User::class,'created_by','id');
     }
+
+    public function salesOrderDetails()
+    {
+        return $this->hasMany(salesOrderDetail::class,'id_transaction','id_transaction');
+    }
+
+    public function salesOrderCustomerDetails()
+    {
+        return $this->hasMany(customer::class,'id','customer_id');
+    }
 }

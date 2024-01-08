@@ -1,10 +1,10 @@
 <div class="osahan-menu-fotter fixed-bottom bg-white text-center border-top">
     <div class="row m-0">
-        <a href="{{ route('home') }}" class="text-dark small col text-decoration-none p-2 {{ Route::currentRouteName() === 'home' ? 'text-success' : '' }}">
+        <a href="{{ route('home') }}" class="text-muted small col text-decoration-none p-2 {{ Route::currentRouteName() === 'home' ? 'text-success' : '' }}">
             <p class="h5 m-0"><i class="fa-brands fa-microsoft"></i></p>
             Home
         </a>
-        <a disabled class="text-muted col small text-decoration-none p-2">
+        <a href="{{route('reports')}}" class="text-muted col small text-decoration-none p-2 {{ Route::currentRouteName() === 'reports' ? 'text-success' : '' }}">
             <p class="h5 m-0"><i class="icofont-pie-chart"></i></p>
             Report
         </a>
