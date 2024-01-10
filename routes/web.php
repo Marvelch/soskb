@@ -109,6 +109,7 @@ Route::prefix('transaction')->middleware('auth','authCheck')->group(function () 
     Route::get('/on_progress',[TransactionController::class,'on_progress'])->name('on_progress_transaction');
     Route::get('/complete',[TransactionController::class,'complete'])->name('complete_transaction');
     Route::get('/canceled',[TransactionController::class,'canceled'])->name('canceled_transaction');
+    Route::get('/delivered',[TransactionController::class,'delivered'])->name('delivered_transaction');
 
     Route::get('/show/{id}',[TransactionController::class,'show'])->name('show_transaction');
 });

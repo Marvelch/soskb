@@ -245,9 +245,9 @@
             url: '{{route("searching_product")}}',
             dataType: 'json',
             delay: 250,
-            processResults: function (data) {
+            processResults: function (productData) {
                 return {
-                    results: $.map(data, function (item) {
+                    results: $.map(productData, function (item) {
                         var productName = item.product_name+" | "+item.code;
                         return {
                             text: productName,

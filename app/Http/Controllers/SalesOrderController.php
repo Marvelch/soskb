@@ -617,157 +617,239 @@ class SalesOrderController extends Controller
         $level = @Auth::user()->positions->level;
 
         if(@Auth::user()->positions->level == 2) {
-            $data = product::where('product_name', 'ILIKE', '%' . $request->get('q') . '%')->get();
+            $productData = product::all();
         }else if(@Auth::user()->positions->level == 3) {
-
-            $products = [];
             foreach ($marketingAreaData as $key => $value) {
-                $users = User::join('positions','users.position_unique','=','positions.unique')
-                            ->join('customer_groups','users.id','customer_groups.user_id')
-                            ->join('marketing_areas','users.id','=','marketing_areas.user_id')
-                            ->where('customer_groups.customer_type_id',$customerType)
-                            ->where('marketing_areas.island_id',$value->island_id)
-                            ->where('positions.level','>=',$level)
-                            ->select('users.id as user_id')
-                            ->groupBy('users.id')
-                            ->get();
-
-                // Add unique user IDs to the $products array
-                $products = array_merge($products, $users->pluck('user_id')->toArray());
+                if($value->island_id == null || $customerType == null) {
+                    toast('Island, Regions and Customer Not Found','error');
+                    return back();
+                }
             }
 
-            // Remove duplicates from the $products array
-            $products = array_unique($products);
+            $positionUsers = User::select('users.id')
+                    ->join('positions', 'users.position_unique', '=', 'positions.unique')
+                    ->join('customer_groups', 'users.id', '=', 'customer_groups.user_id')
+                    ->where('positions.level', '>', auth()->user()->positions->level)
+                    ->where('customer_groups.customer_type_id', $customerType)
+                    ->groupBy('users.id')
+                    ->get();
 
-            $data = [];
-            foreach ($products as $key => $item) {
-                $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
-                                            ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
-                                            ->where('sales_id',$item)
-                                            ->select('products.id as id',
-                                                    'products.code as code',
-                                                    'products.product_name as product_name',
-                                                    'products.status as status',
-                                                    'products.created_at as created_at',
-                                                    'products.updated_at as updated_at')
-                                            ->get()
-                                            ->toArray(); // Convert the collection to array
+            $marketingDataFilter = [];
 
-                if ($salesProduct) {
-                    $data = array_merge($data, $salesProduct);
+            foreach ($positionUsers as $key => $item) {
+                $userId = $item->id; // Accessing the 'id' property of the $item object
+
+                $marketingAreaData = marketingArea::where('user_id', $userId)
+                                                    ->select('island_id','region_id','city_id','user_id')
+                                                    ->first();
+
+                array_push($marketingDataFilter, $marketingAreaData);
+            }
+
+            $userMarketingData = marketingArea::where('user_id', Auth::user()->id)->get();
+
+            $userChildData = [];
+
+            foreach ($marketingDataFilter as $key => $item) {
+                foreach($userMarketingData as $value) {
+                    if($value->island_id == $item->island_id) {
+                        array_push($userChildData,$item->user_id);
+                    }
+                }
+            }
+
+            array_push($userChildData, Auth::user()->id);
+
+            $productData = [];
+
+            foreach ($userChildData as $key => $item) {
+                $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
+                                                ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
+                                                ->where('products.status',1)
+                                                ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
+                                                ->get();
+
+                foreach ($userProductData as $product) {
+                    // Check if the product ID already exists in the $products array
+                    $existingProduct = array_column($productData, 'id', 'id');
+
+                    if (!isset($existingProduct[$product->id])) {
+                        $productDetail = [
+                            'id' => $product->id,
+                            'code' => $product->code,
+                            'product_name' => $product->product_name,
+                            'status' => $product->status,
+                            'created_at' => $product->created_at,
+                            'updated_at' => $product->updated_at
+                        ];
+
+                        $productData[] = $productDetail;
+                    }
                 }
             }
         }else if(@Auth::user()->positions->level == 4) {
-
-            $products = [];
             foreach ($marketingAreaData as $key => $value) {
-                $users = User::join('positions','users.position_unique','=','positions.unique')
-                            ->join('customer_groups','users.id','customer_groups.user_id')
-                            ->join('marketing_areas','users.id','=','marketing_areas.user_id')
-                            ->where('customer_groups.customer_type_id',$customerType)
-                            ->where('marketing_areas.island_id',$value->island_id)
-                            ->where('positions.level','>=',$level)
-                            ->select('users.id as user_id')
-                            ->groupBy('users.id')
-                            ->get();
-
-                // Add unique user IDs to the $products array
-                $products = array_merge($products, $users->pluck('user_id')->toArray());
-            }
-
-            // Remove duplicates from the $products array
-            $products = array_unique($products);
-
-            $data = [];
-            foreach ($products as $key => $item) {
-                $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
-                                            ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
-                                            ->where('sales_id',$item)
-                                            ->select('products.id as id',
-                                                    'products.code as code',
-                                                    'products.product_name as product_name',
-                                                    'products.status as status',
-                                                    'products.created_at as created_at',
-                                                    'products.updated_at as updated_at')
-                                            ->get()
-                                            ->toArray(); // Convert the collection to array
-
-                if ($salesProduct) {
-                    $data = array_merge($data, $salesProduct);
+                if($value->island_id == null || $customerType == null) {
+                    toast('Island, Regions and Customer Not Found','error');
+                    return back();
                 }
             }
 
-        }else if(@Auth::user()->positions->level == 5) {
-            $products = [];
-            foreach ($marketingAreaData as $key => $value) {
-                $users = User::join('positions','users.position_unique','=','positions.unique')
-                            ->join('customer_groups','users.id','customer_groups.user_id')
-                            ->join('marketing_areas','users.id','=','marketing_areas.user_id')
-                            ->where('customer_groups.customer_type_id',$customerType)
-                            ->where('marketing_areas.island_id',$value->island_id)
-                            ->where('marketing_areas.region_id',$value->region_id)
-                            ->where('positions.level','>=',$level)
-                            ->select('users.id as user_id')
-                            ->groupBy('users.id')
-                            ->get();
+            $positionUsers = User::select('users.id')
+                    ->join('positions', 'users.position_unique', '=', 'positions.unique')
+                    ->join('customer_groups', 'users.id', '=', 'customer_groups.user_id')
+                    ->where('positions.level', '>', auth()->user()->positions->level)
+                    ->where('customer_groups.customer_type_id', $customerType)
+                    ->groupBy('users.id')
+                    ->get();
 
-                // Add unique user IDs to the $products array
-                $products = array_merge($products, $users->pluck('user_id')->toArray());
+            $marketingDataFilter = [];
+
+            foreach ($positionUsers as $key => $item) {
+                $userId = $item->id; // Accessing the 'id' property of the $item object
+
+                $marketingAreaData = marketingArea::where('user_id', $userId)
+                                                    ->select('island_id','region_id','city_id','user_id')
+                                                    ->first();
+
+                array_push($marketingDataFilter, $marketingAreaData);
             }
 
-            // Remove duplicates from the $products array
-            $products = array_unique($products);
+            $userMarketingData = marketingArea::where('user_id', Auth::user()->id)->get();
 
-            $data = [];
-            foreach ($products as $key => $item) {
-                $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
-                                            ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
-                                            ->where('sales_id',$item)
-                                            ->select('products.id as id',
-                                                    'products.code as code',
-                                                    'products.product_name as product_name',
-                                                    'products.status as status',
-                                                    'products.created_at as created_at',
-                                                    'products.updated_at as updated_at')
-                                            ->get()
-                                            ->toArray(); // Convert the collection to array
+            $userChildData = [];
 
-                if ($salesProduct) {
-                    $data = array_merge($data, $salesProduct);
+            foreach ($marketingDataFilter as $key => $item) {
+                foreach($userMarketingData as $value) {
+                    if($value->island_id == $item->island_id) {
+                        array_push($userChildData,$item->user_id);
+                    }
+                }
+            }
+
+            array_push($userChildData, Auth::user()->id);
+
+            $productData = [];
+
+            foreach ($userChildData as $key => $item) {
+                $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
+                                                ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
+                                                ->where('products.status',1)
+                                                ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
+                                                ->get();
+
+                foreach ($userProductData as $product) {
+                    // Check if the product ID already exists in the $products array
+                    $existingProduct = array_column($productData, 'id', 'id');
+
+                    if (!isset($existingProduct[$product->id])) {
+                        $productDetail = [
+                            'id' => $product->id,
+                            'code' => $product->code,
+                            'product_name' => $product->product_name,
+                            'status' => $product->status,
+                            'created_at' => $product->created_at,
+                            'updated_at' => $product->updated_at
+                        ];
+
+                        $productData[] = $productDetail;
+                    }
+                }
+            }
+        }else if(@Auth::user()->positions->level == 5) { // Supervisor
+            foreach ($marketingAreaData as $key => $value) {
+                if($value->island_id == null || $value->region_id == null || $customerType == null) {
+                    toast('Island, Regions and Customer Not Found','error');
+                    return back();
+                }
+            }
+
+
+            $positionUsers = User::select('users.id')
+                    ->join('positions', 'users.position_unique', '=', 'positions.unique')
+                    ->join('customer_groups', 'users.id', '=', 'customer_groups.user_id')
+                    ->where('positions.level', '>', auth()->user()->positions->level)
+                    ->where('customer_groups.customer_type_id', $customerType)
+                    ->groupBy('users.id')
+                    ->get();
+
+            $marketingDataFilter = [];
+
+            foreach ($positionUsers as $key => $item) {
+                $userId = $item->id; // Accessing the 'id' property of the $item object
+
+                $marketingAreaData = marketingArea::where('user_id', $userId)
+                                                    ->select('island_id','region_id','city_id','user_id')
+                                                    ->first();
+
+                array_push($marketingDataFilter, $marketingAreaData);
+            }
+
+            $userMarketingData = marketingArea::where('user_id', Auth::user()->id)->get();
+
+            $userChildData = [];
+
+            foreach ($marketingDataFilter as $key => $item) {
+                foreach($userMarketingData as $value) {
+                    if($value->island_id == $item->island_id && $value->region_id == $item->region_id) {
+                        array_push($userChildData,$item->user_id);
+                    }
+                }
+            }
+
+           array_push($userChildData, Auth::user()->id);
+
+           $productData = [];
+
+            foreach ($userChildData as $key => $item) {
+                $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
+                                                ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
+                                                ->where('products.status',1)
+                                                ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
+                                                ->get();
+
+                foreach ($userProductData as $product) {
+                    // Check if the product ID already exists in the $products array
+                    $existingProduct = array_column($productData, 'id', 'id');
+
+                    if (!isset($existingProduct[$product->id])) {
+                        $productDetail = [
+                            'id' => $product->id,
+                            'code' => $product->code,
+                            'product_name' => $product->product_name,
+                            'status' => $product->status,
+                            'created_at' => $product->created_at,
+                            'updated_at' => $product->updated_at
+                        ];
+
+                        $productData[] = $productDetail;
+                    }
                 }
             }
         }else{
-            $products = [];
             foreach ($marketingAreaData as $key => $value) {
-                $users = Auth::user()->id;
-
-                array_push($products,$users);
-            }
-
-            // Remove duplicates from the $products array
-            $products = array_unique($products);
-
-            $data = [];
-            foreach ($products as $key => $item) {
-                $salesProduct = salesProduct::join('products','sales_products.product_id','products.id')
-                                            ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')
-                                            ->where('sales_id',$item)
-                                            ->select('products.id as id',
-                                                    'products.code as code',
-                                                    'products.product_name as product_name',
-                                                    'products.status as status',
-                                                    'products.created_at as created_at',
-                                                    'products.updated_at as updated_at')
-                                            ->get()
-                                            ->toArray(); // Convert the collection to array
-
-                if ($salesProduct) {
-                    $data = array_merge($data, $salesProduct);
+                if($value->island_id == null || $value->region_id == null || $customerType == null) {
+                    toast('Island, Regions and Customer Not Found','error');
+                    return back();
                 }
             }
+
+            $productData = salesProduct::where('sales_id',Auth::user()->id)
+                                        ->join('products','sales_products.product_id','products.id')
+                                        ->where('product_name', 'ILIKE', '%' . $request->get('q') . '%')
+                                        ->select('products.id as id',
+                                                'products.code as code',
+                                                'products.product_name as product_name',
+                                                'products.status as status',
+                                                'products.created_at as created_at',
+                                                'products.updated_at as updated_at')
+                                        ->get();
         }
 
-        return response()->json($data);
+        return response()->json($productData);
     }
 
     /**

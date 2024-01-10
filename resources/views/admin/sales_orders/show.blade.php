@@ -76,7 +76,7 @@
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item">
                                                                 <i class='ri-calendar-todo-line fs-16 me-1'></i>
-                                                                {{@date('d-m-Y',strtotime($item->so_date))}}
+                                                                {{@date('d-m-Y h:m A',strtotime($item->created_at))}}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
                                                                 <i class='ri-list-check-3 fs-16 me-1'></i>

@@ -101,4 +101,12 @@ class TransactionController extends Controller
 
         return view('transaction.canceled',compact('canceled'));
     }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function delivered()
+    {
+        return view('transaction.delivered');
+    }
 }

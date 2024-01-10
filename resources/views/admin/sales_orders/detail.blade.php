@@ -47,7 +47,7 @@
                             </div>
                             <!-- end col -->
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted">Customer</p>
                                 <div class="d-flex align-items-start">
@@ -61,14 +61,14 @@
                                 <!-- end due date -->
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <!-- start due date -->
                                 <p class="mt-2 mb-1 text-muted">SO Date</p>
                                 <div class="d-flex align-items-start">
                                     <i class="ri-calendar-todo-line fs-18 text-success me-1"></i>
                                     <div class="w-100">
                                         <h5 class="mt-1">
-                                            {{date('d-m-Y',strtotime(@$transactions->so_date))}}
+                                            {{@date('d-m-Y h:m A',strtotime($transactions->created_at))}}
                                         </h5>
                                     </div>
                                 </div>

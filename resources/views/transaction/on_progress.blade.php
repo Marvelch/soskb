@@ -22,6 +22,9 @@
             <div class="col pb-2 border-bottom">
                 <a href="{{route('canceled_transaction')}}" class="text-muted text-decoration-none">Canceled</a>
             </div>
+            <div class="col pb-2 border-bottom">
+                <a href="{{route('delivered_transaction')}}" class="text-muted text-decoration-none">Delivered</a>
+            </div>
         </div>
     </div>
     <div class="order-body p-3">
