@@ -619,13 +619,6 @@ class SalesOrderController extends Controller
         if(@Auth::user()->positions->level == 2) {
             $productData = product::all();
         }else if(@Auth::user()->positions->level == 3) {
-            foreach ($marketingAreaData as $key => $value) {
-                if($value->island_id == null || $customerType == null) {
-                    toast('Island, Regions and Customer Not Found','error');
-                    return back();
-                }
-            }
-
             $positionUsers = User::select('users.id')
                     ->join('positions', 'users.position_unique', '=', 'positions.unique')
                     ->join('customer_groups', 'users.id', '=', 'customer_groups.user_id')
@@ -689,13 +682,6 @@ class SalesOrderController extends Controller
                 }
             }
         }else if(@Auth::user()->positions->level == 4) {
-            foreach ($marketingAreaData as $key => $value) {
-                if($value->island_id == null || $customerType == null) {
-                    toast('Island, Regions and Customer Not Found','error');
-                    return back();
-                }
-            }
-
             $positionUsers = User::select('users.id')
                     ->join('positions', 'users.position_unique', '=', 'positions.unique')
                     ->join('customer_groups', 'users.id', '=', 'customer_groups.user_id')
@@ -758,14 +744,7 @@ class SalesOrderController extends Controller
                     }
                 }
             }
-        }else if(@Auth::user()->positions->level == 5) { // Supervisor
-            foreach ($marketingAreaData as $key => $value) {
-                if($value->island_id == null || $value->region_id == null || $customerType == null) {
-                    toast('Island, Regions and Customer Not Found','error');
-                    return back();
-                }
-            }
-
+        }else if(@Auth::user()->positions->level == 5) {
 
             $positionUsers = User::select('users.id')
                     ->join('positions', 'users.position_unique', '=', 'positions.unique')
