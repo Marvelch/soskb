@@ -396,7 +396,7 @@ class SalesOrderController extends Controller
 
             $data = [];
             $filterCustomerGroup = customerGroup::where('user_id', Auth::user()->id)->first();
-            return customerDataWithoutDuplicates;
+
             foreach ($customerDataWithoutDuplicates as $key => $value) {
                 $customerDataExisting = customer::where('id', $value['customer_id'])
                     ->where('name', 'ILIKE', '%' . $request->get('q') . '%')
