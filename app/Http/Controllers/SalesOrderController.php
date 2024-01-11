@@ -648,6 +648,7 @@ class SalesOrderController extends Controller
             foreach ($userChildData as $key => $item) {
                 $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
                                                 ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')->get()
                                                 ->where('products.status',1)
                                                 ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
                                                 ->get();
@@ -710,6 +711,7 @@ class SalesOrderController extends Controller
             foreach ($userChildData as $key => $item) {
                 $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
                                                 ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')->get()
                                                 ->where('products.status',1)
                                                 ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
                                                 ->get();
@@ -772,6 +774,7 @@ class SalesOrderController extends Controller
             foreach ($userChildData as $key => $item) {
                 $userProductData = salesProduct::join('products','sales_products.product_id','=','products.id')
                                                 ->where('sales_products.sales_id', $item)
+                                                ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')->get()
                                                 ->where('products.status',1)
                                                 ->select('products.id','products.code','products.product_name','products.status','products.created_at','products.updated_at')
                                                 ->get();
@@ -804,6 +807,7 @@ class SalesOrderController extends Controller
 
             $data = salesProduct::where('sales_id',Auth::user()->id)
                                         ->join('products','sales_products.product_id','products.id')
+                                        ->where('products.product_name', 'ILIKE', '%' . $request->get('q') . '%')->get()
                                         ->select('products.id as id',
                                                 'products.code as code',
                                                 'products.product_name as product_name',
