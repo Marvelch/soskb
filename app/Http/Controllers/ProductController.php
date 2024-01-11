@@ -256,9 +256,9 @@ class ProductController extends Controller
                                                 'products.created_at as created_at',
                                                 'products.updated_at as updated_at')
                                         ->get();
-        }
+            }
 
-        return view('products.index',compact('productData'));
+            return view('products.index',compact('productData'));
     }
 
     /**
