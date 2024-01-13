@@ -107,6 +107,8 @@ class TransactionController extends Controller
      */
     public function delivered()
     {
-        return view('transaction.delivered');
+        $delivered = salesOrder::where('status',4)->get();
+
+        return view('transaction.delivered',compact('delivered'));
     }
 }

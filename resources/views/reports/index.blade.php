@@ -79,7 +79,8 @@
                                 <thead>
                                     <tr class="text-uppercase">
                                         <th>Nama Produk</th>
-                                        <th>Qty</th>
+                                        <th>MC</th>
+                                        <th>PAC</th>
                                     </tr>
                                 </thead>
                                 <tbody id="productData">
@@ -154,16 +155,45 @@
 
                 productTableBody.empty(); // Clear existing content before appending new data
 
+                var grandTotalMc = 0;
+                var grandTotalPac = 0;
+
                 $.each(response, function (index, item) {
+
+                    if(item['detail'].unit == 1) {
+                        var unit_mc = item['detail'].qty;
+                        grandTotalMc += item['detail'].qty;
+                    }else{
+                        var unit_mc = 0;
+                    }
+
+                    if(item['detail'].unit == 2) {
+                        var unit_pac = item['detail'].qty;
+                        grandTotalPac += item['detail'].qty;
+                    }else{
+                        var unit_pac = 0;
+                    }
+
                     let append = `
                         <tr>
                             <td class="small">${item.product_name}</td>
-                            <td class="small text-center">${item.qty}</td>
+                            <td class="small text-center">${unit_mc}</td>
+                            <td class="small text-center">${unit_pac}</td>
                         </tr>
                     `;
 
                     productTableBody.append(append);
                 });
+
+                let appendGrandTotal = `
+                    <tr>
+                        <td class="small fw-bold">Grand Total</td>
+                        <td class="small text-center fw-bold">${grandTotalMc}</td>
+                        <td class="small text-center fw-bold">${grandTotalPac}</td>
+                    </tr>
+                `;
+
+                productTableBody.append(appendGrandTotal);
             },
             error: function (error) {
                 // Handle error if needed

@@ -19,14 +19,14 @@
                         </form>
                     </div> -->
                 </div>
-                <h4 class="page-title">
+                <!-- <h4 class="page-title">
                     Daftar Transaksi
-                </h4>
+                </h4> -->
             </div>
             <!-- end page title -->
 
             <!-- tasks panel -->
-            <div class="mt-2">
+            <div class="mt-5">
                 <!-- <div class="row">
                     <div class="d-flex flex-row-reverse bd-highlight">
                         <div class="p-1 bd-highlight mt-1"><i class="ri-search-line"></i></div>
@@ -66,20 +66,24 @@
                                                         <p class="form-check-label small text-capitalize"><span
                                                                 class="badge bg-primary-subtle text-primary p-1">Completed</span>
                                                         </p>
-                                                        @else
+                                                        @elseif($item->status == 3)
                                                         <p class="form-check-label small text-capitalize"><span
                                                                 class="badge bg-danger-subtle text-danger p-1">Canceled</span>
+                                                        </p>
+                                                        @else
+                                                        <p class="form-check-label small text-capitalize"><span
+                                                                class="badge bg-warning-subtle text-warning p-1">Delivered</span>
                                                         </p>
                                                         @endif
                                                     </div>
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item">
-                                                                <i class='ri-calendar-todo-line fs-16 me-1'></i>
+                                                                <i class='ri-timer-line fs-16 me-1'></i>
                                                                 {{@date('d-m-Y h:m A',strtotime($item->created_at))}}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class='ri-list-check-3 fs-16 me-1'></i>
+                                                                <i class='ri-user-follow-line fs-16 me-1'></i>
                                                                 {{@strtolower($item->users->name)}}
                                                             </li>
                                                         </ul>
@@ -97,37 +101,30 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-start">
-                                        <i class="ri-filter-2-line fs-18 text-success me-1 small"></i>
-                                        <div class="w-100">
-                                            <h5 class="mt-1 text-capitalize small">
-                                                FILTER
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-2">
+                                    <div class="form-group">
                                         <input type="text" id="customers" class="form-control form-control-sm"
-                                            placeholder="Customer Name">
+                                            placeholder="Searching Customer Name" style="font-size: 12px;">
                                     </div>
                                     <div class="row">
                                         <div class="col-6 mt-2">
                                             <input type="date" name="" id="start" class="form-control form-control-sm"
-                                                value="{{@date('Y-m-d',strtotime(now()))}}">
+                                                value="{{@date('Y-m-d',strtotime(now()))}}" style="font-size: 12px;">
                                         </div>
                                         <div class="col-6 mt-2">
-                                            <input type="date" name="" id="end" class="form-control form-control-sm"
-                                                value="{{@date('Y-m-d',strtotime(now()))}}">
+                                            <input type="date" name="" id="end" class="form-control form-control-sm small"
+                                                value="{{@date('Y-m-d',strtotime(now()))}}" style="font-size: 12px;">
                                         </div>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <select name="" id="status_so" class="form-control form-control-sm">
+                                        <select name="" id="status_so" class="form-control form-control-sm small" style="font-size: 12px;">
                                             <option value="1">On progress</option>
                                             <option value="2">Completed</option>
                                             <option value="3">Cancelled</option>
+                                            <option value="4">Delivered</option>
                                         </select>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <button class="btn btn-filter btn-sm small btn-primary w-100">Filter</button>
+                                        <button class="btn btn-filter btn-sm small btn-primary w-100"><i class="ri-search-2-line"></i> Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,11 +176,13 @@
                             let statusBadge;
 
                             if (item.status == 1) {
-                                statusBadge = `<span class="badge bg-warning-subtle text-danger p-1">On Progress</span>`;
+                                statusBadge = `<span class="badge bg-success-subtle text-success p-1">On Progress</span>`;
                             } else if (item.status == 2) {
                                 statusBadge = `<span class="badge bg-primary-subtle text-primary p-1">Completed</span>`;
-                            } else {
+                            } else if (item.status == 3) {
                                 statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Canceled</span>`;
+                            } else {
+                                statusBadge = `<span class="badge bg-warning-subtle text-warning p-1">Delivered</span>`;
                             }
 
                             const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id_transaction) }}';
@@ -210,11 +209,11 @@
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item text-muted">
-                                                                <i class='ri-calendar-todo-line text-dark fs-16 me-1'></i>
+                                                                <i class='ri-timer-line text-muted fs-16 me-1'></i>
                                                                 ${item.so_date}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize text-muted">
-                                                                <i class='ri-list-check-3 text-dark fs-16 me-1'></i>
+                                                                <i class='ri-user-follow-line text-muted fs-16 me-1'></i>
                                                                 ${item.created_by}
                                                             </li>
                                                         </ul>

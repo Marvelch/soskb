@@ -48,19 +48,33 @@
             </div>
             @else
             <!-- step.// -->
-            <div class="my-1 step">
+            <div class="my-1 step active">
                 <span class="icon text-success"><i class="icofont-check"></i></span>
-                <span class="text small">Error</span>
+                <span class="text small"> On Progress </span>
             </div>
             <!-- step.// -->
+            <div class="my-1 step">
+                <span class="icon text-success"><i class="icofont-check"></i></span>
+                <span class="text small"> Completed </span>
+            </div>
+            <!-- step.// -->
+            <div class="my-1 step">
+                <span class="icon text-success"><i class="icofont-check"></i></span>
+                <span class="text small"> Delivered </span>
+            </div>
             @endif
         </div>
     </div>
     <!-- Destination -->
     <div class="p-3 border-bottom bg-white">
         <h6 class="fw-bold">Customers</h6>
+        @if($transactions->created_by == Auth::user()->id)
         <p class="m-0 small">{{@$transactions->customers->name}}</p>
         <p class="m-0 text-muted text-capitalize" style="font-size: 10px;">{{strtolower(@$transactions->customers->address)}}</p>
+        @else
+        <p class="m-0 small">***************</p>
+        <p class="m-0 text-muted text-capitalize" style="font-size: 10px;"><i class="icofont-lock"></i></p>
+        @endif
     </div>
     <div class="p-3 border-bottom">
         <p class="fw-bold small mb-1">Information : {{@$transactions->information}}</p>

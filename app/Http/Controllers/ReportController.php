@@ -63,14 +63,19 @@ class ReportController extends Controller
             foreach ($item->salesOrderDetails as $value) {
                 $productId = $value->product_id;
                 $qty = $value->qty;
+                $unit = $value->unit_id;
 
                 // Check if the product_id exists in $productListId
                 if(array_key_exists($productId, $productListId)) {
                     // If it exists, update the quantity
                     $productListId[$productId] += $qty;
+                    $productListId[$productId]['unit'] = $unit;
                 } else {
                     // If it doesn't exist, add the product_id as key and quantity as value
-                    $productListId[$productId] = $qty;
+                    $productListId[$productId] = [
+                        'qty' => $qty,
+                        'unit' => $unit,
+                    ];
                 }
             }
         }
@@ -86,7 +91,7 @@ class ReportController extends Controller
             $productDetail = [
                 'id' => $id,
                 'product_name' => $productData->product_name,
-                'qty' => $value
+                'detail' => $value,
             ];
 
             array_push($products,$productDetail);

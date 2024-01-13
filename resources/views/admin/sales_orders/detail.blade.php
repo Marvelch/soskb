@@ -172,12 +172,13 @@
                                 <div class="form-group">
                                     <select name="status" id="" class="form-control form-contro-sm">
                                         <option value="2" {{ $transactions->status == 2 ? 'selected' : '' }}>Completed</option>
-                                        <option value="3" {{ $transactions->status == 3 ? 'selected' : '' }}>Cancelled</option>
+                                        <option value="3" {{ $transactions->status == 3 ? 'selected' : '' }}>Canceled</option>
+                                        <option value="4" {{ $transactions->status == 4 ? 'selected' : '' }}>Delivered</option>
                                     </select>
                                 </div>
                                 <div class="border rounded mt-2">
                                     <form action="#" class="comment-area-box">
-                                        <textarea name="note" rows="3" class="form-control border-0 resize-none" {{ $transactions->status == 2 || $transactions->status == 3 ? 'disabled' : '' }}>{{@$transactions->note}}</textarea>
+                                        <textarea name="note" rows="3" class="form-control border-0 resize-none" {{ $transactions->status == 4 || $transactions->status == 3 ? 'disabled' : '' }}>{{@$transactions->note}}</textarea>
                                         <div class="p-2 bg-light d-flex justify-content-between align-items-center">
                                             <div>
                                                 <a href="#" class="btn btn-sm px-1 btn-light"><i
@@ -185,7 +186,7 @@
                                                 <a href="#" class="btn btn-sm px-1 btn-light"><i
                                                         class='ri-at-line'></i></a>
                                             </div>
-                                            <button type="submit" class="btn btn-sm btn-success" {{ $transactions->status == 2 || $transactions->status == 3 ? 'disabled' : '' }}>
+                                            <button type="submit" class="btn btn-sm btn-success" {{ $transactions->status == 4 || $transactions->status == 3 ? 'disabled' : '' }}>
                                                 <i class="ri-send-plane-2 me-1"></i>Submit
                                             </button>
                                         </div>

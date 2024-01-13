@@ -16,10 +16,10 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-customer-service-line"></i>Sales Order<div class="arrow-down"></div>
+                            <i class="ri-group-line"></i>Sales Order<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                            <a href="{{route('admin.transaction')}}" class="dropdown-item">List Transaction</a>
+                            <a href="{{route('admin.transaction')}}" class="dropdown-item">Sales Transaction</a>
                             <!-- <a href="apps-chat.php" class="dropdown-item">Chat</a>
                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-email" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -92,7 +92,7 @@
                             <i class="ri-user-line"></i>Account<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <a href="{{route('admin.users')}}" class="dropdown-item">Data Users</a>
+                            <a href="{{route('admin.users')}}" class="dropdown-item">Users List</a>
                             <a href="{{route('admin.customers.index')}}" class="dropdown-item">Data Customers</a>
                             <!--<div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ui-kit" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -19,14 +19,14 @@
                         </form>
                     </div> -->
                 </div>
-                <h4 class="page-title">
+                <!-- <h4 class="page-title">
                     List Products
-                </h4>
+                </h4> -->
             </div>
             <!-- end page title -->
 
             <!-- tasks panel -->
-            <div class="mt-2">
+            <div class="mt-5">
                 <!-- <div class="row">
                     <div class="d-flex flex-row-reverse bd-highlight">
                         <div class="p-1 bd-highlight mt-1"><i class="ri-search-line"></i></div>
@@ -41,17 +41,18 @@
                         <div class="col-md-9">
                             <div id="transactions"></div>
                             @foreach($products as $item)
-                            <a href="{{route('admin.products.set.sales',['id'=>Crypt::encryptString($item->id)])}}"
-                                id="transactions">
+                            <a id="transactions">
                                 <div class="card">
                                     <div class="card-body">
                                         <!-- task -->
                                         <div class="row justify-content-sm-between">
                                             <div class="col-sm-6 mb-sm-0">
                                                 <div class="form-check">
+                                                    <a href="{{route('admin.products.set.sales',['id'=>Crypt::encryptString($item->id)])}}">
                                                     <p class="fw-bold h5 text-muted text-uppercase">
                                                         {{@$item->product_name}}
                                                     </p>
+                                                    </a>
                                                     <p class="form-check-label text-sm"><i class="ri-qr-code-line text-success"></i> {{@$item->code}}</p>
                                                 </div> <!-- end checkbox -->
                                             </div> <!-- end col -->
@@ -72,7 +73,7 @@
                                                     <div>
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item ms-1 text-capitalize">
-                                                                <i class="ri-edit-2-fill text-success" style="font-size: 15px;"></i>
+                                                                <i class="ri-edit-2-fill text-success" style="font-size: 15px;"></i> Edit Data
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -89,26 +90,18 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-start">
-                                        <i class="ri-filter-2-line fs-18 text-success me-1"></i>
-                                        <div class="w-100">
-                                            <h5 class="mt-1 text-capitalize small">
-                                                FILTER
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mt-2">
+                                    <div class="form-group">
                                         <input type="text" id="products" class="form-control form-control-sm"
-                                            placeholder="Product Name">
+                                            placeholder="Searching Product Name" style="font-size: 12px;">
                                     </div>
                                     <div class="form-group mt-2">
-                                        <select name="" id="status_products" class="form-control form-control-sm">
+                                        <select name="" id="status_products" class="form-control form-control-sm" style="font-size: 12px;">
                                             <option value="1">Active</option>
                                             <option value="0">Non Active</option>
                                         </select>
                                     </div>
                                     <div class="form-group mt-2">
-                                        <button class="btn btn-filter btn-sm small btn-primary w-100">Searching</button>
+                                        <button class="btn btn-filter btn-sm small btn-primary w-100"><i class="ri-search-2-line"></i> Search</button>
                                     </div>
                                 </div>
                             </div>
