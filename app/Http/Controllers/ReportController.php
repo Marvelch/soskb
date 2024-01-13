@@ -68,7 +68,7 @@ class ReportController extends Controller
                 // Check if the product_id exists in $productListId
                 if(array_key_exists($productId, $productListId)) {
                     // If it exists, update the quantity
-                    $productListId[$productId] += $qty;
+                    $productListId[$productId]['qty'] += $qty;
                     $productListId[$productId]['unit'] = $unit;
                 } else {
                     // If it doesn't exist, add the product_id as key and quantity as value
