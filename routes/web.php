@@ -90,6 +90,7 @@ Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () 
     Route::post('/store',[SalesOrderController::class,'store'])->name('store_sales_orders');
     Route::get('/transaction',[SalesOrderController::class,'transaction'])->name('transaction_sales_orders');
     Route::get('/destroy-temporary-products',[SalesOrderController::class,'destoryTemporaryProducts'])->name('destory.temporary.product.sales.order');
+    Route::get('/show/{id}',[SalesOrderController::class,'show'])->name('show_transaction');
 
     ## Searching ##
     Route::get('/search/customers',[SalesOrderController::class,'searchCustomers'])->name('searching_customer');
@@ -110,8 +111,6 @@ Route::prefix('transaction')->middleware('auth','authCheck')->group(function () 
     Route::get('/complete',[TransactionController::class,'complete'])->name('complete_transaction');
     Route::get('/canceled',[TransactionController::class,'canceled'])->name('canceled_transaction');
     Route::get('/delivered',[TransactionController::class,'delivered'])->name('delivered_transaction');
-
-    Route::get('/show/{id}',[TransactionController::class,'show'])->name('show_transaction');
 });
 
 Route::prefix('profile')->middleware('auth','authCheck')->group(function () {

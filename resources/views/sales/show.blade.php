@@ -70,7 +70,8 @@
         <h6 class="fw-bold">Customers</h6>
         @if($transactions->created_by == Auth::user()->id)
         <p class="m-0 small">{{@$transactions->customers->name}}</p>
-        <p class="m-0 text-muted text-capitalize" style="font-size: 10px;">{{strtolower(@$transactions->customers->address)}}</p>
+        <p class="m-0 text-muted text-capitalize" style="font-size: 10px;">
+            {{strtolower(@$transactions->customers->address)}}</p>
         @else
         <p class="m-0 small">***************</p>
         <p class="m-0 text-muted text-capitalize" style="font-size: 10px;"><i class="icofont-lock"></i></p>
@@ -91,7 +92,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Product</th>
+                                <th scope="col">Product Name</th>
                                 <th scope="col">Qty</th>
                                 <th scope="col">Unit</th>
                             </tr>
@@ -106,6 +107,25 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="form-group">
+                        @if(@$transactions->status == 1)
+                        <button class="btn btn-primary small w-100" style="border-radius: 2px; text-align: left; font-size: 10px;">
+                            <div class="d-flex bd-highlight">
+                                <div class="flex-grow-1 bd-highlight text-uppercase">Edit Transaction</div>
+                                <div class="bd-highlight"><i class="fa-solid fa-lock-open"></i></div>
+                            </div>
+                        </button>
+                        @else
+                        <button class="btn btn-warning small w-100" style="border-radius: 2px; text-align: left; font-size: 10px;" disabled>
+                            <div class="d-flex bd-highlight">
+                                <div class="flex-grow-1 bd-highlight text-uppercase">Edit Transaction</div>
+                                <div class="bd-highlight"><i class="fa-solid fa-lock"></i></div>
+                            </div>
+                        </button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

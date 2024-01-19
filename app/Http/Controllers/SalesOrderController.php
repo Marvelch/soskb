@@ -89,8 +89,9 @@ class SalesOrderController extends Controller
                 'send_date' => $request->send_date,
             ]);
 
-            foreach($products as $item) {
+            foreach($products as $key => $item) {
                 salesOrderDetail::create([
+                    'id' => $key + 1,
                     'id_transaction' => $unique,
                     'product_id' => $item->product_id,
                     'qty' => $item->qty,
@@ -183,9 +184,14 @@ class SalesOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(salesOrder $salesOrder)
+    public function show($id)
     {
-        //
+        $id = Crypt::decryptString($id);
+
+        $transactions = salesOrder::where('id_transaction',$id)->first();
+        $transactionDetails = salesOrderDetail::where('id_transaction',$id)->get();
+
+        return view('sales.show',compact('transactions','transactionDetails'));
     }
 
     /**

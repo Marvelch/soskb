@@ -174,6 +174,7 @@
                                         <option value="2" {{ $transactions->status == 2 ? 'selected' : '' }}>Completed</option>
                                         <option value="3" {{ $transactions->status == 3 ? 'selected' : '' }}>Canceled</option>
                                         <option value="4" {{ $transactions->status == 4 ? 'selected' : '' }}>Delivered</option>
+                                        <option value="5" {{ $transactions->status == 5 ? 'selected' : '' }}>Warehouse Processing</option>
                                     </select>
                                 </div>
                                 <div class="border rounded mt-2">

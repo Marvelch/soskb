@@ -70,9 +70,17 @@
                                                         <p class="form-check-label small text-capitalize"><span
                                                                 class="badge bg-danger-subtle text-danger p-1">Canceled</span>
                                                         </p>
-                                                        @else
+                                                        @elseif($item->status == 4)
                                                         <p class="form-check-label small text-capitalize"><span
                                                                 class="badge bg-warning-subtle text-warning p-1">Delivered</span>
+                                                        </p>
+                                                        @elseif($item->status == 5)
+                                                        <p class="form-check-label small text-capitalize"><span
+                                                                class="badge bg-info-subtle text-info p-1">Warehouse Processing</span>
+                                                        </p>
+                                                        @else
+                                                        <p class="form-check-label small text-capitalize"><span
+                                                                class="badge bg-danger-subtle text-danger p-1">Error</span>
                                                         </p>
                                                         @endif
                                                     </div>
@@ -117,10 +125,11 @@
                                     </div>
                                     <div class="form-group mt-2">
                                         <select name="" id="status_so" class="form-control form-control-sm small" style="font-size: 12px;">
-                                            <option value="1">On progress</option>
+                                            <option value="1">On Progress</option>
                                             <option value="2">Completed</option>
                                             <option value="3">Cancelled</option>
                                             <option value="4">Delivered</option>
+                                            <option value="5">Warehouse Processing</option>
                                         </select>
                                     </div>
                                     <div class="form-group mt-2">
@@ -181,8 +190,12 @@
                                 statusBadge = `<span class="badge bg-primary-subtle text-primary p-1">Completed</span>`;
                             } else if (item.status == 3) {
                                 statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Canceled</span>`;
-                            } else {
+                            } else if (item.status == 4) {
                                 statusBadge = `<span class="badge bg-warning-subtle text-warning p-1">Delivered</span>`;
+                            } else if (item.status == 5) {
+                                statusBadge = `<span class="badge bg-info-subtle text-info p-1">Warehouse Processing</span>`;
+                            } else {
+                                statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Erro</span>`;
                             }
 
                             const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id_transaction) }}';

@@ -9,9 +9,14 @@ class salesOrderDetail extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = null;
+
+    public $incrementing = false;
+
     protected $table = 'sales_order_details';
 
     protected $fillable = [
+        'id',
         'id_transaction',
         'product_id',
         'qty',

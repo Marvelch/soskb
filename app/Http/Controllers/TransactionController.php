@@ -38,14 +38,9 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show()
     {
-        $id = Crypt::decryptString($id);
-
-        $transactions = salesOrder::where('id_transaction',$id)->first();
-        $transactionDetails = salesOrderDetail::where('id_transaction',$id)->get();
-
-        return view('transaction.show',compact('transactions','transactionDetails'));
+        //
     }
 
     /**

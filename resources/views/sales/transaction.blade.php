@@ -18,11 +18,17 @@
                     <div class="d-flex align-items-center mb-3">
                         <div class="me-auto bd-highlight">
                                 @if(@$item->status == 1)
-                                <p class="bg-warning text-white py-1 px-2 mb-0 rounded small">On Process</p>
+                                <p class="bg-success text-white py-1 px-2 mb-0 rounded small">On Process</p>
                                 @elseif(@$item->status == 2)
                                 <p class="bg-primary text-white py-1 px-2 mb-0 rounded small">Completed</p>
-                                @else
+                                @elseif(@$item->status == 3)
                                 <p class="bg-danger text-white py-1 px-2 mb-0 rounded small">Canceled</p>
+                                @elseif(@$item->status == 4)
+                                <p class="bg-warning text-white py-1 px-2 mb-0 rounded small">Delivered</p>
+                                @elseif(@$item->status == 5)
+                                <p class="bg-info text-white py-1 px-2 mb-0 rounded small">Warehouse Processing</p>
+                                @else
+                                <p class="bg-danger text-white py-1 px-2 mb-0 rounded small">Error</p>
                                 @endif
                             </div>
                             <div class="bd-highlight fw-bold">#{{@$item->id_transaction}}</div>
