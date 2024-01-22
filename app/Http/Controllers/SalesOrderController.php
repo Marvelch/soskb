@@ -12,7 +12,9 @@ use App\Models\salesOrderTemp;
 use Illuminate\Http\Request;
 Use Alert;
 use App\Models\customerGroup;
+use App\Models\customerTempEdit;
 use App\Models\marketingArea;
+use App\Models\productTempEdit;
 use App\Models\salesCustomer;
 use App\Models\salesProduct;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -47,13 +49,31 @@ class SalesOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function product()
+    public function product($id)
     {
         $products = productTemp::where('user_id',Auth::user()->id)->get();
 
         $units = unit::all();
 
         return view('sales.product',compact('products','units'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function editProduct($id)
+    {
+        $idOriginal = $id;
+
+        $id = Crypt::decryptString($id);
+
+        $products = productTempEdit::where('user_id',Auth::user()->id)
+                                    ->where('id_transaction',$id)
+                                    ->get();
+
+        $units = unit::all();
+
+        return view('sales.edit_product',compact('products','units','idOriginal'));
     }
 
     /**
@@ -157,9 +177,71 @@ class SalesOrderController extends Controller
     {
         DB::beginTransaction();
         try {
-            $productTemp = productTemp::where('user_id',Auth::user()->id)->first();
+            // $productTemp = productTemp::where('user_id',Auth::user()->id)->first();
 
             productTemp::where('user_id',Auth::user()->id)->delete();
+
+            foreach($request->product_list as $item) {
+                productTemp::create([
+                    'product_id' => $item['id'],
+                    'qty' => $item['qty'],
+                    'user_id' => Auth::user()->id,
+                    'unit_id' => $item['unit_id']
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('index_sales_orders');
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+
+            return $th;
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function editProductTemp(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            // $productTemp = productTemp::where('user_id',Auth::user()->id)->first();
+
+            productTempEdit::where('user_id',Auth::user()->id)->delete();
+
+            foreach($request->product_list as $item) {
+                productTempEdit::create([
+                    'id_transaction' => Crypt::decryptString($id),
+                    'product_id' => $item['id'],
+                    'qty' => $item['qty'],
+                    'user_id' => Auth::user()->id,
+                    'unit_id' => $item['unit_id']
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json($id);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+
+            return $th;
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function updateProductTempEdit(Request $request, $id)
+    {
+        return $id;
+        DB::beginTransaction();
+        try {
+            productTempEdit::where('user_id',Auth::user()->id)->delete();
 
             foreach($request->product_list as $item) {
                 productTemp::create([
@@ -186,28 +268,191 @@ class SalesOrderController extends Controller
      */
     public function show($id)
     {
+        $idOriginal = $id;
+
         $id = Crypt::decryptString($id);
 
         $transactions = salesOrder::where('id_transaction',$id)->first();
         $transactionDetails = salesOrderDetail::where('id_transaction',$id)->get();
 
-        return view('sales.show',compact('transactions','transactionDetails'));
+        return view('sales.show',compact('transactions','transactionDetails','idOriginal'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource edit customer.
      */
-    public function edit(salesOrder $salesOrder)
+    public function editCustomer($id)
     {
-        //
+        $idOriginal = $id;
+
+        return view('sales.edit_customer',compact('idOriginal'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, salesOrder $salesOrder)
+    public function updateCustomer(Request $request, $id)
     {
-        //
+        $id = Crypt::decryptString($id);
+
+        DB::beginTransaction();
+
+        try {
+            customerTempEdit::where('id_transaction', $id)
+                            ->where('user_id',Auth::user()->id)
+                            ->update([
+                                'customer_id' => $request->input('customer_id'),
+                            ]);
+
+            DB::commit();
+
+            toast('Customer updated successfully', 'success');
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            toast($th->getMessage(),'error');
+        }
+
+        return redirect()->route('edit.sales.orders',['id_transaction' => Crypt::encryptString($id)]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $idTransaction = Crypt::decryptString($id);
+
+        $salesOrderData = salesOrder::where('id_transaction',$idTransaction)->first();
+        $salesOrderDetailData = salesOrderDetail::where('id_transaction',$idTransaction)->get();
+
+        $customerTempData = customerTempEdit::where('id_transaction',$idTransaction)
+                                            ->where('user_id',Auth::user()->id)
+                                            ->get();
+
+        $productTempData = productTempEdit::where('id_transaction',$idTransaction)
+                                            ->where('user_id',Auth::user()->id)
+                                            ->get();
+
+        if($customerTempData->isEmpty()){
+            // IF USER HAVE DATA IN TEMP PRODUCT AND CUSTOMER DELETE FIRST
+            if($customerTempData || $productTempData) {
+                customerTempEdit::where('id_transaction',$idTransaction)
+                                        ->where('user_id',Auth::user()->id)
+                                        ->delete();
+                productTempEdit::where('id_transaction',$idTransaction)
+                                        ->where('user_id',Auth::user()->id)
+                                        ->delete();
+            }
+
+            if($salesOrderData->status == 1) {
+                // COPY DATA FROM TABLE SALES ORDER TO CUSTOMER AND PRODUCT TEMP
+                customerTempEdit::create([
+                    'id_transaction' => $idTransaction,
+                    'customer_id' => $salesOrderData->customer_id,
+                    'user_id' => $salesOrderData->created_by,
+                ]);
+
+                foreach ($salesOrderDetailData as $key => $value) {
+                    productTempEdit::create([
+                        'id_transaction' => $idTransaction,
+                        'product_id' => $value->product_id,
+                        'qty' => $value->qty,
+                        'unit_id' => $value->unit_id,
+                        'user_id' => $salesOrderData->created_by,
+                    ]);
+                }
+            }else{
+                toast('The system is experiencing problems','error');
+
+                return back();
+            }
+        }
+
+        $customerTempData = customerTempEdit::where('id_transaction',$idTransaction)
+                                            ->where('id_transaction',$idTransaction)
+                                            ->first();
+        $productTempData = productTempEdit::where('id_transaction',$idTransaction)
+                                            ->where('id_transaction',$idTransaction)
+                                            ->get();
+
+        return view('sales.edit',compact('customerTempData','productTempData','salesOrderData','id'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $idOriginal = $id;
+
+        $id = Crypt::decryptString($id);
+
+        DB::beginTransaction();
+
+        try {
+            $customerTempEditData = customerTempEdit::where('id_transaction',$id)->first();
+            $salesOrderData = salesOrder::where('id_transaction',$id)->first();
+            $productTempEditData = productTempEdit::where('id_transaction',$id)
+                                                    ->where('user_id',Auth::user()->id)
+                                                    ->get();
+
+            if($salesOrderData->status != 1 ) {
+                DB::rollback();
+
+                productTempEdit::where('id_transaction',$id)
+                            ->where('user_id',Auth::user()->id)
+                            ->delete();
+
+                customerTempEdit::where('id_transaction',$id)
+                                ->where('user_id',Auth::user()->id)
+                                ->delete();
+
+                toast('Transaction changes to this sales order are not permitted','error');
+                return redirect()->route('show_transaction',['id' => $idOriginal]);
+            }
+
+            salesOrder::where('id_transaction',$id)->update([
+                'customer_id' => $customerTempEditData->customer_id,
+                'information' => $salesOrderData->information.' | Update Note : '.$request->information.' - '.Auth::user()->name,
+                'send_date' => $request->send_date,
+                'changed_by' => Auth::user()->id
+            ]);
+
+            if($productTempEditData) {
+                salesOrderDetail::where('id_transaction',$id)->delete();
+
+                foreach ($productTempEditData as $key => $item) {
+                    salesOrderDetail::create([
+                        'id' => $key + 1,
+                        'id_transaction' => $id,
+                        'product_id' => $item->product_id,
+                        'qty' => $item->qty,
+                        'unit_id' => $item->unit_id
+                    ]);
+                }
+            }
+
+            productTempEdit::where('id_transaction',$id)
+                            ->where('user_id',Auth::user()->id)
+                            ->delete();
+
+            customerTempEdit::where('id_transaction',$id)
+                            ->where('user_id',Auth::user()->id)
+                            ->delete();
+
+            DB::commit();
+
+            toast('Transaction Has Been Successful','success');
+
+            return redirect()->route('show_transaction',['id' => $idOriginal]);
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            toast($th->getMessage(),'error');
+
+            return back();
+        }
     }
 
     /**

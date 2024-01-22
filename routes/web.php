@@ -17,9 +17,11 @@ use App\Http\Controllers\SubCustomerTypeController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\customerTemp;
+use App\Models\customerTempEdit;
 use App\Models\general;
 use App\Models\marketingArea;
 use App\Models\productTemp;
+use App\Models\productTempEdit;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Auth;
@@ -50,8 +52,10 @@ Auth::routes();
 Route::get('/logout',function() {
 
     productTemp::where('user_id',@Auth::user()->id)->delete();
-
     customerTemp::where('user_id',@Auth::user()->id)->delete();
+
+    customerTempEdit::where('user_id',Auth::user()->id)->delete();
+    productTempEdit::where('user_id',Auth::user()->id)->delete();
 
     Auth::logout();
 
@@ -92,6 +96,12 @@ Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () 
     Route::get('/destroy-temporary-products',[SalesOrderController::class,'destoryTemporaryProducts'])->name('destory.temporary.product.sales.order');
     Route::get('/show/{id}',[SalesOrderController::class,'show'])->name('show_transaction');
 
+    Route::get('edit/{id_transaction}',[SalesOrderController::class,'edit'])->name('edit.sales.orders');
+    Route::get('edit/customer/{id_transaction}',[SalesOrderController::class,'editCustomer'])->name('edit.customer.sales.orders');
+    Route::get('edit/product/{id_transaction}',[SalesOrderController::class,'editProduct'])->name('edit.product.sales.orders');
+    Route::put('update/customer/{id_transaction}',[SalesOrderController::class,'updateCustomer'])->name('update.customer.sales.orders');
+    Route::put('update/transaction-sales-order/{id_transaction}',[SalesOrderController::class,'update'])->name('update.sales.orders');
+
     ## Searching ##
     Route::get('/search/customers',[SalesOrderController::class,'searchCustomers'])->name('searching_customer');
     Route::get('/search/products',[SalesOrderController::class,'searchProducts'])->name('searching_product');
@@ -99,6 +109,8 @@ Route::prefix('sales-order')->middleware('auth','authCheck')->group(function () 
     ## Temp ##
     Route::post('/customer-temp',[SalesOrderController::class,'storeTemp'])->name('store_customer_sales_orders');
     Route::post('/products-temp',[SalesOrderController::class,'storeProductTemp'])->name('store_product_sales_orders');
+    Route::post('/edit/products-temp/{id_transaction}',[SalesOrderController::class,'editProductTemp'])->name('edit.product.temp.sales.order');
+    Route::put('/update/products-temp/{id_transaction}',[SalesOrderController::class,'updateProductTempEdit'])->name('update.product.temp.sales.order');
 });
 
 Route::prefix('customers')->middleware('auth','authCheck')->group(function () {

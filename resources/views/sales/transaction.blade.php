@@ -36,7 +36,7 @@
                         <!-- <p class="text-muted ms-auto small mb-0"><i class="icofont-clock-time"></i> {{date('d/m/Y',strtotime(@$item->created_at))}} | {{@$item->customer_number}}</p> -->
                     </div>
                     <div class="d-flex">
-                        <p class="text-dark m-0 fw-bold">{{@$item->customers->name}}<br>
+                        <p class="text-dark m-0 fw-bold text-capitalize">{{@$item->customers->name}}<br>
                             <span class="text-muted">{{@$item->users->name}} - {{@date('d/m/Y',strtotime($item->so_date))}}</span>
                         </p>
                     </div>

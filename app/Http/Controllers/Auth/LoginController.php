@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\customerTempEdit;
 use App\Models\LoginToken;
+use App\Models\productTempEdit;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -55,6 +57,11 @@ class LoginController extends Controller
             if ($user->account_type === 'ADM') {
                 return redirect()->route('admin.home');
             } elseif ($user->account_type === 'USR') {
+
+                // DELETE ALL RECORD EDIT FROM TABLE CUSTOMER TEMP EDIT AND PRODUCT TEMP EDIT
+                customerTempEdit::where('user_id',Auth::user()->id)->delete();
+                productTempEdit::where('user_id',Auth::user()->id)->delete();
+
                 return redirect()->route('home');
             } else {
                 return "Gagal";
