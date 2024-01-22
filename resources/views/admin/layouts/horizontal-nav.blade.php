@@ -199,7 +199,7 @@
                             <i class="ri-p2p-fill"></i>App Service<div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-layouts">
-                            <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure Organization </a>
+                            <a href="{{route('admin_structure_general')}}" class="dropdown-item">Structure</a>
                             <!-- <a href="{{route('admin_group_general')}}" class="dropdown-item">Group</a> -->
                             <!-- <a href="layouts-full.php" class="dropdown-item" target="_blank">Full</a>
                             <a href="layouts-fullscreen.php" class="dropdown-item" target="_blank">Fullscreen</a>
