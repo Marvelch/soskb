@@ -49,7 +49,7 @@ class SalesOrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function product($id)
+    public function product()
     {
         $products = productTemp::where('user_id',Auth::user()->id)->get();
 
