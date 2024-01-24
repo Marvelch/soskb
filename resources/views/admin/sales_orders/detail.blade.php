@@ -68,7 +68,7 @@
                                     <i class="ri-calendar-todo-line fs-18 text-success me-1"></i>
                                     <div class="w-100">
                                         <h5 class="mt-1">
-                                            {{@date('d-m-Y h:m A',strtotime($transactions->created_at))}}
+                                            {{@date('d-m-Y H:i A',strtotime($transactions->created_at))}}
                                         </h5>
                                     </div>
                                 </div>

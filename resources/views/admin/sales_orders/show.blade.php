@@ -88,7 +88,7 @@
                                                         <ul class="list-inline fs-13 text-end">
                                                             <li class="list-inline-item">
                                                                 <i class='ri-timer-line fs-16 me-1'></i>
-                                                                {{@date('d-m-Y h:m A',strtotime($item->created_at))}}
+                                                                {{@date('d-m-Y H:i A',strtotime($item->created_at))}}
                                                             </li>
                                                             <li class="list-inline-item ms-1 text-capitalize">
                                                                 <i class='ri-user-follow-line fs-16 me-1'></i>
