@@ -25,6 +25,7 @@ use App\Models\productTempEdit;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,18 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/timezone',function() {
+// Create a Carbon instance with the current time in the 'Asia/Jakarta' timezone
+$now = Carbon::now('Asia/Jakarta');
+
+// You can also set the timezone for an existing Carbon instance
+$existingDate = Carbon::parse('2022-01-01 12:00:00', 'UTC');
+$existingDate->setTimezone('Asia/Jakarta');
+
+// Display the formatted date
+echo $now->format('Y-m-d H:i:s');
+});
 
 Route::get('/', function () {
     $agent = new Agent();

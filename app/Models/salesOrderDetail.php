@@ -20,7 +20,8 @@ class salesOrderDetail extends Model
         'id_transaction',
         'product_id',
         'qty',
-        'unit_id'
+        'unit_id',
+        'created_at'
     ];
 
     public function products()

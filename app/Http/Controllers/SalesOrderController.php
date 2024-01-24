@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\unit;
 use App\Models\User;
 use DB;
+use Carbon\Carbon;
 use Auth;
 
 class SalesOrderController extends Controller
@@ -89,6 +90,7 @@ class SalesOrderController extends Controller
      */
     public function store(Request $request)
     {
+        $now = Carbon::now('Asia/Jakarta');
 
         DB::beginTransaction();
 
@@ -107,6 +109,7 @@ class SalesOrderController extends Controller
                 'information' => $request->information,
                 'status' => 1,
                 'send_date' => $request->send_date,
+                'created_at' => $now->format('Y-m-d H:i:s')
             ]);
 
             foreach($products as $key => $item) {
@@ -115,7 +118,8 @@ class SalesOrderController extends Controller
                     'id_transaction' => $unique,
                     'product_id' => $item->product_id,
                     'qty' => $item->qty,
-                    'unit_id' => $item->unit_id
+                    'unit_id' => $item->unit_id,
+                    'created_at' => $now->format('Y-m-d H:i:s')
                 ]);
             }
 
@@ -384,6 +388,8 @@ class SalesOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $now = Carbon::now('Asia/Jakarta');
+
         $idOriginal = $id;
 
         $id = Crypt::decryptString($id);
@@ -416,7 +422,8 @@ class SalesOrderController extends Controller
                 'customer_id' => $customerTempEditData->customer_id,
                 'information' => $salesOrderData->information.' | Update Note : '.$request->information.' - '.Auth::user()->name,
                 'send_date' => $request->send_date,
-                'changed_by' => Auth::user()->id
+                'changed_by' => Auth::user()->id,
+                'updated_at' => $now->format('Y-m-d H:i:s')
             ]);
 
             if($productTempEditData) {

@@ -25,7 +25,9 @@ class salesOrder extends Model
         'status',
         'send_date',
         'changed_by',
-        'note'
+        'note',
+        'created_at',
+        'updated_at'
     ];
 
     public function customers()
