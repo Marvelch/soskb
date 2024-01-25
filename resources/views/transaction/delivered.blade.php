@@ -38,7 +38,7 @@
                         <p class="bg-warning text-white py-1 px-2 rounded small m-0 text-capitalize">
                             {{@$item->users->name}}</p>
                         <p class="text-muted ms-auto small m-0"><i class="icofont-clock-time"></i>
-                            {{date('d/m/Y',strtotime($item->so_date))}}</p>
+                            {{date('d-m-Y | H:m',strtotime($item->created_at))}}</p>
                     </div>
                     <div class="d-flex">
                         <p class="text-muted m-0">Transaction. ID<br>

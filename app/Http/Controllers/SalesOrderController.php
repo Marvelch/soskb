@@ -1116,12 +1116,15 @@ class SalesOrderController extends Controller
      */
     public function storeAdmin(Request $request, $id)
     {
+        $now = Carbon::now('Asia/Jakarta');
+
         DB::beginTransaction();
         try {
             salesOrder::where('id_transaction',Crypt::decryptString($id))->update([
                 'note' => $request->note,
                 'status' => $request->status,
-                'changed_by' => Auth::user()->id
+                'changed_by' => Auth::user()->id,
+                'updated_at' => $now->format('Y-m-d H:i:s')
             ]);
 
             DB::commit();
