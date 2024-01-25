@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\position;
 use App\Models\salesOrder;
 
 if (!function_exists('UniqueSalesOrder')) {
@@ -15,13 +14,13 @@ if (!function_exists('UniqueSalesOrder')) {
             if ($lastPosition) {
                 $lastCode = explode('-', $lastPosition->id_transaction);
                 $lastNumber = (int)end($lastCode);
-                $nextNumber = str_pad($lastNumber + 1 + $attempt - 1, 4, '0', STR_PAD_LEFT);
+                $nextNumber = str_pad($lastNumber + $attempt - 1, 4, '0', STR_PAD_LEFT);
                 $newCode = "SO-$year$month-$nextNumber";
             } else {
                 $newCode = "SO-$year$month-" . str_pad($attempt, 4, '0', STR_PAD_LEFT);
             }
 
-            $codeExists = position::where('unique', $newCode)->exists();
+            $codeExists = salesOrder::where('id_transaction', $newCode)->exists();
             if ($codeExists) {
                 $attempt++;
             } else {
