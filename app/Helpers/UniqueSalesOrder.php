@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Position;
-use App\Models\SalesOrder;
+use App\Models\salesOrder;
 
 if (!function_exists('UniqueSalesOrder')) {
     function UniqueSalesOrder()
@@ -11,7 +11,7 @@ if (!function_exists('UniqueSalesOrder')) {
 
         $attempt = 1;
         do {
-            $lastPosition = SalesOrder::orderBy('id_transaction', 'desc')->first();
+            $lastPosition = salesOrder::orderBy('id_transaction', 'desc')->first();
             if ($lastPosition) {
                 $lastCode = explode('-', $lastPosition->id_transaction);
                 $lastYearMonth = $lastCode[1];
