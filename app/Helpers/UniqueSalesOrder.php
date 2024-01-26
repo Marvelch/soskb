@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Position;
+use App\Models\position;
 use App\Models\salesOrder;
 
 if (!function_exists('UniqueSalesOrder')) {
@@ -29,7 +29,7 @@ if (!function_exists('UniqueSalesOrder')) {
                 $newCode = "SO-$year$month-" . str_pad($attempt, 4, '0', STR_PAD_LEFT);
             }
 
-            $codeExists = Position::where('unique', $newCode)->exists();
+            $codeExists = position::where('unique', $newCode)->exists();
             if ($codeExists) {
                 $attempt++;
             } else {
