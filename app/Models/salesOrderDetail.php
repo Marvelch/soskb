@@ -21,7 +21,8 @@ class salesOrderDetail extends Model
         'product_id',
         'qty',
         'unit_id',
-        'created_at'
+        'created_at',
+        'updated_at'
     ];
 
     public function products()
