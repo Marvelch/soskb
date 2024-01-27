@@ -170,7 +170,9 @@ class SalesOrderController extends Controller
             //throw $th;
             DB::rollback();
 
-            return $th;
+            toast($th->getMessage(),'error');
+
+            return back();
         }
     }
 
@@ -201,7 +203,9 @@ class SalesOrderController extends Controller
             //throw $th;
             DB::rollback();
 
-            return $th;
+            toast($th->getMessage(),'error');
+
+            return back();
         }
     }
 
@@ -233,7 +237,9 @@ class SalesOrderController extends Controller
             //throw $th;
             DB::rollback();
 
-            return $th;
+            toast($th->getMessage(),'error');
+
+            return back();
         }
     }
 

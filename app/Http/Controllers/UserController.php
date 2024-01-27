@@ -168,11 +168,9 @@ class UserController extends Controller
 
             DB::rollback();
 
-            // toast($th->getMessage(),'error');
+            toast($th->getMessage(),'error');
 
-            // return back();
-
-            return $th;
+            return back();
         }
     }
 
