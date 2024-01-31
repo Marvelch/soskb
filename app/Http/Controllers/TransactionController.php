@@ -72,7 +72,7 @@ class TransactionController extends Controller
      */
     public function on_progress()
     {
-        $onProgress = salesOrder::where('status',1)->get();
+        $onProgress = salesOrder::where('status',1)->orderBy('id_transaction', 'desc')->get();
 
         return view('transaction.on_progress',compact('onProgress'));
     }
@@ -82,7 +82,7 @@ class TransactionController extends Controller
      */
     public function complete()
     {
-        $completes = salesOrder::where('status',2)->get();
+        $completes = salesOrder::where('status',2)->orderBy('id_transaction', 'desc')->get();
 
         return view('transaction.complete',compact('completes'));
     }
@@ -92,7 +92,7 @@ class TransactionController extends Controller
      */
     public function canceled()
     {
-        $canceled = salesOrder::where('status',3)->get();
+        $canceled = salesOrder::where('status',3)->orderBy('id_transaction', 'desc')->get();
 
         return view('transaction.canceled',compact('canceled'));
     }
@@ -102,7 +102,7 @@ class TransactionController extends Controller
      */
     public function delivered()
     {
-        $delivered = salesOrder::where('status',4)->get();
+        $delivered = salesOrder::where('status',4)->orderBy('id_transaction', 'desc')->get();
 
         return view('transaction.delivered',compact('delivered'));
     }
