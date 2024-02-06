@@ -27,7 +27,7 @@ class MonthlySalesOrdersChart
                 DB::raw('EXTRACT(MONTH FROM so_date) as month'),
                 DB::raw('COUNT(*) as total_transactions')
             )
-            ->where('status', 3)
+            ->where('status', 2)
             ->whereBetween('so_date', [$lastThreeMonths, $currentMonth])
             ->groupBy(DB::raw('EXTRACT(YEAR FROM so_date)'), DB::raw('EXTRACT(MONTH FROM so_date)'))
             ->get();
@@ -43,7 +43,7 @@ class MonthlySalesOrdersChart
 
         return $this->chart->pieChart()
             ->setTitle('Laporan Transaksi Sales')
-            ->setSubtitle('Season 2024.')
+            ->setSubtitle('Transaction Successful')
             ->addData($values)
             ->setLabels($labels);
     }

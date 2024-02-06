@@ -6,7 +6,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.home')}}" role="button">
-                            <i class="ri-home-4-line"></i>Dashboards
+                            <i class="ri-home-4-line"></i>Dashboard
                         </a>
                     </li>
                      <li class="nav-item">
