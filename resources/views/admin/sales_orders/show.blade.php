@@ -182,6 +182,7 @@
 
                         // Iterate through each sales order item and create card elements
                         salesOrderData.forEach(function(item) {
+
                             let statusBadge;
 
                             if (item.status == 1) {
@@ -198,10 +199,8 @@
                                 statusBadge = `<span class="badge bg-danger-subtle text-danger p-1">Erro</span>`;
                             }
 
-                            const encryptedIdTransaction = '{{ Crypt::encryptString(@$item->id_transaction) }}';
-
                             const cardContent = `
-                                <a href="/admin/sales-orders/detail/${encryptedIdTransaction}">
+                                <a href='/admin/sales-orders/detail/${item.encryptedIdTransaction}'>
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row justify-content-sm-between">

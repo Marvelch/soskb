@@ -4177,7 +4177,7 @@ fieldset:disabled .btn {
 .nav-link {
     display: block;
     padding: var(--ct-nav-link-padding-y) var(--ct-nav-link-padding-x);
-    font-size: var(--ct-nav-link-font-size);
+    font-size: 11px;
     font-weight: var(--ct-nav-link-font-weight);
     color: var(--ct-nav-link-color);
     background: 0 0;

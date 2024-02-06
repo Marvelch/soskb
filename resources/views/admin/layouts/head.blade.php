@@ -21,5 +21,10 @@
 <!-- Plugin css -->
 <link rel="stylesheet" href="{{asset('admin/vendor/daterangepicker/daterangepicker.css')}}">
 <link href="{{asset('admin/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
-
+<!-- Google font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+<!-- Larapex Chart -->
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>

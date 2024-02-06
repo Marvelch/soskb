@@ -1168,6 +1168,12 @@ class SalesOrderController extends Controller
                                     )
                                     ->get();
 
+        // Encrypt the id_transaction for each item in the collection
+        $salesOrderData->transform(function ($item) {
+            $item->encryptedIdTransaction = Crypt::encryptString($item->id_transaction);
+            return $item;
+        });
+
         return response()->json(['salesOrderData' => $salesOrderData]);
     }
 

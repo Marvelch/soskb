@@ -11,121 +11,122 @@
             </div>
         </div>
     </div>
-
-    <div class="row row-cols-1 row-cols-xxl-5 row-cols-lg-3 row-cols-md-2">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="{{asset('./admin/images/user.webp')}}" class="w-100" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="text-muted fw-normal mt-0 text-uppercase fw-bold" title="Number of Orders">Users</h5>
-                                    <h3 class="my-3">{{@$users}} <span class="small">orang</span></h3>
-                                    <span class="badge bg-danger me-1" title="Non Active"><i class="ri-arrow-up-circle-line"></i> 0 </span>
-                                    <span class="badge bg-success me-1" title="Active"><i class="ri-arrow-down-circle-fill"></i>{{@$users}}</span>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="bg-white rounded shadow">
+                <div class="p-3">
+                    {!! $chart->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center text-center">
+                            <img src="{{asset('./admin/images/user.webp')}}" alt="Your Image"
+                                class="rounded-circle img-thumbnail rounded-black-border"
+                                style="border: 2px solid #fff; border-radius: 10px; width: 50%;">
+                            <div class="form-group mt-2">
+                                {{@$users}} <span class="small">orang</span>
+                                <p class="text-muted" style="font-size: 10px;">Total Pengguna</p>
+                            </div>
+                            <div class="form-group mt-2">
+                                <div class="row">
+                                    <div class="col">
+                                        <span class="badge bg-primary me-1" title="Active"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-up-circle-line"></i> {{@$users}} </span>
+                                        <span class="badge bg-dark me-1" title="Inactive"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-down-circle-line"></i> 0 </span>
+                                        <p class="text-muted text-capitalize mt-3" style="font-size: 9px;">Terlampir
+                                            total pengguna</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-
-
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="{{asset('./admin/images/store.webp')}}" class="w-100" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="text-muted fw-normal mt-0 text-uppercase fw-bold" title="Number of Orders">Customer</h5>
-                                    <h3 class="my-3">{{@$totalCustomers}}</h3>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        @if(number_format(@$percentageDifferenceCust, 2) > 0)
-                                            <span class="badge bg-success me-1"><i class="ri-arrow-up-line"></i>
-                                                {{number_format(@$percentageDifferenceCust, 2)}} %</span>
-                                            <span class="small">Since last month</span>
-                                        @else
-                                            <span class="badge bg-danger me-1"><i class="ri-arrow-down-line"></i>
-                                                {{number_format(@$percentageDifferenceCust, 2)}} %</span>
-                                            <span class="small">Since last month</span>
-                                        @endif
-                                    </p>
-                                </div>
+                            <div class="form-group">
+                                <button class="w-75 mt-1 btn btn-sm btn-primary fw-bold"
+                                    style="font-size: 11px;">Tampilkan</button>
                             </div>
                         </div>
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="{{asset('./admin/images/customer.webp')}}" class="w-100" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="text-muted fw-normal mt-0 text-uppercase fw-bold" title="Number of Orders">Sales Order</h5>
-                                    <h3 class="my-3">{{@$totalSalesOrder}}</h3>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        @if(number_format(@$percentageDifferenceCust, 2) > 0)
-                                            <span class="badge bg-success me-1"><i class="ri-arrow-up-line"></i>
-                                                {{@$percentageDifference}} %</span>
-                                            <span class="small">Since last month</span>
-                                        @else
-                                            <span class="badge bg-danger me-1"><i class="ri-arrow-down-line"></i>
-                                                {{@$percentageDifference}} %</span>
-                                            <span class="small">Since last month</span>
-                                        @endif
-                                    </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                </div> <!-- end col-->
+                <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center text-center">
+                            <img src="{{asset('./admin/images/store.webp')}}" alt="Your Image"
+                                class="rounded-circle img-thumbnail rounded-black-border"
+                                style="border: 2px solid #fff; border-radius: 10px; width: 50%;">
+                            <div class="form-group mt-2">
+                                {{@$totalCustomers}} <span class="small">toko</span>
+                                <p class="text-muted" style="font-size: 10px;">Total Pelanggan</p>
+                            </div>
+                            <div class="form-group mt-2">
+                                <div class="row">
+                                    <div class="col">
+                                        <span class="badge bg-primary me-1" title="Active"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-up-circle-line"></i> {{@$tatalCustomerActive}} </span>
+                                        <span class="badge bg-dark me-1" title="Inactive"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-down-circle-line"></i> 0 </span>
+                                        <p class="text-muted text-capitalize mt-3" style="font-size: 9px;">Terlampir total
+                                            pelanggan</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <img src="{{asset('./admin/images/product.png')}}" class="w-100" alt="">
-                                </div>
-                                <div class="col-md-6">
-                                    <h5 class="text-muted fw-normal mt-0 text-uppercase fw-bold" title="Number of Orders">Product</h5>
-                                    <h3 class="my-3">{{@$totalProducts}}</h3>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="badge bg-danger me-1" title="Non Active"><i class="ri-arrow-up-circle-line"></i>
-                                            {{@$productNonActive}}</span>
-                                        <span class="badge bg-success me-1" title="Active"><i class="ri-arrow-down-circle-fill"></i>
-                                            {{@$productActive}}</span>
-                                    </p>
-                                </div>
+                            <div class="form-group">
+                                <button class="w-75 mt-1 btn btn-sm btn-primary fw-bold"
+                                    style="font-size: 11px;">Tampilkan</button>
                             </div>
                         </div>
-                    </div>
-
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-
-    </div> <!-- end row -->
-
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                </div>
+                <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center text-center">
+                            <img src="{{asset('./admin/images/product.png')}}" alt="Your Image"
+                                class="rounded-circle img-thumbnail rounded-black-border"
+                                style="border: 2px solid #fff; border-radius: 10px; width: 50%;">
+                            <div class="form-group mt-2">
+                                {{@$totalProducts}} <span class="small">barang</span>
+                                <p class="text-muted" style="font-size: 10px;">Total barang</p>
+                            </div>
+                            <div class="form-group mt-2">
+                                <div class="row">
+                                    <div class="col">
+                                        <span class="badge bg-primary me-1" title="Active"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-up-circle-line"></i> {{@$totalProductsActive}} </span>
+                                        <span class="badge bg-dark me-1" title="Inactive"
+                                            style="font-size: 14px; border-radius: 3px;"><i
+                                                class="ri-arrow-down-circle-line"></i> {{@$totalProductsInactive}} </span>
+                                        <p class="text-muted text-capitalize mt-3" style="font-size: 9px;">Terlampir total
+                                            barang</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="w-75 mt-1 btn btn-sm btn-primary fw-bold"
+                                    style="font-size: 11px;">Tampilkan</button>
+                            </div>
+                        </div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="{{ $chart->cdn() }}"></script>
+
+{{ $chart->script() }}
+
 @endsection

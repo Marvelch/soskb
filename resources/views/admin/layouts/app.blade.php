@@ -3,6 +3,11 @@
 
 @include('admin.layouts.head')
 
+<style>
+    body {
+        font-family: 'Work Sans', sans-serif;
+    }
+</style>
 <body>
     @include('sweetalert::alert')
     <!-- Begin page -->

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\MonthlySalesOrdersChart;
 use App\Models\customer;
 use App\Models\product;
 use App\Models\salesOrder;
 use App\Models\User;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -36,7 +38,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function admin_home()
+    public function admin_home(MonthlySalesOrdersChart $chart)
     {
         $totalProducts = product::count();
         $totalSalesOrder = salesOrder::count();
@@ -59,6 +61,15 @@ class HomeController extends Controller
             $percentageDifference = (($totalSalesThisMonth - $totalSalesLastMonth) / $totalSalesLastMonth) * 100;
         }
 
+        // Menghitung Total Customer Aktif
+        $tatalCustomerActive = customer::count();
+
+        // Menghitung Total Product Aktif
+        $totalProductsActive = product::where('status',1)->count();
+
+        // Hitung Total Product Aktif
+        $totalProductsInactive = product::where('status',0)->count();
+
         // Calculate Customers
         $totalSalesThisMonthCust = customer::whereBetween('created_at', [$firstDayThisMonth, $lastDayThisMonth])->count();
 
@@ -70,16 +81,20 @@ class HomeController extends Controller
             $percentageDifferenceCust = (($totalSalesThisMonthCust - $totalSalesLastMonthCust) / $totalSalesLastMonthCust) * 100;
         }
 
-        // Product active or non active
-
-        $productActive = product::where('status',1)->count();
-
-        $productNonActive = product::where('status',0)->count();
-
         // Data Users
-
         $users = User::count();
 
-        return view('admin.home',compact('totalProducts','totalSalesOrder','totalCustomers','percentageDifference','percentageDifferenceCust','productActive','productNonActive','users'));
+        return view('admin.home', [
+            'totalProducts' => $totalProducts,
+            'totalSalesOrder' => $totalSalesOrder,
+            'totalCustomers' => $totalCustomers,
+            'percentageDifference' => $percentageDifference,
+            'percentageDifferenceCust' => $percentageDifferenceCust,
+            'totalProductsActive' => $totalProductsActive,
+            'totalProductsInactive' => $totalProductsInactive,
+            'tatalCustomerActive' => $tatalCustomerActive,
+            'users' => $users,
+            'chart' => $chart->build() // Assuming $chart is the instance of MonthlySalesOrdersChart
+        ]);
     }
 }

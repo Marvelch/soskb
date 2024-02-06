@@ -11,7 +11,7 @@
                     </li>
                      <li class="nav-item">
                         <a class="nav-link dropdown-toggle arrow-none" href="{{route('admin.products.index')}}" role="button">
-                            <i class="ri-shopping-bag-line"></i>Product
+                            <i class="ri-shopping-bag-line"></i>Products
                         </a>
                     </li>
                     <li class="nav-item dropdown">
