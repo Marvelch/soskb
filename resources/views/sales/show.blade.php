@@ -4,7 +4,15 @@
 <div class="osahan-status">
     <div class="p-3 border-bottom">
         <div class="d-flex align-items-center">
-            <a class="fw-bold text-success text-decoration-none" href="{{route('transaction_sales_orders')}}">
+                @if($transactions->status == 1)
+                <a class="fw-bold text-success text-decoration-none" href="{{route('on_progress_transaction')}}">
+                @elseif($transactions->status == 2)
+                <a class="fw-bold text-success text-decoration-none" href="{{route('complete_transaction')}}">
+                @elseif($transactions->status == 3)
+                <a class="fw-bold text-success text-decoration-none" href="{{route('canceled_transaction')}}">
+                @else
+                <a class="fw-bold text-success text-decoration-none" href="{{route('delivered_transaction')}}">
+                @endif
                 <i class="icofont-rounded-left back-page"></i></a>
             <span class="fw-bold ms-3 h6 mb-0">History Transaction</span>
         </div>
@@ -120,7 +128,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <div class="form-group">
-                        @if(@$transactions->status == 1)
+                        @if(@$transactions->status == 1 && @$transactions->created_by == Auth::user()->id)
                         <a href="{{route('edit.sales.orders',['id_transaction'=>Crypt::encryptString(@$item->id_transaction)])}}" class="btn btn-primary small w-100" style="border-radius: 2px; text-align: left; font-size: 10px;">
                             <div class="d-flex bd-highlight">
                                 <div class="flex-grow-1 bd-highlight text-uppercase">Edit Transaction</div>
