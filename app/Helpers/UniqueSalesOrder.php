@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\salesOrder;
+use App\Models\Position;
+use App\Models\SalesOrder;
 
 if (!function_exists('UniqueSalesOrder')) {
     function UniqueSalesOrder()
@@ -10,17 +11,25 @@ if (!function_exists('UniqueSalesOrder')) {
 
         $attempt = 1;
         do {
-            $lastPosition = salesOrder::orderBy('id_transaction', 'desc')->first();
+            $lastPosition = SalesOrder::orderBy('id_transaction', 'desc')->first();
             if ($lastPosition) {
                 $lastCode = explode('-', $lastPosition->id_transaction);
+                $lastYearMonth = $lastCode[1];
                 $lastNumber = (int)end($lastCode);
-                $nextNumber = str_pad($lastNumber + $attempt - 1, 4, '0', STR_PAD_LEFT);
+                if ($lastYearMonth == "$year$month") {
+                    // Same month, increment the sequence
+                    $nextNumber = str_pad($lastNumber + 1 + $attempt - 1, 4, '0', STR_PAD_LEFT);
+                } else {
+                    // Different month, start a new sequence
+                    $nextNumber = str_pad($attempt, 4, '0', STR_PAD_LEFT);
+                }
                 $newCode = "SO-$year$month-$nextNumber";
             } else {
+                // No existing records, start a new sequence
                 $newCode = "SO-$year$month-" . str_pad($attempt, 4, '0', STR_PAD_LEFT);
             }
 
-            $codeExists = salesOrder::where('id_transaction', $newCode)->exists();
+            $codeExists = Position::where('unique', $newCode)->exists();
             if ($codeExists) {
                 $attempt++;
             } else {
@@ -31,3 +40,4 @@ if (!function_exists('UniqueSalesOrder')) {
         return 'Unable to generate a unique code.';
     }
 }
+
